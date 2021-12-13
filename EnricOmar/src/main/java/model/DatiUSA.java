@@ -15,6 +15,7 @@ public class DatiUSA implements Dati {
 	private long DT=0;  //Death Total
 	private long DN=0;  //Death Now
 	private String id=null;
+	private String colour=null;
 
 	public DatiUSA(int day, long positive, long negative, long HN, long HT, long TN, long TT, long VN, long VT, long DT, long DN) {
 		this.day=day;

@@ -15,6 +15,7 @@ public interface Dati {
 	public long DT=0;  //Death Total
 	public long DN=0;  //Death Now
 	public String id=null;
+	public String colour=null;
 
 
 }
