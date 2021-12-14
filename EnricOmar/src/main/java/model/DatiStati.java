@@ -16,8 +16,10 @@ public class DatiStati implements Dati {
 	private long DN=0;  //Death Now
 	private String id=null;
 	private String colour=null;
+	
+	public DatiStati() {};
 
-	public DatiStati(int day, String name, long positive, long negative, long HN, long HT, long TN, long TT, long VN, long VT, long DT, long DN) {
+	public DatiStati(int day, long positive, long negative, long HN, long HT, long TN, long TT, long VN, long VT, long DT, long DN, String id) {
 		this.day=day;
 		this.positive=positive;
 		this.negative=negative;
@@ -30,6 +32,22 @@ public class DatiStati implements Dati {
 		this.DT=DT;
 		this.DN=DN;
 		this.id=id;
+	}
+
+	
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
 		switch(name) {
 		case "AK": this.name = "Alaska"; break; 
 		case "AL": this.name = "Alabama"; break;
@@ -89,5 +107,103 @@ public class DatiStati implements Dati {
 		case "WY": this.name = "Wyoming"; break;
 		}
 	}
+
+	public long getPositive() {
+		return positive;
+	}
+
+	public void setPositive(long positive) {
+		this.positive = positive;
+	}
+
+	public long getNegative() {
+		return negative;
+	}
+
+	public void setNegative(long negative) {
+		this.negative = negative;
+	}
+
+	public long getHN() {
+		return HN;
+	}
+
+	public void setHN(long hN) {
+		HN = hN;
+	}
+
+	public long getHT() {
+		return HT;
+	}
+
+	public void setHT(long hT) {
+		HT = hT;
+	}
+
+	public long getTN() {
+		return TN;
+	}
+
+	public void setTN(long tN) {
+		TN = tN;
+	}
+
+	public long getTT() {
+		return TT;
+	}
+
+	public void setTT(long tT) {
+		TT = tT;
+	}
+
+	public long getVN() {
+		return VN;
+	}
+
+	public void setVN(long vN) {
+		VN = vN;
+	}
+
+	public long getVT() {
+		return VT;
+	}
+
+	public void setVT(long vT) {
+		VT = vT;
+	}
+
+	public long getDT() {
+		return DT;
+	}
+
+	public void setDT(long dT) {
+		DT = dT;
+	}
+
+	public long getDN() {
+		return DN;
+	}
+
+	public void setDN(long dN) {
+		DN = dN;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
+	}
+	
+	
 
 }
