@@ -17,23 +17,7 @@ public class DatiStati implements Dati {
 	private String id=null;
 	private String colour=null;
 	
-	public DatiStati() {};
-
-	public DatiStati(int day, long positive, long negative, long HN, long HT, long TN, long TT, long VN, long VT, long DT, long DN, String id) {
-		this.day=day;
-		this.positive=positive;
-		this.negative=negative;
-		this.HN=HN;
-		this.HT=HT;
-		this.TN=TN;
-		this.TT=TT;
-		this.VN=VN;
-		this.VT=VT;
-		this.DT=DT;
-		this.DN=DN;
-		this.id=id;
-	}
-
+	public DatiStati() {}; //costruttore
 	
 	public int getDay() {
 		return day;
@@ -204,6 +188,4 @@ public class DatiStati implements Dati {
 		this.colour = colour;
 	}
 	
-	
-
 }

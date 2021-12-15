@@ -20,7 +20,7 @@ import model.Dati;
 import model.DatiStati;
 import model.DatiUSA;
 
-public class connection {
+public class connection implements Int_connection {
 	
 	public void saveData() {
 		String url1= ("https://api.covidtracking.com/v1/us/daily.json");
@@ -96,8 +96,8 @@ public class connection {
 					value.setTT((Long) obj2.get("inIcuCumulative"));
 					value.setVN((Long) obj2.get("onVentilatorCurrently"));
 					value.setVT((Long) obj2.get("onVentilatorCumulative"));
-					value.setDN((Long) obj2.get("deathIncrease"));
 					value.setDT((Long) obj2.get("death"));
+					value.setDN((Long) obj2.get("deathIncrease"));
 					value.setId((String) obj2.get("hash"));
 					listaUsa.add(value);
 				};
@@ -119,8 +119,8 @@ public class connection {
 					value.setTT((Long) obj3.get("inIcuCumulative"));
 					value.setVN((Long) obj3.get("onVentilatorCurrently"));
 					value.setVT((Long) obj3.get("onVentilatorCumulative"));
-					value.setDN((Long) obj3.get("deathIncrease"));
 					value.setDT((Long) obj3.get("death"));
+					value.setDN((Long) obj3.get("deathIncrease"));
 					value.setId((String) obj3.get("hash"));
 					listaState.add(value);
 				};

@@ -18,35 +18,15 @@ public class DatiUSA implements Dati {
 	private String id=null;
 	private String colour=null;
 	
-	public DatiUSA() {};
-
-	public DatiUSA(int day, int states, long positive, long negative, long HN, long HT, long TN, long TT, long VN, long VT, long DT, long DN, String id) {
-		this.day=day;
-		this.num_states=states;
-		this.name="USA";
-		this.positive=positive;
-		this.negative=negative;
-		this.HN=HN;
-		this.HT=HT;
-		this.TN=TN;
-		this.TT=TT;
-		this.VN=VN;
-		this.VT=VT;
-		this.DT=DT;
-		this.DN=DN;
-		this.id=id;
-	}
-
+	public DatiUSA() {}; //costruttore
 	
 	public int getNum_states() {
 		return num_states;
 	}
 
-
 	public void setNum_states(int num_states) {
 		this.num_states = num_states;
 	}
-
 
 	public int getDay() {
 		return day;

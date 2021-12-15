@@ -17,5 +17,4 @@ public interface Dati {
 	public String id=null;
 	public String colour=null;
 
-
 }
