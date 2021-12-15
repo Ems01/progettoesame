@@ -2,8 +2,8 @@ package model;
 
 public class DatiUSA implements Dati {
 	
-	private int day=0;
-	private int num_states=0; 
+	private long day=0;
+	private long num_states=0; 
 	private String name=null;
 	private long positive=0;
 	private long negative=0;
@@ -20,19 +20,19 @@ public class DatiUSA implements Dati {
 	
 	public DatiUSA() {}; //costruttore
 	
-	public int getNum_states() {
+	public long getNum_states() {
 		return num_states;
 	}
 
-	public void setNum_states(int num_states) {
+	public void setNum_states(long num_states) {
 		this.num_states = num_states;
 	}
 
-	public int getDay() {
+	public long getDay() {
 		return day;
 	}
 
-	public void setDay(int day) {
+	public void setDay(long day) {
 		this.day = day;
 	}
 
