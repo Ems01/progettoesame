@@ -69,7 +69,6 @@ public class connection implements Int_connection {
 	*/
 	public void parsingData() {
 		
-		String nulla = "null";
 		JSONParser par= new JSONParser();
 		FileReader read;
 		try {
@@ -78,42 +77,96 @@ public class connection implements Int_connection {
 				ArrayList<DatiUSA> listaUsa = new ArrayList<DatiUSA>();
 				JSONArray array = (JSONArray) oggetto;
 				System.out.println("entro");
+				
 				for(int i=0; i<array.size(); i++) {
 					JSONObject obj2 = (JSONObject) array.get(i);
 					DatiUSA value = new DatiUSA(); 
+					
 					value.setDay((long) obj2.get("date"));
 					value.setNum_states((long) obj2.get("states"));
 					System.out.println(value.getDay());
 					
-					if(obj2.get("positive").equals(nulla)) value.setPositive(0);
-					else value.setPositive((Long) obj2.get("positive"));
+				    long positive, negative, HN, HT, TN, TT, VN, VT, DT, DN;
 					
-					if(obj2.get("negative").equals(nulla)) value.setNegative(0);
-					else value.setNegative((Long) obj2.get("negative"));
+					if(obj2.get("positive").equals(null)) value.setPositive(String.valueOf(0));
+					else
+					{
+						positive = Long.valueOf(value.getPositive()).longValue();
+						value.setPositive(String.valueOf(positive));
+						value.setPositive((String) obj2.get("positive"));
+						}
 					
-					if(obj2.get("hospitalizedCumulative").equals(nulla)) value.setHN(0);
-					else value.setHN((Long) obj2.get("hospitalizedCurrently"));
+					if(obj2.get("negative").equals(null)) value.setNegative(String.valueOf(0));
+					else
+					{
+						negative = Long.valueOf(value.getNegative()).longValue();
+						value.setNegative(String.valueOf(negative));
+						value.setNegative((String) obj2.get("negative"));
+						}
 					
-					if(obj2.get("hospitalizedCumulative").equals(nulla)) value.setHT(0);
-					else value.setHT((Long) obj2.get("hospitalizedCumulative"));
+					if(obj2.get("hospitalizedCurrently").equals(null)) value.setHN(String.valueOf(0));
+					else
+					{
+						HN = Long.valueOf(value.getHN()).longValue();
+						value.setHN(String.valueOf(HN));
+						value.setHN((String) obj2.get("hospitalizedCurrently"));
+						}
 					
-					if(obj2.get("inIcuCurrently").equals(nulla)) value.setTN(0);
-					else value.setTN((Long) obj2.get("inIcuCurrently"));
+					if(obj2.get("hospitalizedCumulative").equals(null)) value.setHT(String.valueOf(0));
+					else
+					{
+						HT = Long.valueOf(value.getHT()).longValue();
+						value.setHN(String.valueOf(HT));
+						value.setHT((String) obj2.get("hospitalizedCumulative"));
+						}
 					
-					if(obj2.get("inIcuCumulative").equals(nulla)) value.setTT(0);
-					else value.setTT((Long) obj2.get("inIcuCumulative"));
+					if(obj2.get("inIcuCurrently").equals(null)) value.setTN(String.valueOf(0));
+					else 
+					{
+						TN = Long.valueOf(value.getTN()).longValue();
+						value.setTN(String.valueOf(TN));
+						value.setTN((String) obj2.get("inIcuCurrently"));
+					    }
 					
-					if(obj2.get("onVentilatorCurrently").equals(nulla)) value.setVN(0);
-					else value.setVN((Long) obj2.get("onVentilatorCurrently"));
+					if(obj2.get("inIcuCumulative").equals(null)) value.setTT(String.valueOf(0));
+					else
+					{
+						TT = Long.valueOf(value.getTT()).longValue();
+						value.setTT(String.valueOf(TT));
+						value.setTT((String) obj2.get("inIcuCumulative"));
+				        }
 					
-					if(obj2.get("onVentilatorCumulative").equals(nulla)) value.setVT(0);
-					else value.setVT((Long) obj2.get("onVentilatorCumulative"));
+					if(obj2.get("onVentilatorCurrently").equals(null)) value.setVN(String.valueOf(0));
+					else
+					{
+						VN = Long.valueOf(value.getVN()).longValue();
+						value.setVN(String.valueOf(VN));
+						value.setVN((String) obj2.get("onVentilatorCurrently"));
+				        }
 					
-					if(obj2.get("death").equals(nulla)) value.setDT(0);
-					else value.setDT((Long) obj2.get("death"));
+					if(obj2.get("onVentilatorCumulative").equals(null)) value.setVT(String.valueOf(0));
+					else 
+					{
+						VT = Long.valueOf(value.getVT()).longValue();
+						value.setVT(String.valueOf(VT));
+						value.setVT((String) obj2.get("onVentilatorCumulative"));
+				        }
 					
-					if(obj2.get("deathIncrease").equals(nulla)) value.setDN(0);
-					else value.setDN((Long) obj2.get("deathIncrease"));
+					if(obj2.get("death").equals(null)) value.setDT(String.valueOf(0));
+					else
+					{
+						DT = Long.valueOf(value.getDT()).longValue();
+						value.setDT(String.valueOf(DT));
+						value.setDT((String) obj2.get("death"));
+						}
+					
+					if(obj2.get("deathIncrease").equals(null)) value.setDN(String.valueOf(0));
+					else
+					{
+						DN = Long.valueOf(value.getDN()).longValue();
+						value.setDN(String.valueOf(DN));
+						value.setDN((String) obj2.get("deathIncrease"));
+						}
 					
 					value.setId((String) obj2.get("hash"));
 					

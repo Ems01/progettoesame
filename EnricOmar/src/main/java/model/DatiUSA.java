@@ -5,16 +5,16 @@ public class DatiUSA implements Dati {
 	private long day=0;
 	private long num_states=0; 
 	private String name=null;
-	private long positive=0;
-	private long negative=0;
-	private long HN=0;  //Hospitalized Now
-	private long HT=0;  //Hospitalized Total
-	private long TN=0;  //Therapy intensive Now
-	private long TT=0;  //Therapy Intensive Total
-	private long VN=0;  //Ventilator Now
-	private long VT=0;  //Ventilator Total
-	private long DT=0;  //Death Total
-	private long DN=0;  //Death Now
+	private String positive=null;
+	private String negative=null;
+	private String HN=null;  //Hospitalized Now
+	private String HT=null;  //Hospitalized Total
+	private String TN=null;  //Therapy intensive Now
+	private String TT=null;  //Therapy Intensive Total
+	private String VN=null;  //Ventilator Now
+	private String VT=null;  //Ventilator Total
+	private String DT=null;  //Death Total
+	private String DN=null;  //Death Now
 	private String id=null;
 	private String colour=null;
 	
@@ -44,83 +44,83 @@ public class DatiUSA implements Dati {
 		this.name = name;
 	}
 
-	public long getPositive() {
+	public String getPositive() {
 		return positive;
 	}
 
-	public void setPositive(long positive) {
+	public void setPositive(String positive) {
 		this.positive = positive;
 	}
 
-	public long getNegative() {
+	public String getNegative() {
 		return negative;
 	}
 
-	public void setNegative(long negative) {
+	public void setNegative(String negative) {
 		this.negative = negative;
 	}
 
-	public long getHN() {
+	public String getHN() {
 		return HN;
 	}
 
-	public void setHN(long hN) {
+	public void setHN(String hN) {
 		HN = hN;
 	}
 
-	public long getHT() {
+	public String getHT() {
 		return HT;
 	}
 
-	public void setHT(long hT) {
+	public void setHT(String hT) {
 		HT = hT;
 	}
 
-	public long getTN() {
+	public String getTN() {
 		return TN;
 	}
 
-	public void setTN(long tN) {
+	public void setTN(String tN) {
 		TN = tN;
 	}
 
-	public long getTT() {
+	public String getTT() {
 		return TT;
 	}
 
-	public void setTT(long tT) {
+	public void setTT(String tT) {
 		TT = tT;
 	}
 
-	public long getVN() {
+	public String getVN() {
 		return VN;
 	}
 
-	public void setVN(long vN) {
+	public void setVN(String vN) {
 		VN = vN;
 	}
 
-	public long getVT() {
+	public String getVT() {
 		return VT;
 	}
 
-	public void setVT(long vT) {
+	public void setVT(String vT) {
 		VT = vT;
 	}
 
-	public long getDT() {
+	public String getDT() {
 		return DT;
 	}
 
-	public void setDT(long dT) {
+	public void setDT(String dT) {
 		DT = dT;
 	}
 
-	public long getDN() {
+	public String getDN() {
 		return DN;
 	}
 
-	public void setDN(long dN) {
+	public void setDN(String dN) {
 		DN = dN;
 	}
 
