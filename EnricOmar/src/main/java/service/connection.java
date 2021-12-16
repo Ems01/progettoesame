@@ -19,6 +19,8 @@ import org.json.simple.parser.ParseException;
 //import model.Dati;
 //import model.DatiStati;
 import model.DatiUSA;
+import model.Hospital;
+import model.People;
 
 public class connection implements Int_connection {
 	
@@ -67,110 +69,77 @@ public class connection implements Int_connection {
 			}
 		}
 	*/
+	//file locale ("C:\\Users\\emsar\\Documents\\GitHub\\progettoesame\\EnricOmar\\src\\main\\java\\service\\USA.json")
 	public void parsingData() {
 		
 		JSONParser par= new JSONParser();
 		FileReader read;
 		try {
-			read = new FileReader("C:\\Users\\emsar\\Documents\\GitHub\\progettoesame\\EnricOmar\\src\\main\\java\\service\\USA.json");
+			read = new FileReader("C:\\\\Users\\\\emsar\\\\Documents\\\\GitHub\\\\progettoesame\\\\EnricOmar\\\\src\\\\main\\\\java\\\\service\\\\USA.json");
 			Object oggetto = par.parse(read);
-				ArrayList<DatiUSA> listaUsa = new ArrayList<DatiUSA>();
+				ArrayList<People> vett1 = new ArrayList<People>();
+				ArrayList<Hospital> vett2 = new ArrayList<Hospital>();
 				JSONArray array = (JSONArray) oggetto;
 				System.out.println("entro");
 				
+				Long positive, negative, HN, HT, TN, TT, VN, VT, DT, DN;
 				for(int i=0; i<array.size(); i++) {
-					JSONObject obj2 = (JSONObject) array.get(i);
-					DatiUSA value = new DatiUSA(); 
+					JSONObject obj = (JSONObject) array.get(i);
+					Hospital hospital = new Hospital();
+					People people = new People();
 					
-					value.setDay((long) obj2.get("date"));
-					value.setNum_states((long) obj2.get("states"));
-					System.out.println(value.getDay());
+					hospital.setDay((long) obj.get("date"));
+					people.setDay((long) obj.get("date"));
 					
-				    long positive, negative, HN, HT, TN, TT, VN, VT, DT, DN;
+					hospital.setNum_states((long) obj.get("states"));
+					people.setNum_states((long) obj.get("states"));
+					System.out.println(hospital.getDay());
 					
-					if(obj2.get("positive").equals(null)) value.setPositive(String.valueOf(0));
-					else
-					{
-						positive = Long.valueOf(value.getPositive()).longValue();
-						value.setPositive(String.valueOf(positive));
-						value.setPositive((String) obj2.get("positive"));
-						}
+				    positive = ((Long) obj.get("positive"));
+				    if(positive == null) people.setPositive(0);
+				    else people.setPositive(positive);
+				    
+				    negative = ((Long) obj.get("negative"));
+				    if(negative == null) people.setNegative(0);
+				    else people.setNegative(negative);
+				    
+				    HN = ((Long) obj.get("hospitalizedCurrently"));
+				    if(HN == null) hospital.setHN(0);
+				    else hospital.setHN(HN);
+				    
+				    HT = ((Long) obj.get("hospitalizedCumulative"));
+				    if(HT == null) hospital.setHT(0);
+				    else hospital.setHT(HT);
+				    
+				    TN = ((Long) obj.get("inIcuCurrently"));
+				    if(TN == null) hospital.setTN(0);
+				    else hospital.setTN(TN);
+				    
+				    TT = ((Long) obj.get("inIcuCumulative"));
+				    if(TT == null) hospital.setTT(0);
+				    else hospital.setTT(TT);
+				    
+				    VN = ((Long) obj.get("onVentilatorCurrently"));
+				    if(VN == null) hospital.setVN(0);
+				    else hospital.setVN(VN);
+				    
+				    VT = ((Long) obj.get("onVentilatoreCumulative"));
+				    if(VT == null) hospital.setVT(0);
+				    else hospital.setVT(VT);
+				    
+				    DT = ((Long) obj.get("death"));
+				    if(DT == null) people.setDT(0);
+				    else people.setDT(DT);
+				    
+				    DN = ((Long) obj.get("deathIncrease"));
+				    if(DN == null) people.setDN(0);
+				    else people.setDN(DN);
+				   
+					people.setId((String) obj.get("hash"));
+					hospital.setId((String) obj.get("hash"));
 					
-					if(obj2.get("negative").equals(null)) value.setNegative(String.valueOf(0));
-					else
-					{
-						negative = Long.valueOf(value.getNegative()).longValue();
-						value.setNegative(String.valueOf(negative));
-						value.setNegative((String) obj2.get("negative"));
-						}
-					
-					if(obj2.get("hospitalizedCurrently").equals(null)) value.setHN(String.valueOf(0));
-					else
-					{
-						HN = Long.valueOf(value.getHN()).longValue();
-						value.setHN(String.valueOf(HN));
-						value.setHN((String) obj2.get("hospitalizedCurrently"));
-						}
-					
-					if(obj2.get("hospitalizedCumulative").equals(null)) value.setHT(String.valueOf(0));
-					else
-					{
-						HT = Long.valueOf(value.getHT()).longValue();
-						value.setHN(String.valueOf(HT));
-						value.setHT((String) obj2.get("hospitalizedCumulative"));
-						}
-					
-					if(obj2.get("inIcuCurrently").equals(null)) value.setTN(String.valueOf(0));
-					else 
-					{
-						TN = Long.valueOf(value.getTN()).longValue();
-						value.setTN(String.valueOf(TN));
-						value.setTN((String) obj2.get("inIcuCurrently"));
-					    }
-					
-					if(obj2.get("inIcuCumulative").equals(null)) value.setTT(String.valueOf(0));
-					else
-					{
-						TT = Long.valueOf(value.getTT()).longValue();
-						value.setTT(String.valueOf(TT));
-						value.setTT((String) obj2.get("inIcuCumulative"));
-				        }
-					
-					if(obj2.get("onVentilatorCurrently").equals(null)) value.setVN(String.valueOf(0));
-					else
-					{
-						VN = Long.valueOf(value.getVN()).longValue();
-						value.setVN(String.valueOf(VN));
-						value.setVN((String) obj2.get("onVentilatorCurrently"));
-				        }
-					
-					if(obj2.get("onVentilatorCumulative").equals(null)) value.setVT(String.valueOf(0));
-					else 
-					{
-						VT = Long.valueOf(value.getVT()).longValue();
-						value.setVT(String.valueOf(VT));
-						value.setVT((String) obj2.get("onVentilatorCumulative"));
-				        }
-					
-					if(obj2.get("death").equals(null)) value.setDT(String.valueOf(0));
-					else
-					{
-						DT = Long.valueOf(value.getDT()).longValue();
-						value.setDT(String.valueOf(DT));
-						value.setDT((String) obj2.get("death"));
-						}
-					
-					if(obj2.get("deathIncrease").equals(null)) value.setDN(String.valueOf(0));
-					else
-					{
-						DN = Long.valueOf(value.getDN()).longValue();
-						value.setDN(String.valueOf(DN));
-						value.setDN((String) obj2.get("deathIncrease"));
-						}
-					
-					value.setId((String) obj2.get("hash"));
-					
-					listaUsa.add(value);
+					vett1.add(people);
+					vett2.add(hospital);
 				};
 			}
 			
