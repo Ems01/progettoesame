@@ -1,5 +1,5 @@
 package model;
-
+//non serve più
 public class DatiStati implements Dati {
 	
 	private int day=0;

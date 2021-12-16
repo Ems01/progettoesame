@@ -1,5 +1,5 @@
 package model;
-
+//non serve più
 public interface Dati {
 	
 	public int day=0;
