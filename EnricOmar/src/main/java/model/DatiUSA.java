@@ -8,6 +8,4 @@ public interface DatiUSA {
 	public String id=null;
 	public String colour=null;
 	
-	
-	
 }

@@ -11,8 +11,9 @@ public class Hospital {
 	private long HT=0;  //Hospitalized Total
 	private long TN=0;  //Therapy intensive Now
 	private long TT=0;  //Therapy Intensive Total
-	private long VN=0;  //Ventilator Now
-	private long VT=0;  //Ventilator Total
+	
+	static final int ICU= 84750; //https://globalepidemics.org/hospital-capacity-2/
+	static final int beds = 737567;
 	
 	public void Hospital() {}
 
@@ -62,8 +63,8 @@ public class Hospital {
 	}
 
 	
-	public void setHN(long hN) {
-		HN = hN;
+	public void setHN(long HN) {
+		this.HN = HN;
 	}
 
 	
@@ -72,8 +73,8 @@ public class Hospital {
 	}
 
 	
-	public void setHT(long hT) {
-		HT = hT;
+	public void setHT(long HT) {
+		this.HT = HT;
 	}
 
 	
@@ -82,8 +83,8 @@ public class Hospital {
 	}
 
 	
-	public void setTN(long tN) {
-		TN = tN;
+	public void setTN(long TN) {
+		this.TN = TN;
 	}
 
 	
@@ -92,28 +93,8 @@ public class Hospital {
 	}
 
 	
-	public void setTT(long tT) {
-		TT = tT;
-	}
-
-	
-	public long getVN() {
-		return VN;
-	}
-
-	
-	public void setVN(long vN) {
-		VN = vN;
-	}
-
-	
-	public long getVT() {
-		return VT;
-	}
-
-	
-	public void setVT(long vT) {
-		VT = vT;
+	public void setTT(long TT) {
+		this.TT = TT;
 	}
 
 }

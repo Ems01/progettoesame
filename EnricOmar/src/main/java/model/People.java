@@ -7,11 +7,13 @@ public class People {
 	private String name="USA";
 	private String id=null;
 	private String colour=null;
-	private long positive=0;
-	private long negative=0;
-	private long DT=0;  //Death Total
-	private long DN=0;  //Death Now
-	
+	private long positive = 0;
+	private long negative = 0;
+	private long DT = 0; //Death total
+	private long DN = 0; //Death now
+ 
+	static final int popolazione_USA = 330000000;
+			
 	public void People() {}
 
 	public long getDay() {

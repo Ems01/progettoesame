@@ -5,70 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-//import java.io.PrintWriter;
-//import java.net.HttpURLConnection;
-//import java.net.URL;
 import java.util.ArrayList;
-//import java.util.Scanner;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-//import model.Dati;
-//import model.DatiStati;
 import model.DatiUSA;
 import model.Hospital;
 import model.People;
 
 public class connection implements Int_connection {
 	
-	/*public void saveData() {
-		
-		String sito= "https://api.covidtracking.com/v1/us/daily.json";
-		String sito="";
-		String testo= "";
-		
-		
-		try {
-		
-			URL url = new URL(sito);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	
-			conn.setRequestMethod("GET");				
-			conn.connect();
-			
-			int responseCode = conn.getResponseCode();//verifica se la connessione è avvenuta
-		
-			StringBuilder informationString = new StringBuilder();//ci salverò i dati dell'url
-			BufferedWriter writer; //mi serve per scrivere i dati nel file;
-				
-				if(responseCode != 200){
-					throw new RuntimeException("HttpResponseCode: " + responseCode);
-				} 
-				else {			
-					Scanner scan = new Scanner(url.openStream());
-					
-					writer = new BufferedWriter (new FileWriter("prova1.txt"));
-					testo = "prova1.txt";
-					
-					while(scan.hasNext()) {
-						writer.write(scan.nextLine());
-					}
-					writer.close();
-					scan.close();
-					conn.disconnect();
-				}
-			
-			}catch (IOException e) {
-				e.printStackTrace();
-			}
-			System.out.println("entro");
-			parsingData(testo);
-			}
-		}
-	*/
 	//file locale ("C:\\Users\\emsar\\Documents\\GitHub\\progettoesame\\EnricOmar\\src\\main\\java\\service\\USA.json")
 	public void parsingData() {
 		
@@ -119,14 +68,6 @@ public class connection implements Int_connection {
 				    if(TT == null) hospital.setTT(0);
 				    else hospital.setTT(TT);
 				    
-				    VN = ((Long) obj.get("onVentilatorCurrently"));
-				    if(VN == null) hospital.setVN(0);
-				    else hospital.setVN(VN);
-				    
-				    VT = ((Long) obj.get("onVentilatoreCumulative"));
-				    if(VT == null) hospital.setVT(0);
-				    else hospital.setVT(VT);
-				    
 				    DT = ((Long) obj.get("death"));
 				    if(DT == null) people.setDT(0);
 				    else people.setDT(DT);
@@ -149,5 +90,18 @@ public class connection implements Int_connection {
 				e.printStackTrace();
 			}
 	}
+	
+	/*@Override
+	public People getDay(long day) {};
+	
+	@Override
+	public ArrayList<People> getWeek(long day){};
+	
+	@Override
+	public ArrayList<People> getMonth(long day){};
+	
+	@Override
+	public ArrayList<People> getColor(long day, String colour){};
+	*/
 }
 
