@@ -75,7 +75,7 @@ public class connection implements Int_connection {
 		JSONParser par= new JSONParser();
 		FileReader read;
 		try {
-			read = new FileReader("C:\\\\Users\\\\emsar\\\\Documents\\\\GitHub\\\\progettoesame\\\\EnricOmar\\\\src\\\\main\\\\java\\\\service\\\\USA.json");
+			read = new FileReader("src/main/java/service/USA.json");
 			Object oggetto = par.parse(read);
 				ArrayList<People> vett1 = new ArrayList<People>();
 				ArrayList<Hospital> vett2 = new ArrayList<Hospital>();
@@ -88,8 +88,8 @@ public class connection implements Int_connection {
 					Hospital hospital = new Hospital();
 					People people = new People();
 					
-					hospital.setDay((long) obj.get("date"));
-					people.setDay((long) obj.get("date"));
+					hospital.setDay((Long) obj.get("date"));
+					people.setDay((Long) obj.get("date"));
 					
 					hospital.setNum_states((long) obj.get("states"));
 					people.setNum_states((long) obj.get("states"));

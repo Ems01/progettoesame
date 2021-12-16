@@ -85,5 +85,4 @@ public class People {
 	public void setDN(long dN) {
 		DN = dN;
 	}
-		
 }
