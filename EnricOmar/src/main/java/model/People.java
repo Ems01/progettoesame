@@ -1,23 +1,26 @@
 package model;
 
-public class People {
+public class People implements DatiUSA{
+	
+	/*
+	 * Classe principale in cui verranno raccolte le principali informazioni di ogni giorno:
+	 * saranno sempre presenti il numero dei positivi(positive), dei negativi(negative) 
+	 * e il numero dei morti(death) e i numeri dei relativi aumenti. I restanti attributi sono specificati nell'interfaccia; 
+	 * 
+	 */
 
 	private long day=0;
 	private long num_states=0; 
-	private String name="USA";
 	private String id=null;
+	private String colour = null;
 	private long positive = 0;
 	private long positiveIncrease = 0;
 	private long negative = 0;
 	private long negativeIncrease = 0;
-	private long DT = 0; //Death total
-	private long DN = 0; //Death now
+	private long death = 0; 
+	private long deathIncrease = 0; 
 			
 	public void People() {}
-
-	public String getName() {
-		return this.name;
-	}
 	
 	public long getPositiveIncrease() {
 		return positiveIncrease;
@@ -82,22 +85,30 @@ public class People {
 	}
 
 
-	public long getDT() {
-		return DT;
+	public long getDeath() {
+		return this.death;
 	}
 
 
-	public void setDT(long dT) {
-		DT = dT;
+	public void setDeath(long DT) {
+		this.death = DT;
 	}
 
 
-	public long getDN() {
-		return DN;
+	public long getDeathIncrease() {
+		return this.deathIncrease;
 	}
 
 
-	public void setDN(long dN) {
-		DN = dN;
+	public void setDeathIncrease(long DN) {
+		this.deathIncrease = DN;
+	}
+
+	public String getColour() {
+		return colour;
+	}
+
+	public void setColour(String colour) {
+		this.colour = colour;
 	}
 }
