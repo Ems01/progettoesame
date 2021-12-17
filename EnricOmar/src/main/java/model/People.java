@@ -6,15 +6,37 @@ public class People {
 	private long num_states=0; 
 	private String name="USA";
 	private String id=null;
-	private String colour=null;
 	private long positive = 0;
+	private long positiveIncrease = 0;
 	private long negative = 0;
+	private long negativeIncrease = 0;
 	private long DT = 0; //Death total
 	private long DN = 0; //Death now
- 
-	static final int popolazione_USA = 330000000;
 			
 	public void People() {}
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public long getPositiveIncrease() {
+		return positiveIncrease;
+	}
+
+	public void setPositiveIncrease(long positiveIncrease) {
+		this.positiveIncrease = positiveIncrease;
+	}
+
+
+	public long getNegativeIncrease() {
+		return negativeIncrease;
+	}
+
+
+	public void setNegativeIncrease(long negativeIncrease) {
+		this.negativeIncrease = negativeIncrease;
+	}
+
 
 	public long getDay() {
 		return day;
@@ -39,15 +61,6 @@ public class People {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public String getColour() {
-		return colour;
-	}
-
-	public void setColour(String colour) {
-		this.colour = colour;
-	}
-
 	
 	public long getPositive() {
 		return positive;

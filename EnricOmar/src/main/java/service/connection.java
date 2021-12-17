@@ -31,7 +31,8 @@ public class connection implements Int_connection {
 				JSONArray array = (JSONArray) oggetto;
 				System.out.println("entro");
 				
-				Long positive, negative, HN, HT, TN, TT, VN, VT, DT, DN;
+				Long positive, negative, HN, TN, DT, DN, PI, NI;
+				
 				for(int i=0; i<array.size(); i++) {
 					JSONObject obj = (JSONObject) array.get(i);
 					Hospital hospital = new Hospital();
@@ -48,25 +49,23 @@ public class connection implements Int_connection {
 				    if(positive == null) people.setPositive(0);
 				    else people.setPositive(positive);
 				    
-				    negative = ((Long) obj.get("negative"));
-				    if(negative == null) people.setNegative(0);
-				    else people.setNegative(negative);
+				    PI = ((Long) obj.get("positiveIncrease"));
+				    if(PI == null) people.setPositiveIncrease(0);
+				    else people.setPositiveIncrease(PI);
+				    
+				    NI = ((Long) obj.get("negativeIncrease"));
+				    if(NI == null) people.setNegativeIncrease(0);
+				    else people.setNegativeIncrease(NI);
 				    
 				    HN = ((Long) obj.get("hospitalizedCurrently"));
-				    if(HN == null) hospital.setHN(0);
-				    else hospital.setHN(HN);
-				    
-				    HT = ((Long) obj.get("hospitalizedCumulative"));
-				    if(HT == null) hospital.setHT(0);
-				    else hospital.setHT(HT);
+				    if(HN == null) hospital.setHospitalized(0);
+				    else hospital.setHospitalized(HN);
 				    
 				    TN = ((Long) obj.get("inIcuCurrently"));
-				    if(TN == null) hospital.setTN(0);
-				    else hospital.setTN(TN);
+				    if(TN == null) hospital.setIntensive_care(0);
+				    else hospital.setIntensive_care(TN);
 				    
-				    TT = ((Long) obj.get("inIcuCumulative"));
-				    if(TT == null) hospital.setTT(0);
-				    else hospital.setTT(TT);
+				    hospital.setColour(people.getPositive());
 				    
 				    DT = ((Long) obj.get("death"));
 				    if(DT == null) people.setDT(0);

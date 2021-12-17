@@ -6,6 +6,5 @@ public interface DatiUSA {
 	public long num_states=0; 
 	public String name="USA";
 	public String id=null;
-	public String colour=null;
 	
 }

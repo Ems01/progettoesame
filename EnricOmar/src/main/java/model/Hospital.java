@@ -7,15 +7,14 @@ public class Hospital {
 	private String name="USA";
 	private String id=null;
 	private String colour=null;
-	private long HN=0;  //Hospitalized Now
-	private long HT=0;  //Hospitalized Total
-	private long TN=0;  //Therapy intensive Now
-	private long TT=0;  //Therapy Intensive Total
+	private long hospitalized=0;  
+	private long intensive_care=0;
 	
-	static final int ICU= 84750; //https://globalepidemics.org/hospital-capacity-2/
-	static final int beds = 737567;
+	static final int popolation_USA = 330000000; //330 milioni circa
+	static final int ICU_total= 84750; //https://globalepidemics.org/hospital-capacity-2/
+	static final int beds_total = 737567;
 	
-	public void Hospital() {}
+	public void Hospital() {};
 
 	public long getDay() {
 		return day;
@@ -53,48 +52,52 @@ public class Hospital {
 		return colour;
 	}
 
-	public void setColour(String colour) {
-		this.colour = colour;
+	public void setColour(long positive) {
+		double casi = ((double)positive/(double)popolation_USA)*100000;
+		double perIcu = ((double)intensive_care/(double)ICU_total)*100;
+		double perBeds = ((double)hospitalized/(double)beds_total)*100;
+		// https://www.ilsole24ore.com/art/come-cambiano-colori-regioni-restano-bianche-sicilia-piu-rischio-contagi-e-ricoveri-AEi3FOY
+		if(casi < 50) this.colour = "Bianca";
+		else if((casi >= 50) && (casi < 150)) {  
+			if((perIcu < 10) || (perBeds < 15))this.colour = "Bianca";
+			if((perIcu >= 10) && (perBeds >= 15)) this.colour = "Gialla";
+		}else if (casi >= 150) {
+			if((perIcu < 20) || (perBeds < 30)) this.colour = "Gialla";
+			if((perIcu >= 20) && (perBeds >= 30)) this.colour = "Arancione";
+			if((perIcu >= 30) && (perBeds >= 40)) this.colour = "Rossa";
+		}
+		/*
+		 * metodo alternativo dove non vengono contate solo le terapie intensive e questo permette la comparsa della regione arancione
+		 * 
+		if (casi < 50) this.colour = "bianca";
+		else if((casi >= 50) && (casi < 150)) {  
+			if((perIcu < 10))this.colour = "Bianca";
+			if((perIcu >= 10)) this.colour = "Gialla";
+		}else if (casi >= 150) {
+			if((perIcu < 20)) this.colour = "gialla";
+			if((perIcu >= 20)) this.colour = "Arancione";
+			if((perIcu >= 30)) this.colour = "Rossa";
+		}
+		*/
 	}
 
 	
-	public long getHN() {
-		return HN;
+	public long getHospitalized() {
+		return hospitalized;
 	}
 
 	
-	public void setHN(long HN) {
-		this.HN = HN;
+	public void setHospitalized(long HN) {
+		this.hospitalized = HN;
 	}
 
 	
-	public long getHT() {
-		return HT;
+	public long getIntensive_care() {
+		return intensive_care;
 	}
 
 	
-	public void setHT(long HT) {
-		this.HT = HT;
+	public void setIntensive_care(long TN) {
+		this.intensive_care = TN;
 	}
-
-	
-	public long getTN() {
-		return TN;
-	}
-
-	
-	public void setTN(long TN) {
-		this.TN = TN;
-	}
-
-	
-	public long getTT() {
-		return TT;
-	}
-
-	
-	public void setTT(long TT) {
-		this.TT = TT;
-	}
-
 }
