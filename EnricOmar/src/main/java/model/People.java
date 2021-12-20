@@ -9,7 +9,7 @@ public class People implements DatiUSA{
 	 * 
 	 */
 
-	protected long day=0;  //consente la modifica della data attraverso il metodo setDay implementato si
+	protected long day=0;  //consente la modifica della data attraverso il metodo setDay implementato su hospital
 	private long num_states=0; 
 	private String id=null;
 	private String colour = null;
