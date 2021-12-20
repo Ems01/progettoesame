@@ -9,7 +9,7 @@ public class People implements DatiUSA{
 	 * 
 	 */
 
-	private long day=0;
+	protected long day=0;  //consente la modifica della data attraverso il metodo setDay implementato si
 	private long num_states=0; 
 	private String id=null;
 	private String colour = null;
@@ -44,9 +44,8 @@ public class People implements DatiUSA{
 	public long getDay() {
 		return day;
 	}
-
 	public void setDay(long day) {
-		this.day = day;
+		this.day=day; 
 	}
 
 	public long getNum_states() {

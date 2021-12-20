@@ -26,14 +26,24 @@ public class Hospital implements DatiUSA{
 	static final int ICU_total= 84750; 
 	static final int beds_total = 737567;
 	
+	People p;
+	
 	public void Hospital() {};
 
 	public long getDay() {
 		return day;
 	}
-
+	
 	public void setDay(long day) {
-		this.day = day;
+		String giorno= String.valueOf(day); //ora giorno=day nel formato aaaaggmm
+		String appoggio = "";
+		String EUFormat = "";
+		for (int i=0; i<4;i++) appoggio+=giorno.charAt(i);  //appoggio=aaaa
+		for (int i=4;i<giorno.length();i++) EUFormat += giorno.charAt(i);  //EUFOrmat = ggmm
+		EUFormat = EUFormat + appoggio;  //EUFormat == ggmmaaaa
+		System.out.println(EUFormat);
+		this.day = Long.parseLong(EUFormat);
+		p.day= Long.parseLong(EUFormat);
 	}
 
 	public long getNum_states() {
