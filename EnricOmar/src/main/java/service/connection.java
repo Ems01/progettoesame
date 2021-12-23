@@ -13,14 +13,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import model.DatiUSA;
-import model.Hospital;
-import model.People;
 
 public class connection implements Int_connection {
 	
 	/*
 	 * Questo metodo converte i dati letti dal file USA.json 
-	 * in oggetti (people and hospital) utilizzabili in java
+	 * in oggetti (DatiUSA) utilizzabili in java
 	 * 
 	 */
 	
@@ -42,8 +40,7 @@ public class connection implements Int_connection {
 			 */
 			
 			Object oggetto = par.parse(read);
-			ArrayList<People> vett1 = new ArrayList<People>();
-			ArrayList<Hospital> vett2 = new ArrayList<Hospital>();
+			ArrayList<DatiUSA> vett = new ArrayList<DatiUSA>();
 			JSONArray array = (JSONArray) oggetto;
 			System.out.println("entro");
 			
@@ -53,58 +50,47 @@ public class connection implements Int_connection {
 			 * metodo set o nel caso fosse un "null" ad evitare errori di parsing
 			 * facendo assumere al parametro long del relativo metodo set uno zero(0)
 			 */
-			Long positive, negative, HN, TN, DT, DN, PI, NI;
+			Long positive, negative, death, HN, TN, PI, NI;
 				
 			for(int i=0; i<array.size(); i++) {
 				JSONObject obj = (JSONObject) array.get(i);
-				String nameH = "";
-				Hospital hospital = new Hospital(nameH);
-				String name="", surname="";
-				People people = new People(name, surname);
+				DatiUSA dati = new DatiUSA();
 					
-				hospital.setDay((Long) obj.get("date"));
-				people.setDay((Long) obj.get("date"));
-					
-				hospital.setNum_states((long) obj.get("states"));
-				people.setNum_states((long) obj.get("states"));
-				System.out.println(hospital.getDay());
+				dati.setDay((Long) obj.get("date"));
+				
+				dati.setNum_states((long) obj.get("states"));
 					
 				positive = ((Long) obj.get("positive"));
-			    if(positive == null) people.setPositive(0);
-			    else people.setPositive(positive);
+			    if(positive == null) dati.setPositive(0);
+			    else dati.setPositive(positive);
 				    
 			    PI = ((Long) obj.get("positiveIncrease"));
-			    if(PI == null) people.setPositiveIncrease(0);
-			    else people.setPositiveIncrease(PI);
+			    if(PI == null) dati.setPositiveIncrease(0);
+			    else dati.setPositiveIncrease(PI);
 				    
 			    NI = ((Long) obj.get("negativeIncrease"));
-			    if(NI == null) people.setNegativeIncrease(0);
-			    else people.setNegativeIncrease(NI);
+			    if(NI == null) dati.setNegativeIncrease(0);
+			    else dati.setNegativeIncrease(NI);
 			    
 			    HN = ((Long) obj.get("hospitalizedCurrently"));
-			    if(HN == null) hospital.setHospitalized(0);
-			    else hospital.setHospitalized(HN);
+			    if(HN == null) dati.setHospitalized(0);
+			    else dati.setHospitalized(HN);
 				    
 			    TN = ((Long) obj.get("inIcuCurrently"));
-			    if(TN == null) hospital.setIntensive_care(0);
-			    else hospital.setIntensive_care(TN);
+			    if(TN == null) dati.setIntensive_care(0);
+			    else dati.setIntensive_care(TN);
 				    
-			    hospital.setColour(people);
+			    dati.setColour();
 			    //System.out.println(people.getColour());
 				    
-			    DT = ((Long) obj.get("death"));
-			    if(DT == null) people.setDeath(0);
-			    else people.setDeath(DT);
-				    
-			    DN = ((Long) obj.get("deathIncrease"));
-			    if(DN == null) people.setDeathIncrease(0);
-			    else people.setDeathIncrease(DN);
+			    death = ((Long) obj.get("deathIncrease"));
+			    if(death == null) dati.setDeathIncrease(0);
+			    else dati.setDeathIncrease(death);
 				   
-				people.setId((String) obj.get("hash"));
-				hospital.setId((String) obj.get("hash"));
+				dati.setId((String) obj.get("hash"));
+				dati.setId((String) obj.get("hash"));
 				
-				vett1.add(people);
-				vett2.add(hospital);
+				vett.add(dati);
 				};
 			}
 			

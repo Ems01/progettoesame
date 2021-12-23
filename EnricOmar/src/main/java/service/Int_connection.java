@@ -1,6 +1,5 @@
 package service;
-import model.Hospital;
-import model.People;
+
 import java.util.ArrayList;
 
 public interface Int_connection {
