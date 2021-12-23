@@ -20,7 +20,10 @@ public class People implements DatiUSA{
 	private long death = 0; 
 	private long deathIncrease = 0; 
 			
-	public void People() {}
+	public People(String nome, String cognome) {
+		String n = nome;
+		String c = cognome;
+	}
 	
 	public long getPositiveIncrease() {
 		return positiveIncrease;

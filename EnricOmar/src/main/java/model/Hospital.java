@@ -28,7 +28,9 @@ public class Hospital implements DatiUSA{
 	
 	People p;
 	
-	public void Hospital() {};
+	public Hospital(String nome) {
+		String n = nome;   //nome dell'ospedale
+	};
 
 	public long getDay() {
 		return day;

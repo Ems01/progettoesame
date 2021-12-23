@@ -57,8 +57,10 @@ public class connection implements Int_connection {
 				
 			for(int i=0; i<array.size(); i++) {
 				JSONObject obj = (JSONObject) array.get(i);
-				Hospital hospital = new Hospital();
-				People people = new People();
+				String nameH = "";
+				Hospital hospital = new Hospital(nameH);
+				String name="", surname="";
+				People people = new People(name, surname);
 					
 				hospital.setDay((Long) obj.get("date"));
 				people.setDay((Long) obj.get("date"));
