@@ -1,19 +1,24 @@
 package service;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import model.DatiUSA;
 
+@Service
 public class connection implements Int_connection {
 	
 	/*
@@ -21,6 +26,8 @@ public class connection implements Int_connection {
 	 * in oggetti (DatiUSA) utilizzabili in java
 	 * 
 	 */
+	
+	private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
 	
 	public void parsingData() {
 		
@@ -101,9 +108,25 @@ public class connection implements Int_connection {
 			}
 	}
 	
-	/*@Override
-	public People getDay(long day) {};
+	@Override
+	//private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
+	public Collection<DatiUSA> getToday(String day) {
+		if (DatiRepo.containsKey(day)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not existing Day...");
+        }
+        return DatiRepo.values();
+	};
 	
+	/*
+    public void createCity(City city) {
+        if (cityRepo.containsKey(city.getId())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Existing id...");
+        }
+        cityRepo.put(city.getId(), city);
+    } 
+	 */
+	
+	/*
 	@Override
 	public ArrayList<People> getWeek(long day){};
 	

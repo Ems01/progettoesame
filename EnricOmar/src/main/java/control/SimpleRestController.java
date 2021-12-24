@@ -7,21 +7,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-import model.Hospital;
-import model.People;
+import model.DatiUSA;
 
 @RestController
 public class SimpleRestController {
 	
 	@Autowired 
-	Hospital hostipal;
+	DatiUSA dati;
 	
-	public ResponseEntity<Object>
-	       getHospital() {
-		return new ResponeEntity<>(Hospital.get)
+	 @RequestMapping(value = "/day", method = RequestMethod.GET)
+	public ResponseEntity<Object>getToday(@RequestParam(name="param1", defaultValue="Errore") String param1) {
+		return new ResponseEntity<>(dati.getDay(), HttpStatus.OK);
 	}
-	
+	      
+
+	/*
+	 * 
+	 *  getToday()
+	       {
+		      return new ResponseEntity<>(dati.getDay(), HttpStatus.OK);
+	       }
 	
 		@GetMapping("/HOSPITAL")
 		public Hospital MethodGH(@RequestParam(name="param1", defaultValue="Hospital") String param1 ) {
@@ -44,6 +52,6 @@ public class SimpleRestController {
 			return new People("Omar", "Naja");
 		}
 
-
+   */
 }
 
