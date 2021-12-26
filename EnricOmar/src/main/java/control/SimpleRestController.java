@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import service.connection;
 
 import model.DatiUSA;
 
@@ -16,11 +17,12 @@ import model.DatiUSA;
 public class SimpleRestController {
 	
 	@Autowired 
+	connection conn;
 	DatiUSA dati;
 	
 	 @RequestMapping(value = "/day", method = RequestMethod.GET)
-	public ResponseEntity<Object>getToday(@RequestParam(name="param1", defaultValue="Errore") String param1) {
-		return new ResponseEntity<>(dati.getDay(), HttpStatus.OK);
+	public ResponseEntity<Object> getDay(@PathVariable String data) {
+		return new ResponseEntity<>(conn.getToday(data), HttpStatus.OK);
 	}
 	      
 

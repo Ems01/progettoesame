@@ -49,7 +49,7 @@ public class DatiUSA implements DatiUSA_Interface {
 		aaaa = String.valueOf(day/10000);
 		finale = gg + "." + mm + "." + aaaa;
 		this.day = finale;
-		System.out.println(this.day);
+		//System.out.println(this.day);
 	}
 
 	public long getNum_states() {

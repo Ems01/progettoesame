@@ -27,7 +27,8 @@ public class connection implements Int_connection {
 	 * 
 	 */
 	
-	private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
+	//private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
+	ArrayList<DatiUSA> vett = new ArrayList<DatiUSA>();
 	
 	public void parsingData() {
 		
@@ -47,7 +48,6 @@ public class connection implements Int_connection {
 			 */
 			
 			Object oggetto = par.parse(read);
-			ArrayList<DatiUSA> vett = new ArrayList<DatiUSA>();
 			JSONArray array = (JSONArray) oggetto;
 			System.out.println("entro");
 			
@@ -109,22 +109,18 @@ public class connection implements Int_connection {
 	}
 	
 	@Override
-	//private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
-	public Collection<DatiUSA> getToday(String day) {
-		if (DatiRepo.containsKey(day)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not existing Day...");
-        }
-        return DatiRepo.values();
+	public JSONObject getToday(String day) {
+		
+		JSONObject obj = new JSONObject();
+		for(int i=0; i<vett.size(); i++) {
+		if (day.equals(vett.get(i).getDay())) {
+            obj.put("day", vett.get(i).getDay());
+            obj.put("colour", vett.get(i).getColour());
+			}
+		}
+		return obj;
+		//throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not existing Day...");
 	};
-	
-	/*
-    public void createCity(City city) {
-        if (cityRepo.containsKey(city.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Existing id...");
-        }
-        cityRepo.put(city.getId(), city);
-    } 
-	 */
 	
 	/*
 	@Override

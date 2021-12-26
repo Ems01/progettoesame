@@ -13,6 +13,7 @@ public class EnricOmarApplication {
 		connection uss = new connection();
 		uss.parsingData();
 		SpringApplication.run(EnricOmarApplication.class, args);
+		
 	}
 
 }
