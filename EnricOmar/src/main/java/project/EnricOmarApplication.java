@@ -1,19 +1,21 @@
-package exam.EnricOmar;
+package project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import service.connection;
+import project.service.connection;
 
 @SpringBootApplication
 public class EnricOmarApplication {
+	
+
+	
+	
 
 	public static void main(String[] args) {
 		
-		connection uss = new connection();
-		uss.parsingData();
 		SpringApplication.run(EnricOmarApplication.class, args);
-		
+
 	}
 
 }

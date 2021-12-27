@@ -1,25 +1,25 @@
-package service;
+package project.service;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import model.DatiUSA;
+import project.model.DatiUSA;
 
 @Service
 public class connection implements Int_connection {
+	
+
+	public connection() {
+		this.parsingData();
+	}	
 	
 	/*
 	 * Questo metodo converte i dati letti dal file USA.json 
@@ -40,11 +40,11 @@ public class connection implements Int_connection {
 		JSONParser par= new JSONParser();
 		FileReader read;
 		try {
-			read = new FileReader("src/main/java/service/USA.json");
+			read = new FileReader("C:\\Users\\omarn\\eclipse-workspace\\EnricOmar\\src\\main\\java\\project\\service\\USA.json");
 			/*
 			 * con i JSONobject e i JSONArray creati possiamo accedere all'interno
 			 * della struttura annidata del file JSON , utilizzando poi i setter
-			 * delle classi del package model per assegnare i valori ai nostri oggetti
+			 * delle classi del package project.model per assegnare i valori ai nostri oggetti
 			 */
 			
 			Object oggetto = par.parse(read);

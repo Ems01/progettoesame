@@ -1,11 +1,6 @@
-package service;
-
-import java.util.ArrayList;
-import java.util.Collection;
+package project.service;
 
 import org.json.simple.JSONObject;
-
-import model.DatiUSA;
 
 public interface Int_connection {
 	
