@@ -1,5 +1,6 @@
 package project.service;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public interface Int_connection {
@@ -11,8 +12,8 @@ public interface Int_connection {
 	
 	public abstract void parsingData();
 	public abstract JSONObject getToday(String day);
-	//public abstract ArrayList<People> getWeek(long day);
-	//public abstract ArrayList<People> getMonth(long day);
+	public abstract JSONArray getWeek(String day);
+	public abstract JSONArray getMonth(String month, String year);
 	//public abstract ArrayList<People> getColor(long day, String colour);
 
 	

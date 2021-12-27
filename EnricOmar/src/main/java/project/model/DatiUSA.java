@@ -153,14 +153,14 @@ public class DatiUSA implements DatiUSA_Interface {
 		double perBeds = ((double)hospitalized/(double)beds_total)*100;
 		
 		String colour=null;
-		if(casi < 50) colour = "Bianca";
+		if(casi < 50) colour = "White";
 		else if((casi >= 50) && (casi < 150)) {  
-			if((perIcu < 10) || (perBeds < 15)) colour = "Bianca";
-			if((perIcu >= 10) && (perBeds >= 15)) colour = "Gialla";
+			if((perIcu < 10) || (perBeds < 15)) colour = "White";
+			if((perIcu >= 10) && (perBeds >= 15)) colour = "Yellow";
 		}else if (casi >= 150) {
-			if((perIcu < 20) || (perBeds < 30)) colour = "Gialla";
-			if((perIcu >= 20) && (perBeds >= 30)) colour = "Arancione";
-			if((perIcu >= 30) && (perBeds >= 40)) colour = "Rossa";
+			if((perIcu < 20) || (perBeds < 30)) colour = "Yellow";
+			if((perIcu >= 20) && (perBeds >= 30)) colour = "Orange";
+			if((perIcu >= 30) && (perBeds >= 40)) colour = "Red";
 		}
 		this.colour = colour;
 		/* 
