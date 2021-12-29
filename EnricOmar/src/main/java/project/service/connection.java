@@ -50,7 +50,6 @@ public class connection implements Int_connection {
 			
 			Object oggetto = par.parse(read);
 			JSONArray array = (JSONArray) oggetto;
-			System.out.println("entro");
 			
 			/*
 			 * Queste variabili long servono a prendere il valore in ingresso
@@ -261,9 +260,32 @@ public class connection implements Int_connection {
 		return array;
 	};
 	
-	/*
 	@Override
-	public ArrayList<People> getColor(long day, String colour){};
-	*/
+	public JSONArray getColour(String colour) {
+		
+		switch(colour) {
+		case "white", "WHITE": colour = "White"; break; 
+		case "yellow", "YELLOW": colour = "Yellow"; break; 
+		case "orange", "ORANGE": colour = "Orange";break; 
+		case "red", "RED": colour = "Red";break; 
+		}
+		
+		JSONArray array = new JSONArray();
+		JSONObject color  = new JSONObject ();
+		color.put("Type of colour is: ", colour );
+		array.add(color);
+		
+		for(int i=0; i<vett1.size(); i++) {
+			if(colour.equals(vett1.get(i).getColour())) {
+				JSONObject obj = new JSONObject();
+				obj.put("number states", vett1.get(i).getNum_states());
+				obj.put("day", vett1.get(i).getDay()); 
+				obj.put("positive", vett1.get(i).getPositive());
+				obj.put("negative", vett1.get(i).getNegative());
+				array.add(obj);
+			}
+		}
+		return array;
+	}
 }
 

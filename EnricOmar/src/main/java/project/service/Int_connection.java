@@ -14,9 +14,5 @@ public interface Int_connection {
 	public abstract JSONObject getToday(String day);
 	public abstract JSONArray getWeek(String day);
 	public abstract JSONArray getMonth(String month, String year);
-	//public abstract ArrayList<People> getColor(long day, String colour);
-
-	
-	
-
+	public abstract JSONArray getColour(String colour);
 }

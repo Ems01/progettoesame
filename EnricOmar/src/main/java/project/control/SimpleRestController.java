@@ -32,5 +32,10 @@ public class SimpleRestController {
 	public ResponseEntity<Object> getMonth(@RequestParam String month, String year) {
 		return new ResponseEntity<Object>(this.uss.getMonth(month, year), HttpStatus.OK);
 	}
+		
+	@RequestMapping(value = "/colour", method = RequestMethod.GET)
+	public ResponseEntity<Object> getColour(@RequestParam String colour) {
+		return new ResponseEntity<Object>(this.uss.getColour(colour), HttpStatus.OK);
+	}
 
 }

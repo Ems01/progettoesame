@@ -8,7 +8,7 @@ public class DatiHospital implements Dati{
 	private long hospitalized=0;  
 	private long intensive_care=0;
 	
-	static final int popolation_USA = 330000000; 
+	static final int population_USA = 330000000; 
 	static final int ICU_total= 84750; 
 	static final int beds_total = 737567;
 	
@@ -73,8 +73,7 @@ public class DatiHospital implements Dati{
 	
 
 	public String addColour() {
-		double popolation_states = (((double)popolation_USA/56)*this.getNum_states());
-		double casi = ((double)this.getPositive()/(double)popolation_states)*100000;
+		double casi = ((double)this.getPositive()/(double)population_USA)*100000;
 		double perIcu = ((double)intensive_care/(double)ICU_total)*100;
 		double perBeds = ((double)hospitalized/(double)beds_total)*100;
 		
