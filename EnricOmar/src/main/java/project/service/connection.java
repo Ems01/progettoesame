@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 
 import project.model.DatiUSA;
+import project.model.DatiHospital;
 
 @Service
 public class connection implements Int_connection {
@@ -23,12 +24,12 @@ public class connection implements Int_connection {
 	
 	/*
 	 * Questo metodo converte i dati letti dal file USA.json 
-	 * in oggetti (DatiUSA) utilizzabili in java
+	 * in oggetti (DatiUSA) utilizzabili in java eli inserisce nelle Arraylist
 	 * 
 	 */
 	
-	//private static Map<String, DatiUSA>DatiRepo = new HashMap<>();
-	ArrayList<DatiUSA> vett = new ArrayList<DatiUSA>();
+	ArrayList<DatiUSA> vett1 = new ArrayList<DatiUSA>();
+	ArrayList<DatiHospital> vett2 = new ArrayList<DatiHospital>();
 	
 	public void parsingData() {
 		
@@ -57,51 +58,60 @@ public class connection implements Int_connection {
 			 * metodo set o nel caso fosse un "null" ad evitare errori di parsing
 			 * facendo assumere al parametro long del relativo metodo set uno zero(0)
 			 */
-			Long positive, negative, death, HN, TN, PI, NI;
+			Long day, positive, negative, death, HN, TN, PI, NI;
+			String gg, mm, aaaa, finale;
 				
 			for(int i=0; i<array.size(); i++) {
 				JSONObject obj = (JSONObject) array.get(i);
-				DatiUSA dati = new DatiUSA();
-					
-				dati.setDay((Long) obj.get("date"));
+				DatiUSA usa = new DatiUSA();
+				DatiHospital hospital = new DatiHospital();
 				
-				dati.setNum_states((long) obj.get("states"));
+				day = (Long) obj.get("date");
+				gg = String.valueOf(day%100);
+				mm = String.valueOf(((day%10000) - (day%100))/100);
+				aaaa = String.valueOf(day/10000);
+				finale = gg + "." + mm + "." + aaaa;
+				usa.setDay(finale);
+				hospital.setDay(finale);
+				
+				usa.setNum_states((long) obj.get("states"));
+				hospital.setNum_states((long) obj.get("states"));
 					
 				positive = ((Long) obj.get("positive"));
-			    if(positive == null) dati.setPositive(0);
-			    else dati.setPositive(positive);
+			    if(positive == null) usa.setPositive(0);
+			    else usa.setPositive(positive);
+			    if(positive == null) hospital.setPositive(0);
+			    else hospital.setPositive(positive);
 			    
 			    negative = ((Long) obj.get("negative"));
-			    if(negative == null) dati.setNegative(0);
-			    else dati.setNegative(negative);
+			    if(negative == null) usa.setNegative(0);
+			    else usa.setNegative(negative);
 				    
 			    PI = ((Long) obj.get("positiveIncrease"));
-			    if(PI == null) dati.setPositiveIncrease(0);
-			    else dati.setPositiveIncrease(PI);
+			    if(PI == null) usa.setPositiveIncrease(0);
+			    else usa.setPositiveIncrease(PI);
 				    
 			    NI = ((Long) obj.get("negativeIncrease"));
-			    if(NI == null) dati.setNegativeIncrease(0);
-			    else dati.setNegativeIncrease(NI);
+			    if(NI == null) usa.setNegativeIncrease(0);
+			    else usa.setNegativeIncrease(NI);
 			    
 			    HN = ((Long) obj.get("hospitalizedCurrently"));
-			    if(HN == null) dati.setHospitalized(0);
-			    else dati.setHospitalized(HN);
+			    if(HN == null) hospital.setHospitalized(0);
+			    else hospital.setHospitalized(HN);
 				    
 			    TN = ((Long) obj.get("inIcuCurrently"));
-			    if(TN == null) dati.setIntensive_care(0);
-			    else dati.setIntensive_care(TN);
+			    if(TN == null) hospital.setIntensive_care(0);
+			    else hospital.setIntensive_care(TN);
 				    
-			    dati.setColour();
+			    usa.setColour(hospital.addColour());
 			    //System.out.println(people.getColour());
 				    
 			    death = ((Long) obj.get("deathIncrease"));
-			    if(death == null) dati.setDeathIncrease(0);
-			    else dati.setDeathIncrease(death);
-				   
-				dati.setId((String) obj.get("hash"));
-				dati.setId((String) obj.get("hash"));
+			    if(death == null) usa.setDeathIncrease(0);
+			    else usa.setDeathIncrease(death);
 				
-				vett.add(dati);
+				vett1.add(usa);
+				vett2.add(hospital);
 				};
 			}
 			
@@ -120,19 +130,18 @@ public class connection implements Int_connection {
 	 */
 	public JSONObject getToday(String day) {	
 		JSONObject obj = new JSONObject();
-		for(int i=0; i<vett.size(); i++) {
-		if (day.equals(vett.get(i).getDay())) {
-			obj.put("number states", vett.get(i).getNum_states());
-			obj.put("death increase", vett.get(i).getDeathIncrease());
-			obj.put("day", vett.get(i).getDay()); 
-            obj.put("colour", vett.get(i).getColour());
-            obj.put("positive", vett.get(i).getPositiveIncrease());
-            obj.put("negative", vett.get(i).getNegativeIncrease());
+		for(int i=0; i<vett1.size(); i++) {
+		if (day.equals(vett1.get(i).getDay())) {
+			obj.put("number states", vett1.get(i).getNum_states());
+			obj.put("death increase", vett1.get(i).getDeathIncrease());
+			obj.put("day", vett1.get(i).getDay()); 
+            obj.put("colour", vett1.get(i).getColour());
+            obj.put("positive", vett1.get(i).getPositiveIncrease());
+            obj.put("negative", vett1.get(i).getNegativeIncrease());
 			}
 		}
 		return obj;
-		//throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not existing Day...");
-	};
+	}
 	
 	
 	@Override
@@ -146,24 +155,24 @@ public class connection implements Int_connection {
 		long positive=0, negative=0, death=0, h1=0, h7=0, t1=0, t7=0; 
 		String last=null;
 		
-		for(int i=0; i<vett.size(); i++) {
-			if (day.equals(vett.get(i).getDay())) {
+		for(int i=0; i<vett1.size(); i++) {
+			if (day.equals(vett1.get(i).getDay())) {
 				for(int j=0; j<7; j++) {
 					JSONObject obj = new JSONObject();
-					obj.put("number states", vett.get(i-j).getNum_states());
-					obj.put("day", vett.get(i-j).getDay()); 
-					obj.put("colour", vett.get(i-j).getColour());
-					obj.put("positive", vett.get(i-j).getPositive());
-					obj.put("negative", vett.get(i-j).getNegative());
+					obj.put("number states", vett1.get(i-j).getNum_states());
+					obj.put("day", vett1.get(i-j).getDay()); 
+					obj.put("colour", vett1.get(i-j).getColour());
+					obj.put("positive", vett1.get(i-j).getPositive());
+					obj.put("negative", vett1.get(i-j).getNegative());
 					
-					positive += vett.get(i-j).getPositiveIncrease();
-					negative += vett.get(i-j).getNegativeIncrease();
-					death += vett.get(i-j).getDeathIncrease();
-					h1 = vett.get(i).getHospitalized();
-					h7 = vett.get(i-7).getHospitalized();
-					t1 = vett.get(i).getIntensive_care();
-					t7 = vett.get(i-7).getIntensive_care();
-					last = vett.get(i-7).getDay();
+					positive += vett1.get(i-j).getPositiveIncrease();
+					negative += vett1.get(i-j).getNegativeIncrease();
+					death += vett1.get(i-j).getDeathIncrease();
+					h1 = vett2.get(i).getHospitalized();
+					h7 = vett2.get(i-7).getHospitalized();
+					t1 = vett2.get(i).getIntensive_care();
+					t7 = vett2.get(i-7).getIntensive_care();
+					last = vett2.get(i-7).getDay();
 					array.add(obj);
 				}
 				JSONObject total = new JSONObject();
@@ -213,23 +222,23 @@ public class connection implements Int_connection {
 		if(m_a.equals(3.2021)) dayfinal = 7;
 		String day = daystart + "." + m_a;
 		
-		for(int i=0; i<vett.size(); i++) {
-			if (day.equals(vett.get(i).getDay())) {
+		for(int i=0; i<vett1.size(); i++) {
+			if (day.equals(vett1.get(i).getDay())) {
 				for(int j=0; j<dayfinal; j++) {
 					JSONObject obj = new JSONObject();
-					obj.put("number states", vett.get(i-j).getNum_states());
-					obj.put("day", vett.get(i-j).getDay()); 
-					obj.put("colour", vett.get(i-j).getColour());
-					obj.put("positive", vett.get(i-j).getPositive());
-					obj.put("negative", vett.get(i-j).getNegative());
+					obj.put("number states", vett1.get(i-j).getNum_states());
+					obj.put("day", vett1.get(i-j).getDay()); 
+					obj.put("colour", vett1.get(i-j).getColour());
+					obj.put("positive", vett1.get(i-j).getPositive());
+					obj.put("negative", vett1.get(i-j).getNegative());
 					
-					positive += vett.get(i-j).getPositiveIncrease();
-					negative += vett.get(i-j).getNegativeIncrease();
-					death += vett.get(i-j).getDeathIncrease();
-					h1 = vett.get(i).getHospitalized();
-					hf = vett.get(i-7).getHospitalized();
-					t1 = vett.get(i).getIntensive_care();
-					tf = vett.get(i-7).getIntensive_care();
+					positive += vett1.get(i-j).getPositiveIncrease();
+					negative += vett1.get(i-j).getNegativeIncrease();
+					death += vett1.get(i-j).getDeathIncrease();
+					h1 = vett2.get(i).getHospitalized();
+					hf = vett2.get(i-7).getHospitalized();
+					t1 = vett2.get(i).getIntensive_care();
+					tf = vett2.get(i-7).getIntensive_care();
 					array.add(obj);
 				}
 				JSONObject total = new JSONObject();
