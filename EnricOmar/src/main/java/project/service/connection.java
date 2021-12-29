@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import project.model.DatiUSA;
 import project.model.DatiHospital;
+import project.stats.Statistics;
 
 @Service
 public class connection implements Int_connection {
@@ -142,7 +143,6 @@ public class connection implements Int_connection {
 		return obj;
 	}
 	
-	
 	@Override
 	/*
 	 * try catch per il controllo del range della data
@@ -157,6 +157,7 @@ public class connection implements Int_connection {
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
 				for(int j=0; j<7; j++) {
+					
 					JSONObject obj = new JSONObject();
 					obj.put("number states", vett1.get(i-j).getNum_states());
 					obj.put("day", vett1.get(i-j).getDay()); 
@@ -164,31 +165,10 @@ public class connection implements Int_connection {
 					obj.put("positive", vett1.get(i-j).getPositive());
 					obj.put("negative", vett1.get(i-j).getNegative());
 					
-					positive += vett1.get(i-j).getPositiveIncrease();
-					negative += vett1.get(i-j).getNegativeIncrease();
-					death += vett1.get(i-j).getDeathIncrease();
-					h1 = vett2.get(i).getHospitalized();
-					h7 = vett2.get(i-7).getHospitalized();
-					t1 = vett2.get(i).getIntensive_care();
-					t7 = vett2.get(i-7).getIntensive_care();
-					last = vett2.get(i-7).getDay();
 					array.add(obj);
 				}
-				JSONObject total = new JSONObject();
-				total.put("Week", day + "-" + last);
-				total.put("Death in week", death);
-				total.put("Positive in week", positive);
-				total.put("Negative in week", negative);
-				if(h7 >= h1) {
-					total.put("Hospitalized in week", "+" + (h7-h1));
-				}
-				else total.put("Hospitalized in week", (h7-h1));
-				if(t7 >= t1) {
-					total.put("Intensive care in week", "+" + (t7-t1));
-				}
-				else total.put("Intensive care in week", (t7-t1));
-				
-				array.add(total);
+				Statistics stats = new Statistics();
+				stats.Stats(vett1, vett2, array, i, 7);
 			}
 		}
 		return array;
@@ -197,64 +177,49 @@ public class connection implements Int_connection {
 	@Override
 	public JSONArray getMonth(String month, String year){
 		int dayfinal=0;
-		String m = null; 
+		int m = 0; 
 		switch(month) {
-		case "january" , "January", "JANUARY": dayfinal=31; m= "1"; break; 
-		case "february", "February", "FEBRUARY": dayfinal=29; m="2"; break;
-		case "march", "March", "MARCH": dayfinal =31; m="3"; break; 
-		case "April", "april", "APRIL": dayfinal=30; m="4"; break; 
-		case "may", "May", "MAY": dayfinal=31; m="5"; break; 
-		case "june", "JUNE", "June": dayfinal=30; m="6"; break; 
-		case "july", "July", "JULY": dayfinal=31; m="7"; break; 
-		case "august", "August", "AUGUST": dayfinal=31; m="8"; break; 
-		case "September", "SEPTEMBER", "september": dayfinal=30; m="9"; break; 
-		case "October", "october", "OCTOBER": dayfinal=31; m="10"; break; 
-		case "november", "November", "NOVEMBER": dayfinal=30; m="11"; break; 
-		case "December", "december", "DECEMBER": dayfinal=31; m="12"; break; 
+		case "january" , "January", "JANUARY": dayfinal=31; m= 1; break; 
+		case "february", "February", "FEBRUARY": dayfinal=28; m=2; break;
+		case "march", "March", "MARCH": dayfinal =31; m=3; break; 
+		case "April", "april", "APRIL": dayfinal=30; m=4; break; 
+		case "may", "May", "MAY": dayfinal=31; m=5; break; 
+		case "june", "JUNE", "June": dayfinal=30; m=6; break; 
+		case "july", "July", "JULY": dayfinal=31; m=7; break; 
+		case "august", "August", "AUGUST": dayfinal=31; m=8; break; 
+		case "September", "SEPTEMBER", "september": dayfinal=30; m=9; break; 
+		case "October", "october", "OCTOBER": dayfinal=31; m=10; break; 
+		case "november", "November", "NOVEMBER": dayfinal=30; m=11; break; 
+		case "December", "december", "DECEMBER": dayfinal=31; m=12; break; 
 		}
 		String m_a =(m + "." + year);
 		JSONArray array = new JSONArray();
-		long positive=0, negative=0, death=0, h1=0, hf=0, t1=0, tf=0; 
 		
 		int daystart=1;
-		if(m_a.equals(1.2020)) daystart = 13;
-		if(m_a.equals(3.2021)) dayfinal = 7;
+		if(m_a.equals("1.2020")) {
+			daystart = 13;
+			dayfinal = 19;
+		}
+		if(m_a.equals("2.2020")) dayfinal = 29;
+		if(m_a.equals("3.2021")) dayfinal = 7;
 		String day = daystart + "." + m_a;
 		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
 				for(int j=0; j<dayfinal; j++) {
-					JSONObject obj = new JSONObject();
+				
+					JSONObject obj = new JSONObject();	
 					obj.put("number states", vett1.get(i-j).getNum_states());
 					obj.put("day", vett1.get(i-j).getDay()); 
 					obj.put("colour", vett1.get(i-j).getColour());
 					obj.put("positive", vett1.get(i-j).getPositive());
 					obj.put("negative", vett1.get(i-j).getNegative());
-					
-					positive += vett1.get(i-j).getPositiveIncrease();
-					negative += vett1.get(i-j).getNegativeIncrease();
-					death += vett1.get(i-j).getDeathIncrease();
-					h1 = vett2.get(i).getHospitalized();
-					hf = vett2.get(i-7).getHospitalized();
-					t1 = vett2.get(i).getIntensive_care();
-					tf = vett2.get(i-7).getIntensive_care();
+	
 					array.add(obj);
 				}
-				JSONObject total = new JSONObject();
-				total.put("Month:", month +" "+ year);
-				total.put("Death in month", death);
-				total.put("Positive in month", positive);
-				total.put("Negative in month", negative);
-				if(hf >= h1) {
-					total.put("Hospitalized in month", "+" + (hf-h1));
-				}
-				else total.put("Hospitalized in month", (hf-h1));
-				if(tf >= t1) {
-					total.put("Intensive care in month", "+" + (tf-t1));
-				}
-				else total.put("Intensive care in month", (tf-t1));
-				
-				array.add(total);
+				Statistics stats = new Statistics();
+				if(daystart != 13) stats.Stats(vett1, vett2, array, i, dayfinal);
+				else stats.Stats(vett1, vett2, array, i, 19);	
 			}
 		}
 		return array;
