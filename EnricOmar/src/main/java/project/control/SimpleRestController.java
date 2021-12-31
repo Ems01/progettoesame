@@ -37,5 +37,10 @@ public class SimpleRestController {
 	public ResponseEntity<Object> getColour(@RequestParam String colour) {
 		return new ResponseEntity<Object>(this.uss.getColour(colour), HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/2days", method = RequestMethod.GET)
+	public ResponseEntity<Object> getDays(@RequestParam String data1, String data2) {
+		return new ResponseEntity<Object>(this.uss.get2days(data1, data2), HttpStatus.OK);
+	}
 
 }

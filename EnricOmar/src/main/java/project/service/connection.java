@@ -132,12 +132,14 @@ public class connection implements Int_connection {
 		JSONObject obj = new JSONObject();
 		for(int i=0; i<vett1.size(); i++) {
 		if (day.equals(vett1.get(i).getDay())) {
-			obj.put("number states", vett1.get(i).getNum_states());
-			obj.put("death increase", vett1.get(i).getDeathIncrease());
-			obj.put("day", vett1.get(i).getDay()); 
-            obj.put("colour", vett1.get(i).getColour());
-            obj.put("positive", vett1.get(i).getPositiveIncrease());
-            obj.put("negative", vett1.get(i).getNegativeIncrease());
+			obj.put("Number states:", vett1.get(i).getNum_states());
+			obj.put("Death increase:", vett1.get(i).getDeathIncrease());
+			obj.put("Day:", vett1.get(i).getDay()); 
+            obj.put("Colour:", vett1.get(i).getColour());
+            obj.put("Positive increase:", vett1.get(i).getPositiveIncrease());
+            obj.put("Negative increase:", vett1.get(i).getNegativeIncrease());
+            obj.put("Hospitalized:", vett2.get(i).getHospitalized());
+            obj.put("Intensive care:", vett2.get(i).getIntensive_care());
 			}
 		}
 		return obj;
@@ -151,24 +153,18 @@ public class connection implements Int_connection {
 		
 		JSONArray array = new JSONArray();
 		
-		long positive=0, negative=0, death=0, h1=0, h7=0, t1=0, t7=0; 
-		String last=null;
-		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
+				
+				Statistics stats = new Statistics();
+				stats.StatsLong(vett1, vett2, array, i, 7);
+				
 				for(int j=0; j<7; j++) {
 					
 					JSONObject obj = new JSONObject();
-					obj.put("number states", vett1.get(i-j).getNum_states());
-					obj.put("day", vett1.get(i-j).getDay()); 
-					obj.put("colour", vett1.get(i-j).getColour());
-					obj.put("positive", vett1.get(i-j).getPositive());
-					obj.put("negative", vett1.get(i-j).getNegative());
-					
+					obj = getToday(vett1.get(i-j).getDay());
 					array.add(obj);
 				}
-				Statistics stats = new Statistics();
-				stats.Stats(vett1, vett2, array, i, 7);
 			}
 		}
 		return array;
@@ -204,22 +200,20 @@ public class connection implements Int_connection {
 		if(m_a.equals("3.2021")) dayfinal = 7;
 		String day = daystart + "." + m_a;
 		
+		
+		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
+				
+				Statistics stats = new Statistics();
+				stats.StatsLong(vett1, vett2, array, i, dayfinal);
+				
 				for(int j=0; j<dayfinal; j++) {
 				
 					JSONObject obj = new JSONObject();	
-					obj.put("number states", vett1.get(i-j).getNum_states());
-					obj.put("day", vett1.get(i-j).getDay()); 
-					obj.put("colour", vett1.get(i-j).getColour());
-					obj.put("positive", vett1.get(i-j).getPositive());
-					obj.put("negative", vett1.get(i-j).getNegative());
-	
+					obj = getToday(vett1.get(i-j).getDay());
 					array.add(obj);
 				}
-				Statistics stats = new Statistics();
-				if(daystart != 13) stats.Stats(vett1, vett2, array, i, dayfinal);
-				else stats.Stats(vett1, vett2, array, i, 19);	
 			}
 		}
 		return array;
@@ -243,14 +237,27 @@ public class connection implements Int_connection {
 		for(int i=0; i<vett1.size(); i++) {
 			if(colour.equals(vett1.get(i).getColour())) {
 				JSONObject obj = new JSONObject();
-				obj.put("number states", vett1.get(i).getNum_states());
-				obj.put("day", vett1.get(i).getDay()); 
-				obj.put("positive", vett1.get(i).getPositive());
-				obj.put("negative", vett1.get(i).getNegative());
+				obj = getToday(vett1.get(i).getDay());
 				array.add(obj);
 			}
 		}
 		return array;
 	}
+
+	@Override
+	public JSONArray get2days(String day1, String day2) {
+		
+		JSONArray array = new JSONArray();
+		Statistics stats = new Statistics();
+		stats.Stats2day(vett1, vett2, array, day1, day2);
+		
+		JSONObject obj1 = getToday(day1);
+		JSONObject obj2 = getToday(day2);
+		array.add(obj1);
+		array.add(obj2);
+		
+		return array;
+	}
+
 }
 
