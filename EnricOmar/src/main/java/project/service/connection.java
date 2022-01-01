@@ -3,7 +3,6 @@ package project.service;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import org.json.simple.JSONArray;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import project.model.DatiUSA;
 import project.model.DatiHospital;
 import project.stats.Statistics;
-import project.service.EccezioneGiorno;
 
 @Service
 public class connection implements Int_connection {
@@ -130,8 +128,7 @@ public class connection implements Int_connection {
 	 * Rivedere l'ordine delle proprietà
 	 * 
 	 */
-	public JSONObject getToday(String day) throws EccezioneGiorno{	
-		;
+	public JSONObject getToday(String day) throws EccezioneGiorno{
 		JSONObject obj = new JSONObject();
 		String mistake = "Day not found!";
 		boolean done = false;
@@ -144,14 +141,6 @@ public class connection implements Int_connection {
             obj.put("positive", vett1.get(i).getPositiveIncrease());
             obj.put("negative", vett1.get(i).getNegativeIncrease());
             done = true;
-			obj.put("Number states:", vett1.get(i).getNum_states());
-			obj.put("Death increase:", vett1.get(i).getDeathIncrease());
-			obj.put("Day:", vett1.get(i).getDay()); 
-            obj.put("Colour:", vett1.get(i).getColour());
-            obj.put("Positive increase:", vett1.get(i).getPositiveIncrease());
-            obj.put("Negative increase:", vett1.get(i).getNegativeIncrease());
-            obj.put("Hospitalized:", vett2.get(i).getHospitalized());
-            obj.put("Intensive care:", vett2.get(i).getIntensive_care());
 			}
 		}
 		if (done = false) throw new EccezioneGiorno(mistake);
@@ -162,32 +151,36 @@ public class connection implements Int_connection {
 	/*
 	 * try catch per il controllo del range della data
 	 */
-	public JSONArray getWeek(String day){
+public JSONArray getWeek(String day){
 		
 		JSONArray array = new JSONArray();
 		boolean done = false;
 		String mistake = "Week not found!";
 		
+		long positive=0, negative=0, death=0, h1=0, h7=0, t1=0, t7=0; 
+		String last=null;
+		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
-				
-				Statistics stats = new Statistics();
-				stats.StatsLong(vett1, vett2, array, i, 7);
-				
 				for(int j=0; j<7; j++) {
 					
 					JSONObject obj = new JSONObject();
-					obj = getToday(vett1.get(i-j).getDay());
+					obj.put("number states", vett1.get(i-j).getNum_states());
+					obj.put("day", vett1.get(i-j).getDay()); 
+					obj.put("colour", vett1.get(i-j).getColour());
+					obj.put("positive", vett1.get(i-j).getPositive());
+					obj.put("negative", vett1.get(i-j).getNegative());
+					
 					array.add(obj);
 					done = true;
 				}
 				if (done = false) throw new EccezioneGiorno(mistake);
 				Statistics stats = new Statistics();
-				stats.Stats(vett1, vett2, array, i, 7);
+				stats.StatsLong(vett1, vett2, array, i, 7);
 			}
 		}
 		return array;
-	};
+	}
 	
 	@Override
 	public JSONArray getMonth(String month, String year){
@@ -221,14 +214,8 @@ public class connection implements Int_connection {
 		if(m_a.equals("3.2021")) dayfinal = 7;
 		String day = daystart + "." + m_a;
 		
-		
-		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
-				
-				Statistics stats = new Statistics();
-				stats.StatsLong(vett1, vett2, array, i, dayfinal);
-				
 				for(int j=0; j<dayfinal; j++) {
 				
 					JSONObject obj = new JSONObject();	
@@ -243,14 +230,12 @@ public class connection implements Int_connection {
 				}
 				if (done = false) throw new EccezioneGiorno(mistake);
 				Statistics stats = new Statistics();
-				if(daystart != 13) stats.Stats(vett1, vett2, array, i, dayfinal);
-				else stats.Stats(vett1, vett2, array, i, 19);	
-					obj = getToday(vett1.get(i-j).getDay());
-					array.add(obj);
-				}			}
+				if(daystart != 13) stats.StatsLong(vett1, vett2, array, i, dayfinal);
+				else stats.StatsLong(vett1, vett2, array, i, 19);	
+			}
 		}
 		return array;
-	}
+	};
 	
 	@Override
 	public JSONArray getColour(String colour) {

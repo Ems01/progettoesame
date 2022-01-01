@@ -19,7 +19,7 @@ public class SimpleRestController {
 	public connection uss = new connection();
 
 	@RequestMapping(value = "/day", method = RequestMethod.GET)
-	public ResponseEntity<Object> getDay(@RequestParam String data) throws Exception{
+	public ResponseEntity<Object> getDay(@RequestParam String data) throws Exception {
 		return new ResponseEntity<Object>(this.uss.getToday(data), HttpStatus.OK);		
 	}
 
