@@ -128,7 +128,8 @@ public class connection implements Int_connection {
 	 * Rivedere l'ordine delle proprietà
 	 * 
 	 */
-	public JSONObject getToday(String day) throws EccezioneGiorno{
+	
+	public JSONObject getToday(String day){
 		JSONObject obj = new JSONObject();
 		String mistake = "Day not found!";
 		boolean done = false;
@@ -141,9 +142,14 @@ public class connection implements Int_connection {
             obj.put("positive", vett1.get(i).getPositiveIncrease());
             obj.put("negative", vett1.get(i).getNegativeIncrease());
             done = true;
+            System.out.println("Funziona");  //per il TestException
 			}
 		}
-		if (done = false) throw new EccezioneGiorno(mistake);
+		if (done = false)
+			{
+			System.out.println("Non funziona");   //per il TestException
+			throw new EccezioneGiorno(mistake);  //il done fa quello che deve fare ma EccezioneGiorno non fa quello che deve fare
+			}
 		return obj;
 	}
 	
