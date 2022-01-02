@@ -145,7 +145,7 @@ public class connection implements Int_connection {
             System.out.println("Funziona");  //per il TestException
 			}
 		}
-		if (done = false)
+		if (done == false)
 			{
 			System.out.println("Non funziona");   //per il TestException
 			throw new EccezioneGiorno(mistake);  //il done fa quello che deve fare ma EccezioneGiorno non fa quello che deve fare
@@ -180,7 +180,7 @@ public JSONArray getWeek(String day){
 					array.add(obj);
 					done = true;
 				}
-				if (done = false) throw new EccezioneGiorno(mistake);
+				if (done == false) throw new EccezioneGiorno(mistake);
 				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, 7);
 			}
@@ -234,7 +234,7 @@ public JSONArray getWeek(String day){
 	
 					array.add(obj);
 				}
-				if (done = false) throw new EccezioneGiorno(mistake);
+				if (done == false) throw new EccezioneGiorno(mistake);
 				Statistics stats = new Statistics();
 				if(daystart != 13) stats.StatsLong(vett1, vett2, array, i, dayfinal);
 				else stats.StatsLong(vett1, vett2, array, i, 19);	
