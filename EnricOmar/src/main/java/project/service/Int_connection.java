@@ -3,11 +3,11 @@ package project.service;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+/*
+ * interfaccia che ci permette di visualizzare i vari metodi il cui corpo
+ * lo definiremo in connection
+ */
 public interface Int_connection {
-	
-	/*
-	 * interfaccia di connection che ci permette di visualizzare i vari metodi che andremo a programmare
-	 */
 	
 	public abstract void parsingData();
 	public abstract JSONObject getToday(String day) throws Exception;

@@ -1,5 +1,9 @@
 package project.model;
 
+/*
+ * interfaccia delle due sottoclassi DatiHospital e DatiUSA 
+ */
+
 public interface Dati {
 
 	public String day=null;  

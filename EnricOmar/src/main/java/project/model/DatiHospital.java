@@ -1,5 +1,12 @@
 package project.model;
 
+/*
+ * sottoclasse secondaria che riceve due attributi in più quali
+ * hospitalized (gli ospedalizzati) e intensive_care(il numero di terapie intensive)
+ * 
+ * tali dati ci servono per la determinazione del colore del giorno;
+ */
+
 public class DatiHospital implements Dati{
 	
 	private String day=null;  
@@ -8,6 +15,12 @@ public class DatiHospital implements Dati{
 	private long hospitalized=0;  
 	private long intensive_care=0;
 	
+	/*
+	 * Valori semplificati a costanti, anche se costanti non sono, per la determinazione del colore:
+	 * uno è la popolazione degli USA(popolation_USA) e le altre due sono i letti di terapia intensiva totali(ICU_total)
+	 * e i letti degli ospedali totali(beds_total) ricavate da tale sito (//https://globalepidemics.org/hospital-capacity-2/)
+	 * 
+	 */
 	static final int population_USA = 330000000; 
 	static final int ICU_total= 84750; 
 	static final int beds_total = 737567;
@@ -55,23 +68,18 @@ public class DatiHospital implements Dati{
 	};
 	
 	/*
-	 * Il metodo setColour ci permette di ottenere il numero dei casi ogni 100mila abitanti 
-	 * ed anche i valori delle occupazioni percentuali delle terapie intensive(perIcu) 
-	 * e degli ospedali(perBeds). 
+	 * Il metodo addColour ci permette di ottenere il colore da assegnare al rispettivo giorno 
+	 * avendo il numero dei casi ogni 100mila abitanti i valori delle occupazioni percentuali 
+	 * delle terapie intensive(perIcu) e degli ospedali(perBeds). 
 	 * 
-	 * (popolation_states) prende la costante (popolation_USA) la divide per il numero totali dei suoi stati (56) e la moltiplica per il
-	 * numero di stati effettivi di cui sono stati campionati i dati, generalizzando che ogni stato abbia lo stesso numero di abitanti
-	 * 
-	 * Il colore verrà poi girato al metodo setColour() dell'oggetto people passatogli per riferimento
+	 * La stringa colour verrà poi girato al metodo setColour() dell'oggetto people passatogli per riferimento
 	 * 
 	 * Per la determinazione dei parametri la fonte viene da tale link
 	 * (https://www.ilsole24ore.com/art/come-cambiano-colori-regioni-restano-bianche-sicilia-piu-rischio-contagi-e-ricoveri-AEi3FOY)
 	 * 
-	 * E' presente anche un'altra funzione che non considera (perBeds)
+	 * E' presente anche un'alternativa di tale metodo che non considera (perBeds)
 	 * 
 	 */
-	
-
 	public String addColour() {
 		double casi = ((double)this.getPositive()/(double)population_USA)*100000;
 		double perIcu = ((double)intensive_care/(double)ICU_total)*100;

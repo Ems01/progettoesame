@@ -11,6 +11,23 @@ import org.springframework.web.bind.annotation.*;
 import project.service.EccezioneGiorno;
 import project.service.connection;
 
+/*
+ * la classe SimpleRestController traccia le 5 rotte che permettono di ottenere una lista e/o una statistica 
+ * del file USA.json.
+ * 
+ * le rotte permettono:
+ * -di ottenere un giorno (day) passandogli una stringa (data) rapressentante il giorno
+ * -i giorni di una settimana (week) passandogli una stringa data rappresentante il primo giorno e andando a calcolarne i successivi 7
+ * -i giorni di un mese(month) passandogli due stringe (month & year) rappresentante i mesi e l'anno da considerare
+ * -i giorni di un determinato colore(colour) passandogli la stringa (colour) contenente il colore da considerare
+ * -2 giorni scelti(2days) passandogli due date differenti (data1 & data2) 
+ * 
+ * limitazioni file:
+ * -i giorni del file JSON vanno dal 13.1.2020 al 7.3.2021;
+ * -la stringa per inserire una data è come si vede qui sopra;
+ * -i colori sono: white, yellow, orange, red;
+ */
+
 @RestController
 public class SimpleRestController {
 	
