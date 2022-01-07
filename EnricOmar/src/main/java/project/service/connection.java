@@ -151,12 +151,10 @@ public class connection implements Int_connection {
             obj.put("Negative increase:", vett1.get(i).getPositiveIncrease());
             obj.put("Negative total:", vett1.get(i).getNegative());
             done = true;
-            System.out.println("Funziona");  //per il TestException
 			}
 		}
 		if (done == false)
 			{
-			System.out.println("Non funziona");   //per il TestException
 			throw new EccezioneGiorno(mistake);  //il done fa quello che deve fare ma EccezioneGiorno non fa quello che deve fare
 			}
 		return obj;

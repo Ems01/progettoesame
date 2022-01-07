@@ -28,7 +28,15 @@ class EnricOmarApplicationTests {
 	@Test
 	void TestDataNoOK() {
 		data = "13.11.2021";
-		assertEquals("1", conn.getToday(data));
+		equals(conn.getToday(data));
+	}
+	
+	@Test
+	void Test2Data() {
+		String data1, data2;
+		data1 = "7.3.2021";
+		data2 = "13.1.2020";
+		equals(conn.get2days(data1, data2));
 	}
 
 }
