@@ -155,7 +155,7 @@ public class connection implements Int_connection {
 		}
 		if (done == false)
 			{
-			throw new EccezioneGiorno(mistake);  //il done fa quello che deve fare ma EccezioneGiorno non fa quello che deve fare
+			throw new EccezioneGiorno(mistake);
 			}
 		return obj;
 	}
@@ -183,10 +183,11 @@ public class connection implements Int_connection {
 				for(int j=0; j<7; j++) {
 					JSONObject obj = new JSONObject();
 					obj = getToday(vett1.get(i-j).getDay());
-					array.add(obj);
 					done = true;
+					array.add(obj);
+					if (done == false) throw new EccezioneGiorno(mistake);
 				}
-				if (done == false) throw new EccezioneGiorno(mistake);
+				
 			}
 		}
 		return array;
@@ -256,7 +257,7 @@ public class connection implements Int_connection {
 	
 					array.add(obj);
 				}
-				//if (done == false) throw new EccezioneGiorno(mistake);
+				if (done == false) throw new EccezioneGiorno(mistake);
 			}
 		}
 		return array;
