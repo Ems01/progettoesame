@@ -52,5 +52,5 @@
  # Test
  
  # Divisione dei compiti
-- Naja Omar: alcuni metodi del model, collegamentoa a postman e prima rotta del controller, getione eccezioni, readme
-- Sardellini Enrico Maria: model, rotte, gestione oggetti JSon, JavaDoc
+- Naja Omar: alcuni metodi del connection, collegamento a postman e prima rotta del controller, gestione eccezioni, readme
+- Sardellini Enrico Maria: model, rotte, gestione oggetti JSon, JavaDoc, Statistiche
