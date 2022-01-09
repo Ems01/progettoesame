@@ -15,51 +15,57 @@ import project.model.DatiUSA;
 import project.model.DatiHospital;
 import project.stats.Statistics;
 
+/**
+ * Tale classe: 
+ * -gestirà il parsing dei dati dal file Json ad oggetti
+ * -riporterà un JSONObject/JSONArray che verranno postati dalle rotte
+ * 
+ * @author Enrico Maria Sardellini
+ * @author Omar Naja
+ */
 @Service
 public class connection implements Int_connection {
 	
 	ArrayList<DatiUSA> vett1 = new ArrayList<DatiUSA>();
 	ArrayList<DatiHospital> vett2 = new ArrayList<DatiHospital>();
 	
-
+	/**
+	 * cotruttore della classe
+	 */
 	public connection() {
 		this.parsingData();
 	}	
 	
-	/*
-	 * Questo metodo converte i dati letti dal file USA.json 
-	 * in oggetti (DatiUSA e DatiHospital) utilizzabili in java
-	 *  e li inserisce nelle rispettive Arraylist
-	 * 
-	 */
-	
 	public void parsingData() {
-		
-		/*
+		/**
+		 * Questo metodo converte i dati letti dal file USA.json 
+		 * in oggetti (DatiUSA e DatiHospital) utilizzabili in java
+		 * e li inserisce nelle rispettive Arraylist
+		 * 
+		 * @author Enrico Maria Sardellini
+		 * @author Omar Naja
+		 *
 		 * Usiamo JSONsimple per effettuare il parsing 
 		 * e apriamo un flusso di input dal file USA.json
 		 */
-		
 		JSONParser par= new JSONParser();
 		FileReader read;
 		try {
 			read = new FileReader("src/main/java/project/USA.json");
-			/*
+			/**
 			 * con i JSONobject e i JSONArray creati possiamo accedere all'interno
 			 * della struttura annidata del file JSON , utilizzando poi i setter
 			 * delle classi del package project.model per assegnare i valori ai nostri oggetti
+			 * 
 			 */
-			
 			Object oggetto = par.parse(read);
 			JSONArray array = (JSONArray) oggetto;
-			
-			/*
+			/**
 			 * Queste variabili long servono a prendere il valore in ingresso
 			 * per verificare se tale valore può essere accettato dal relativo
 			 * metodo set o nel caso fosse un "null" ad evitare errori di parsing
 			 * facendo assumere al parametro long del relativo metodo set uno zero(0)
 			 */
-			
 			Long day, positive, negative, death, HN, TN, PI, NI;
 			String gg, mm, aaaa, finale;
 				
@@ -68,9 +74,10 @@ public class connection implements Int_connection {
 				DatiUSA usa = new DatiUSA();
 				DatiHospital hospital = new DatiHospital();
 				
-				/*
+				/**
 				 * tale "metodo" prende la data del giorno che è in formato americano (anno-mese-giorno)
 				 * e lo converte in formato europer (giorno-mese-anno);
+				 * 
 				 */
 				day = (Long) obj.get("date");
 				gg = String.valueOf(day%100);
@@ -109,8 +116,7 @@ public class connection implements Int_connection {
 			    if(TN == null) hospital.setIntensive_care(0);
 			    else hospital.setIntensive_care(TN);
 				    
-			    usa.setColour(hospital.addColour());
-			    //System.out.println(people.getColour());
+			    hospital.setColour();
 				    
 			    death = ((Long) obj.get("deathIncrease"));
 			    if(death == null) usa.setDeathIncrease(0);
@@ -129,13 +135,18 @@ public class connection implements Int_connection {
 	}
 	
 	@Override
-	/*
+	/**
 	 * tale metodo prende la stringa del giorno (day) e se compare 
-	 * nell'arraylist tale giorno, tramuta i dati dell'oggetto in un JSONObject
+	 * nell'arraylist, tramuta i dati dell'oggetto in un JSONObject
 	 * restituendolo;
 	 * 
+	 * se non viene trovato stamperà un errore.
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @param day
+	 * @return JSONObject
 	 */
-	
 	public JSONObject getToday(String day){
 		JSONObject obj = new JSONObject();
 		String mistake = "Day not found!";
@@ -145,7 +156,7 @@ public class connection implements Int_connection {
 			obj.put("Number of states:", vett1.get(i).getNum_states());
 			obj.put("Death increase:", vett1.get(i).getDeathIncrease());
 			obj.put("Day:", vett1.get(i).getDay()); 
-            obj.put("Colour:", vett1.get(i).getColour());
+            obj.put("Colour:", vett2.get(i).getColour());
             obj.put("Positive increase:", vett1.get(i).getPositiveIncrease());
             obj.put("Positive total:", vett1.get(i).getPositive());
             obj.put("Negative increase:", vett1.get(i).getPositiveIncrease());
@@ -161,9 +172,17 @@ public class connection implements Int_connection {
 	}
 	
 	@Override
-	/*
-	 * Metodo simile a getToday (ed infatti lo richiama), ma con la differenza 
-	 * che va a prendere i 7 giorni successivi chiamando poi StatsLong per avere delle statistiche della settimana 
+	/**
+	 * Se il giorno viene trovato, chiamerà il metodo getToday() per
+	 * ottenere un JSONObject per poi inserirlo nell'JSONArray.
+	 * Tale processo verrà ripetuto per i 7 giorni successivi.
+	 * 
+	 * Se il giorno non esiste, stamperà un errore.
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @param day
+	 * @return JSONArray
 	 */
 	public JSONArray getWeek(String day){
 		
@@ -185,40 +204,45 @@ public class connection implements Int_connection {
 					obj = getToday(vett1.get(i-j).getDay());
 					done = true;
 					array.add(obj);
-					if (done == false) throw new EccezioneGiorno(mistake);
+					
 				}
 				
 			}
 		}
+		if (done == false) throw new EccezioneGiorno(mistake);
 		return array;
 	}
 	
 	@Override
-	/*
+	/**
 	 * tale metodo prende in ingresso il mese e l'anno(month & year) e
 	 * stamperà le statistiche di tale mese e la lista dei giorni;
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @param month
+	 * @param year
+	 * @return JSONArray
 	 */
 	public JSONArray getMonth(String month, String year){
 		int dayfinal=0;
 		int m = 0; 
 		boolean done = false;
 		String mistake = "Month not found!";
-		/*
-		 * lo switch mi serve per definire bene alcuni parametri:
+		/**
+		 * lo switch serve per definire bene alcuni parametri:
 		 * 
-		 * 1) dayfinal è il numero di giorni in un mese e serve per il for però
-		 * ci sono delle eccezzioni:
-		 * -marzo 2021 arriva fino al 7° giorno;
+		 * 1) dayfinal è il numero di giorni in un mese e serve per il for però ci sono delle eccezzioni:
+		 * -marzo 2021 arriva fino al 6° giorno;
 		 * -febbraio 2020 è bisestile quindi fino al 29° giorno;
-		 * -gennaio 2020 parte dal 13 giorno quindi le ripetizioni del for saranno 19;
+		 * -gennaio 2020 parte dal 13° giorno quindi le ripetizioni del for saranno 19;
 		 * 
 		 * 2) m rappresenta il numero del mese così come noi lo intendiamo 1° mese, 2° mese etc...
 		 * 
 		 * 3) daystart è il giorno del mese da cui deve iniziare a contare il for, ma 
-		 * gennaio 2020 parte dal giorno 13.
+		 * gennaio 2020 parte dal giorno 13 e non dall'1.
 		 *
 		 */
-		
 		switch(month) {
 		case "january" , "January", "JANUARY": dayfinal=31; m= 1; break; 
 		case "february", "February", "FEBRUARY": dayfinal=28; m=2; break;
@@ -242,13 +266,15 @@ public class connection implements Int_connection {
 			dayfinal = 19;
 		}
 		else if(m_a.equals("2.2020")) dayfinal = 29;
-		else if(m_a.equals("3.2021")) dayfinal = 7;
+		else if(m_a.equals("3.2021")) dayfinal = 6;
 		String day = daystart + "." + m_a;
 		
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
+				
 				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, dayfinal);
+				
 				for(int j=0; j<dayfinal; j++) {
 				
 					JSONObject obj = new JSONObject();	
@@ -257,17 +283,23 @@ public class connection implements Int_connection {
 	
 					array.add(obj);
 				}
-				if (done == false) throw new EccezioneGiorno(mistake);
+				
 			}
 		}
+		if (done == false) throw new EccezioneGiorno(mistake);
 		return array;
 	};
 	
 	@Override
 	
-	/*
-	 * dato una stringa del colore in ingresso stamperà la lista di quei colori e 
+	/**
+	 * stamperà la lista dei giorni con quel colore e 
 	 * accederà al metodo StatsColour se tale colore è presente nello switch;
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @param colour
+	 * @return JSONArray
 	 */
 	public JSONArray getColour(String colour) {
 		
@@ -285,10 +317,11 @@ public class connection implements Int_connection {
 		array.add(color);
 		
 		Statistics stats = new Statistics();
+		
 		if(!(colour.equals("Not found"))) {
-			stats.StatsColour(vett1, array);
+			stats.StatsColour(vett2, array);
 			for(int i=0; i<vett1.size(); i++) {
-				if(colour.equals(vett1.get(i).getColour())) {
+				if(colour.equals(vett2.get(i).getColour())) {
 					JSONObject obj = new JSONObject();
 					obj = getToday(vett1.get(i).getDay());
 					array.add(obj);
@@ -297,11 +330,17 @@ public class connection implements Int_connection {
 		}
 		return array;
 	}
+	
 	@Override
-	/*
+	/**
 	 * prende in ingresso 2 stringhe giorno e se sono differenti stamperà quei giorni
 	 * ed eseguirà il metodo Stats2days, altrimenti se i giorni sono identici
-	 * eseguirà un semplice getToday
+	 * eseguirà un solo getToday
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @param day1
+	 * @param day2
+	 * @return JSONArray
 	 * 
 	 */
 	public JSONArray get2days(String day1, String day2) {

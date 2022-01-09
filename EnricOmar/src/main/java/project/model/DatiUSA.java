@@ -2,17 +2,17 @@ package project.model;
 
 public class DatiUSA implements Dati{
 	
-	/*
+	/**
 	 * Sottoclasse principale in cui verranno raccolte le informazioni di ogni giorno:
 	 * saranno sempre presenti il numero dei positivi(positiveincrease), 
 	 * dei negativi(negativeincrease) e il numero dei morti(deathincrease) di tale giorno
 	 * ed il totale dei positivi (positive) e dei negativi (negative);
 	 * 
+	 * @author Enrico Maria Sardellini
 	 */
 	
 	private String day=null;  
 	private long num_states=0; 
-	private String colour = null;
 	private long positive = 0;
 	private long positiveIncrease = 0;
 	private long negative = 0;
@@ -36,15 +36,7 @@ public class DatiUSA implements Dati{
 	public void setNum_states(long num_states) {
 		this.num_states = num_states;
 	}
-
-	public String getColour() {
-		return colour;
-	}
 	
-	public void setColour(String colour) {
-		this.colour = colour;
-	}
-
 	public long getPositive() {
 		return positive;
 	}

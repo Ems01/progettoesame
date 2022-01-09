@@ -1,7 +1,9 @@
 package project.model;
 
-/*
+/**
  * interfaccia delle due sottoclassi DatiHospital e DatiUSA 
+ * 
+ * @author Enrico Maria Sardellini
  */
 
 public interface Dati {
