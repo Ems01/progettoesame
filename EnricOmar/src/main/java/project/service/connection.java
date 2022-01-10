@@ -373,11 +373,29 @@ public class connection implements Int_connection {
 	public JSONArray get2days(String day1, String day2) {
 		
 		JSONArray array = new JSONArray();
+		boolean done1=false;
+		boolean done2=false;
+		
+		for(int i=0; i<vett1.size(); i++) {
+			if(day1.equals(vett1.get(i).getDay())) done1 = true;
+			if(day2.equals(vett1.get(i).getDay())) done2 = true;	
+		}
+		String mistake1 = "Day 1 not found";
+		String mistake2 = "Day 2 not found";
+		String mistake3 = "Day 1 & Day 2 not found";
+		String mistake4 = "Day not found";
+		
+		if(done1 == false && done2 == true) throw new EccezionePersonalizzata(mistake1);
+		if(done1 == true && done2 == false) throw new EccezionePersonalizzata(mistake2);
+		
 		if(day1.equals(day2)) {
+			if(done1 == false && done2 == false) throw new EccezionePersonalizzata(mistake4);
 			JSONObject obj = getToday(day1);
 			array.add(obj);
 		}
 		else {
+			if(done1 == false && done2 == false) throw new EccezionePersonalizzata(mistake3);
+			
 			Statistics stats = new Statistics();
 			stats.Stats2day(vett1, vett2, array, day1, day2);
 			JSONObject obj1 = getToday(day1);

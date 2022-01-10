@@ -32,13 +32,13 @@ public class SimpleRestController {
 	 * 	 
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
-	 * @param data
+	 * @param day
 	 * @throws project.exception.EccezionePersonalizzata
 	 * @see project.service.connection.getToday()
 	 */
 	@RequestMapping(value = "/day", method = RequestMethod.GET)
-	public ResponseEntity<Object> getDay(@RequestParam String data) throws EccezionePersonalizzata {
-		return new ResponseEntity<Object>(this.uss.getToday(data), HttpStatus.OK);		
+	public ResponseEntity<Object> getDay(@RequestParam String day) throws EccezionePersonalizzata {
+		return new ResponseEntity<Object>(this.uss.getToday(day), HttpStatus.OK);		
 	}
 
 	/**
@@ -46,12 +46,12 @@ public class SimpleRestController {
 	 * che ha come 1° giorno la stringa data, e la lista dei bollettini della settimana 
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param data
+	 * @param day
 	 * @see project.service.connection.getWeek()
 	 */
 	@RequestMapping(value = "/week", method = RequestMethod.GET)
-	public ResponseEntity<Object> getWeek(@RequestParam String data) {
-		return new ResponseEntity<Object>(this.uss.getWeek(data), HttpStatus.OK);
+	public ResponseEntity<Object> getWeek(@RequestParam String day) {
+		return new ResponseEntity<Object>(this.uss.getWeek(day), HttpStatus.OK);
 	}
 	
 	/**
@@ -86,13 +86,13 @@ public class SimpleRestController {
 	 * bollettino di quel giorno
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param data1
-	 * @param data2
+	 * @param day1
+	 * @param day2
 	 * @see project.service.connection.get2days()
 	 */
 	@RequestMapping(value = "/2days", method = RequestMethod.GET)
-	public ResponseEntity<Object> getDays(@RequestParam String data1, String data2) {
-		return new ResponseEntity<Object>(this.uss.get2days(data1, data2), HttpStatus.OK);
+	public ResponseEntity<Object> getDays(@RequestParam String day1, String day2) {
+		return new ResponseEntity<Object>(this.uss.get2days(day1, day2), HttpStatus.OK);
 	}
 
 }

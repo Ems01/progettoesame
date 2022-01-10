@@ -1,15 +1,8 @@
 package project.stats;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.stereotype.Service;
 
 import project.model.DatiUSA;
 import project.model.DatiHospital;
@@ -202,8 +195,8 @@ public class Statistics implements Statistics_interface{
 		for(j=0; j<vett1.size(); j++) {
 			if(day2.equals(vett1.get(j).getDay())) break; 
 		}
-		if(i>j) obj.put("Days", day1 + " and " + day2);
-		else obj.put("Days", day2 + " and " + day1);
+		if(i>j) obj.put("Day", day1 + " and " + day2);
+		else obj.put("Day", day2 + " and " + day1);
 		
 		/**
 		 * variazione percentuale dei positivi
