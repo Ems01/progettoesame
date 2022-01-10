@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import project.model.DatiUSA;
 import project.model.DatiHospital;
 import project.stats.Statistics;
+import project.exception.EccezionePersonalizzata;
 
 /**
  * Tale classe: 
@@ -63,10 +64,19 @@ public class connection implements Int_connection {
 			/**
 			 * Queste variabili long servono a prendere il valore in ingresso
 			 * per verificare se tale valore può essere accettato dal relativo
-			 * metodo set o nel caso fosse un "null" ad evitare errori di parsing
-			 * facendo assumere al parametro long del relativo metodo set uno zero(0)
+			 * metodo set 
+			 * 
+			 * Ci siamo accorti che se, per esempio, non ci sono contagi non abbiamo uno 0 ma un null
+			 * nel file Json, e ci crea problemi di compatibilità del tipo.
+			 * quindi salviamo i valori nelle variabili e se sono null, assegniamo ai metodi set uno 0, 
+			 * altrimenti assegnamo ai metodi set la variabile
 			 */
 			Long day, positive, negative, death, HN, TN, PI, NI;
+			
+			/**
+			 * queste variabili string servono a scomporre la data di 8 cifre in formato long
+			 * per poi ricomporla in formato europeo nella stringa finale
+			 */
 			String gg, mm, aaaa, finale;
 				
 			for(int i=0; i<array.size(); i++) {
@@ -76,8 +86,9 @@ public class connection implements Int_connection {
 				
 				/**
 				 * tale "metodo" prende la data del giorno che è in formato americano (anno-mese-giorno)
-				 * e lo converte in formato europer (giorno-mese-anno);
+				 * e lo converte in formato europe (giorno-mese-anno);
 				 * 
+				 * @author Enrico Maria Sardellini
 				 */
 				day = (Long) obj.get("date");
 				gg = String.valueOf(day%100);
@@ -146,6 +157,7 @@ public class connection implements Int_connection {
 	 * @author Omar Naja
 	 * @param day
 	 * @return JSONObject
+	 * @throws EccezionePersonalizzata
 	 */
 	public JSONObject getToday(String day){
 		JSONObject obj = new JSONObject();
@@ -153,21 +165,18 @@ public class connection implements Int_connection {
 		boolean done = false;
 		for(int i=0; i<vett1.size(); i++) {
 		if (day.equals(vett1.get(i).getDay())) {
-			obj.put("Number of states:", vett1.get(i).getNum_states());
-			obj.put("Death increase:", vett1.get(i).getDeathIncrease());
-			obj.put("Day:", vett1.get(i).getDay()); 
-            obj.put("Colour:", vett2.get(i).getColour());
-            obj.put("Positive increase:", vett1.get(i).getPositiveIncrease());
-            obj.put("Positive total:", vett1.get(i).getPositive());
-            obj.put("Negative increase:", vett1.get(i).getPositiveIncrease());
-            obj.put("Negative total:", vett1.get(i).getNegative());
+			obj.put("Number of states", vett1.get(i).getNum_states());
+			obj.put("Death increase", vett1.get(i).getDeathIncrease());
+			obj.put("Day", vett1.get(i).getDay()); 
+            obj.put("Colour", vett2.get(i).getColour());
+            obj.put("Positive increase", vett1.get(i).getPositiveIncrease());
+            obj.put("Positive total", vett1.get(i).getPositive());
+            obj.put("Negative increase", vett1.get(i).getPositiveIncrease());
+            obj.put("Negative total", vett1.get(i).getNegative());
             done = true;
 			}
 		}
-		if (done == false)
-			{
-			throw new EccezioneGiorno(mistake);
-			}
+		if (done == false) throw new EccezionePersonalizzata(mistake);
 		return obj;
 	}
 	
@@ -183,6 +192,9 @@ public class connection implements Int_connection {
 	 * @author Omar Naja
 	 * @param day
 	 * @return JSONArray
+	 * @throws EccezionePersonalizzata
+	 * @see project.service.connection.getToday()
+	 * @see project.stats.Statistics.StatsLong()
 	 */
 	public JSONArray getWeek(String day){
 		
@@ -199,17 +211,18 @@ public class connection implements Int_connection {
 				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, 7);
 				
+				done = true;
+				
 				for(int j=0; j<7; j++) {
 					JSONObject obj = new JSONObject();
 					obj = getToday(vett1.get(i-j).getDay());
-					done = true;
 					array.add(obj);
 					
 				}
 				
 			}
 		}
-		if (done == false) throw new EccezioneGiorno(mistake);
+		if (done == false) throw new EccezionePersonalizzata(mistake);
 		return array;
 	}
 	
@@ -223,6 +236,9 @@ public class connection implements Int_connection {
 	 * @param month
 	 * @param year
 	 * @return JSONArray
+	 * @throws EccezionePersonalizzata
+	 * @see project.service.connection.getToday()
+	 * @see project.stats.Statistics.StatsLong()
 	 */
 	public JSONArray getMonth(String month, String year){
 		int dayfinal=0;
@@ -275,18 +291,18 @@ public class connection implements Int_connection {
 				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, dayfinal);
 				
+				done = true;
+				
 				for(int j=0; j<dayfinal; j++) {
 				
 					JSONObject obj = new JSONObject();	
 					obj = getToday(vett1.get(i-j).getDay());
-					done = true;
-	
 					array.add(obj);
 				}
 				
 			}
 		}
-		if (done == false) throw new EccezioneGiorno(mistake);
+		if (done == false) throw new EccezionePersonalizzata(mistake);
 		return array;
 	};
 	
@@ -300,8 +316,13 @@ public class connection implements Int_connection {
 	 * @author Omar Naja
 	 * @param colour
 	 * @return JSONArray
+	 * @throws EccezioneGiorno
+	 * @see project.service.connection.getToday()
+	 * @see project.stats.Statistics.StatsColour()
 	 */
 	public JSONArray getColour(String colour) {
+		
+		String mistake = "Colour not found!";
 		
 		switch(colour) {
 		case "white", "WHITE", "White": colour = "White"; break; 
@@ -312,14 +333,17 @@ public class connection implements Int_connection {
 		}
 		
 		JSONArray array = new JSONArray();
-		JSONObject color  = new JSONObject ();
-		color.put("Type of colour is: ", colour);
-		array.add(color);
-		
-		Statistics stats = new Statistics();
+		JSONObject general  = new JSONObject ();
 		
 		if(!(colour.equals("Not found"))) {
-			stats.StatsColour(vett2, array);
+			
+			general.put("Type of colour is", colour);
+			
+			Statistics stats = new Statistics();
+			int volte = stats.StatsColour(vett2, colour);
+			general.put("There were", volte + " " + colour + " days");
+			array.add(general);
+			
 			for(int i=0; i<vett1.size(); i++) {
 				if(colour.equals(vett2.get(i).getColour())) {
 					JSONObject obj = new JSONObject();
@@ -328,6 +352,7 @@ public class connection implements Int_connection {
 				}
 			}
 		}
+		else throw new EccezionePersonalizzata(mistake);
 		return array;
 	}
 	
@@ -341,6 +366,8 @@ public class connection implements Int_connection {
 	 * @param day1
 	 * @param day2
 	 * @return JSONArray
+	 * @see project.service.connection.getToday()
+	 * @see project.stats.Statistics.Stats2day()
 	 * 
 	 */
 	public JSONArray get2days(String day1, String day2) {

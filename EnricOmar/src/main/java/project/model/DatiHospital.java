@@ -3,12 +3,10 @@ package project.model;
 /**
  * sottoclasse secondaria che riceve due attributi in più quali
  * hospitalized (gli ospedalizzati) e intensive_care(il numero di terapie intensive)
- * 
- * tali dati ci servono per la determinazione del colore del giorno;
+ * tali dati ci servono per la determinazione del colore del giorno (colour)
  * 
  * @author Enrico Maria Sardellini
  */
-
 public class DatiHospital implements Dati{
 	
 	private String day=null;  
@@ -21,8 +19,10 @@ public class DatiHospital implements Dati{
 	/**
 	 * Valori semplificati a costanti, anche se costanti non sono, per la determinazione del colore:
 	 * uno è la popolazione degli USA(popolation_USA) e le altre due sono i letti di terapia intensiva totali(ICU_total)
-	 * e i letti degli ospedali totali(beds_total) ricavate da tale sito (//https://globalepidemics.org/hospital-capacity-2/)
+	 * e i letti degli ospedali totali(beds_total) 
 	 * 
+	 * @author Enrico Maria Sardellini
+	 * @link https://globalepidemics.org/hospital-capacity-2/
 	 */
 	static final int population_USA = 330000000; 
 	static final int ICU_total= 84750; 
@@ -75,13 +75,10 @@ public class DatiHospital implements Dati{
 	 * avendo il numero dei casi ogni 100mila abitanti i valori delle occupazioni percentuali 
 	 * delle terapie intensive(perIcu) e degli ospedali(perBeds). 
 	 * 
-	 * Per la determinazione dei parametri, la fonte viene da tale link
-	 * (https://www.ilsole24ore.com/art/come-cambiano-colori-regioni-restano-bianche-sicilia-piu-rischio-contagi-e-ricoveri-AEi3FOY)
-	 * 
 	 * E' presente anche un'alternativa di tale metodo che non considera (perBeds)
 	 * 
-	 * 
 	 * @author Enrico Maria Sardellini
+	 * @link https://www.ilsole24ore.com/art/come-cambiano-colori-regioni-restano-bianche-sicilia-piu-rischio-contagi-e-ricoveri-AEi3FOY
 	 */
 	public void setColour() {
 		double casi = ((double)this.getPositive()/(double)population_USA)*100000;
