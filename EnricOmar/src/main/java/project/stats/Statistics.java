@@ -185,7 +185,7 @@ public class Statistics implements Statistics_interface{
 	 * @see project.model.DatiUSA
 	 * @see project.model.DatiHospital
 	 */
-	public void Stats2day(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2) {
+	public void Stats2days(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2) {
 		JSONObject obj = new JSONObject();
 		
 		int i=0, j=0;
@@ -247,6 +247,7 @@ public class Statistics implements Statistics_interface{
 	 * @see project.model.DatiHospital.getColour()
 	 * @param vett2
 	 * @param colour
+	 * @return contatore
 	 */
 	public int StatsColour(ArrayList<DatiHospital> vett2, String colour) {
 			
@@ -257,5 +258,27 @@ public class Statistics implements Statistics_interface{
 		}
 		
 		return contatore;
+	}
+	
+	/**
+	 * metodo che calcola ed inserisce nell'oggetto JSON, passato come riferimento,
+	 * la percentuale delle terapie intensive e la percentuale delle ospedalizzazioni
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @see project.model.DatiHospital.getColour()
+	 * @param vett2
+	 * @param obj
+	 * @param i
+	 */
+	public void StatsColour(ArrayList<DatiHospital> vett2, JSONObject obj, Integer i) {
+		
+		double perIcu = ((double)vett2.get(i).getIntensive_care()/(double)ICU_total)*100;
+		perIcu = Math.round(perIcu*100.0)/100.0;
+		obj.put("Intensive care percentage", perIcu + "%");
+		
+		double perBeds = ((double)vett2.get(i).getHospitalized()/(double)beds_total)*100;
+		perBeds = Math.round(perBeds*100.0)/100.0;
+		obj.put("Hospitalized percentage", perBeds + "%");
+		
 	}
 }

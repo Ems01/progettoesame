@@ -2,6 +2,8 @@ package project.stats;
 
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import project.model.DatiHospital;
 import project.model.DatiUSA;
 
@@ -15,6 +17,7 @@ import project.model.DatiUSA;
 public interface Statistics_interface {
 	
 	public abstract void StatsLong(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, Integer i, Integer dayfinal);
-	public abstract void Stats2day(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2);
+	public abstract void Stats2days(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2);
 	public abstract int StatsColour(ArrayList<DatiHospital> vett2, String colour);
+	public abstract void StatsColour(ArrayList<DatiHospital> vett2, JSONObject obj, Integer i);
 }

@@ -244,7 +244,7 @@ public class connection implements Int_connection {
 		int dayfinal=0;
 		int m = 0; 
 		boolean done = false;
-		String mistake = "Month not found!";
+		boolean mese = true;
 		/**
 		 * lo switch serve per definire bene alcuni parametri:
 		 * 
@@ -260,22 +260,34 @@ public class connection implements Int_connection {
 		 *
 		 */
 		switch(month) {
-		case "january" , "January", "JANUARY": dayfinal=31; m= 1; break; 
-		case "february", "February", "FEBRUARY": dayfinal=28; m=2; break;
-		case "march", "March", "MARCH": dayfinal =31; m=3; break; 
-		case "April", "april", "APRIL": dayfinal=30; m=4; break; 
-		case "may", "May", "MAY": dayfinal=31; m=5; break; 
-		case "june", "JUNE", "June": dayfinal=30; m=6; break; 
-		case "july", "July", "JULY": dayfinal=31; m=7; break; 
-		case "august", "August", "AUGUST": dayfinal=31; m=8; break; 
-		case "September", "SEPTEMBER", "september": dayfinal=30; m=9; break; 
-		case "October", "october", "OCTOBER": dayfinal=31; m=10; break; 
-		case "november", "November", "NOVEMBER": dayfinal=30; m=11; break; 
-		case "December", "december", "DECEMBER": dayfinal=31; m=12; break; 
+		case "1", "january" , "January", "JANUARY": dayfinal=31; m= 1; break; 
+		case "2","february", "February", "FEBRUARY": dayfinal=28; m=2; break;
+		case "3", "march", "March", "MARCH": dayfinal =31; m=3; break; 
+		case "4", "April", "april", "APRIL": dayfinal=30; m=4; break; 
+		case "5", "may", "May", "MAY": dayfinal=31; m=5; break; 
+		case "6", "june", "JUNE", "June": dayfinal=30; m=6; break; 
+		case "7", "july", "July", "JULY": dayfinal=31; m=7; break; 
+		case "8", "august", "August", "AUGUST": dayfinal=31; m=8; break; 
+		case "9", "September", "SEPTEMBER", "september": dayfinal=30; m=9; break; 
+		case "10", "October", "october", "OCTOBER": dayfinal=31; m=10; break; 
+		case "11", "november", "November", "NOVEMBER": dayfinal=30; m=11; break; 
+		case "12", "December", "december", "DECEMBER": dayfinal=31; m=12; break; 
+		default: mese = false; break; 
 		}
+		
+		/**
+		 * Le eccezioni vengono lanciate se il mese inserito non è valido 
+		 * o se l'anno non è il 2020/2021
+		 */
+		if(mese == false) throw new EccezionePersonalizzata("Invalid month entered!");
+		if(!year.equals("2020") && !year.equals("2021")) throw new EccezionePersonalizzata("Invalid year entered!");
+		
+		/**
+		 * questa parte del programma crea la stringa con cui andremo a verificare 
+		 * le varie date. 
+		 */
 		String m_a =(m + "." + year);
 		JSONArray array = new JSONArray();
-		
 		int daystart=1;
 		if(m_a.equals("1.2020")) {
 			daystart = 13;
@@ -302,7 +314,7 @@ public class connection implements Int_connection {
 				
 			}
 		}
-		if (done == false) throw new EccezionePersonalizzata(mistake);
+		if (done == false) throw new EccezionePersonalizzata("Month not found!");
 		return array;
 	};
 	
@@ -348,6 +360,7 @@ public class connection implements Int_connection {
 				if(colour.equals(vett2.get(i).getColour())) {
 					JSONObject obj = new JSONObject();
 					obj = getToday(vett1.get(i).getDay());
+					stats.StatsColour(vett2, obj, i);
 					array.add(obj);
 				}
 			}
@@ -397,7 +410,7 @@ public class connection implements Int_connection {
 			if(done1 == false && done2 == false) throw new EccezionePersonalizzata(mistake3);
 			
 			Statistics stats = new Statistics();
-			stats.Stats2day(vett1, vett2, array, day1, day2);
+			stats.Stats2days(vett1, vett2, array, day1, day2);
 			JSONObject obj1 = getToday(day1);
 			JSONObject obj2 = getToday(day2);
 			array.add(obj1);

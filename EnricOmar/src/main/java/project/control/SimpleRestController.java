@@ -15,25 +15,26 @@ import project.service.connection;
  * 
  * limitazioni parametri:
  * -i giorni del file JSON vanno dal 13.1.2020 al 7.3.2021;
- * -la stringa per inserire una data è come si vede qui sopra;
  * -i colori sono: white, yellow, orange, red;
+ * 
+ * Il parametro da passare se viene richiesto il giorno è gg.mm.aaaa
+ * (esempio 12.3.2020 o 7.10.2021)
+ * Attenti agli 0
  * 
  * @author Enrico Maria Sardellini
  * @author Omar Naja
  */
-
 @RestController
 public class SimpleRestController {
 	
 	public connection uss = new connection();
 
 	/**
-	 * (/day) permette di ottenere il bollettino covid del giorno inserito
+	 * permette di ottenere il bollettino covid del giorno inserito
 	 * 	 
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
 	 * @param day
-	 * @throws project.exception.EccezionePersonalizzata
 	 * @see project.service.connection.getToday()
 	 */
 	@RequestMapping(value = "/day", method = RequestMethod.GET)
@@ -42,7 +43,7 @@ public class SimpleRestController {
 	}
 
 	/**
-	 * (/week) permette di ottenere un andamento della pandemia nella settimana,
+	 * permette di ottenere un andamento della pandemia nella settimana,
 	 * che ha come 1° giorno la stringa data, e la lista dei bollettini della settimana 
 	 * 
 	 * @author Enrico Maria Sardellini
@@ -55,7 +56,7 @@ public class SimpleRestController {
 	}
 	
 	/**
-	 * (/month) permette di ottenere un andamento della pandemia nel mese,
+	 * permette di ottenere un andamento della pandemia nel mese,
 	 * e la lista dei bollettini del mese 
 	 * 
 	 * @author Enrico Maria Sardellini
@@ -69,7 +70,7 @@ public class SimpleRestController {
 	}
 	
 	/**
-	 * (/colour) permette di avere la lista dei giorni aventi quel colore
+	 * permette di avere la lista dei giorni aventi quel colore
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param colour
@@ -81,7 +82,7 @@ public class SimpleRestController {
 	}
 	
 	/**
-	 * (/2days) permette di avere i bollettini dei due giorni e una serie 
+	 * permette di avere i bollettini dei due giorni e una serie 
 	 * di statistiche messe a confronto. se il giorno è lo stesso, verrà stampato solo il 
 	 * bollettino di quel giorno
 	 * 
