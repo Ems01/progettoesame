@@ -174,7 +174,7 @@ Alcuni esempi di utilizzo delle rotte:
 
 **/2days**
 
-![Postman6](https://user-images.githubusercontent.com/95374284/149160780-4d512069-4d5b-4365-9562-29dd964acc54.JPG)ù
+![Postman6](https://user-images.githubusercontent.com/95374284/149160780-4d512069-4d5b-4365-9562-29dd964acc54.JPG)
 
 **/get chiamato da Google Chrome**
 
