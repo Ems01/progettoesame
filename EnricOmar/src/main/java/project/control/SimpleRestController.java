@@ -37,7 +37,7 @@ public class SimpleRestController {
 	 * @see project.service.connection.getToday()
 	 */
 	@RequestMapping(value = "/day", method = RequestMethod.GET)
-	public ResponseEntity<Object> getDay(@RequestParam String day) throws EccezionePersonalizzata {
+	public ResponseEntity<Object> getDay(@RequestParam String day) {
 		return new ResponseEntity<Object>(this.uss.getToday(day), HttpStatus.OK);		
 	}
 
