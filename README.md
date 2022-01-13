@@ -13,7 +13,7 @@
  - **project.service**: vengono impletementati e gestiti, con delle opportune eccezioni, i metodi poi richiamati dal model
  - **project.stats**: vengono sviluppati alcuni metodi per l'analisi di alcuni dati statistici
  
- Contiene, inoltre, un package a parte su cui vengono svolti dei test sul corretto funzionamento del programma
+ Contiene, inoltre, un package a parte su cui vengono svolti dei test sul corretto funzionamento del programma.
  
  ### Il Main
  
@@ -30,20 +30,19 @@
  
  ![Model1](https://user-images.githubusercontent.com/95374284/148681573-c40aced4-21fc-4d96-9953-4d16d10c8ab2.JPG)
  
- La prima classe presente è una interfaccia, dunque costituita da soli metodi vuoti. Tali metodi verrano poi eseguiti dalle classi che implementano "Dati" tramite il
- meccanismo di overriding
+ La prima classe presente è una interfaccia, dunque costituita da soli metodi astratti. Tali metodi verrano poi eseguiti dalle classi che implementano "Dati" tramite il
+ meccanismo di overriding.
  
  ![Model2](https://user-images.githubusercontent.com/95374284/148681779-04151db8-d0ac-40f5-9763-8d245705eb2f.JPG)
  
- Questa è la sottoclasse in cui vengono raccolte le informazioni dei singoli giorni, poi gestite con i dovuti metodi get() e set(). Il primo per la possibilità di ottenere da
- altre classi questi dati in sola lettura, il set per definire quei determinati valori trovati a quel giorno. Tutti questi dati verrano in seguito salvati in un vettore dinamico
- definito nel service
+ Questa è la sottoclasse in cui vengono raccolte le informazioni dei singoli giorni, poi gestite con i dovuti metodi get() e set(). Tutti questi dati verrano in seguito salvati
+ in un vettore dinamico definito nel service.
  
- ![Model3](https://user-images.githubusercontent.com/95374284/148682047-169a5d62-6339-472f-b263-5737e3f0d574.JPG)
+ ![Model3](https://user-images.githubusercontent.com/95374284/149328981-0152ec0d-fe96-4a25-89e4-b1286a1a27cd.JPG)
+
  
- La sottoclasse "DatiHospital" è molto simile alla sottoclasse "DatiUSA" sopra descritta, ma con la differenza che i dati raccolti in
- questa sono solo quelli necessari per
- effettuare il calcolo nel metodo "addColour()" per la determinazione del colore del giorno/settimana/mese dato in input
+ La sottoclasse "DatiHospital" è molto simile alla sottoclasse "DatiUSA" sopra descritta, ma con la differenza che i dati raccolti in questa sono solo quelli necessari per
+ effettuare il calcolo nel metodo "setColour()" per la determinazione del colore del giorno/settimana/mese dato in input.
 
  
  ### Il Service
@@ -66,28 +65,29 @@
  Il primo metodo presente nella classe "connection" è chiamato parsingData(), e ha lo scopo di definire due vettori dinamici vett1 e vett2 dove vengono a mano a mano
  immagazzinati i vari oggetti di tipo rispettivamente DatiUSA e DatiHospital, con le proprietà definite in precedenza nel Model e prese dal file JSon.
  
- I successivi metodi sono quelli che poi verranno usati dalle rotte, per tutti e 5 si implementa il dovuto metodo per la ricerca del giorno/settimana/mese/2 giorni dato/i in
- input per poi svolgere il compito richiesto
+ I successivi metodi sono quelli che poi verranno usati dalle rotte, per tutti e 5 si implementa il dovuto metodo per la ricerca del giorno/settimana/mese/2 giorni/colore
+ dato/i in input per poi svolgere il compito richiesto.
  
  ![Service5](https://user-images.githubusercontent.com/95374284/149155617-62b45f0f-3aad-4996-b32d-5844a7305721.JPG)
 
  
  Il metodo getToday() chiede in input un giorno di cui si vuole stampare il bollettino COVID, successivamente cerca all'interno del vettore di tipo DatiUSA se quella data
  fornita in input è presente. In caso affermativo, stampa in output le informazioni richieste. In caso negativo, viene lanciata l'eccezione con il messaggio "Day not
- found!"
+ found!".
  
  ![Service6](https://user-images.githubusercontent.com/95374284/149155959-530bab4a-3c9d-43e0-b6c0-cb43c7978dcb.JPG)
 
  
  getWeek() funziona in maniera del tutto analoga: chiede in input un giorno e vengono restituite 2 diverse informazioni: la prima riguarda i bollettini dei 7 giorni
  successivi al giorno dato in input, la seconda stima l'incremento/decremento di alcuni dati nel corso della settimana. In caso di settimana "inesistente" (basta che su 7 giorni
- uno solo non sia all'interno del range di date precedentemente definito) viene lanciata l'eccezione
+ uno solo non sia all'interno del range di date precedentemente definito) viene lanciata l'eccezione.
  
- ![Service7](https://user-images.githubusercontent.com/95374284/149156189-b9fcb19a-fdd7-4bea-b358-f30880e1b313.JPG)
- ![Service8](https://user-images.githubusercontent.com/95374284/149156450-70a70bc2-4739-40b3-8a2b-78350093c477.JPG)
+ ![Service7](https://user-images.githubusercontent.com/95374284/149321051-5852a8c8-6b17-4ee9-bda8-b88e90afffdb.JPG)
+ ![Service8](https://user-images.githubusercontent.com/95374284/149321246-916d6951-6aa6-4a6d-aae4-3dd6aac104a8.JPG)
+
  
  Il metodo getMonth() è leggermente più complesso perchè chiede in input due parametri: il mese e l'anno di interesse. Una volte prese queste informazioni, viene restituito
- in output il bollettino di tutti i giorno del mese richiesto.
+ in output il bollettino di tutti i giorno del mese richiesto. L'eccezione viene lanciata se viene inserito un mese o un anno non valido.
  
  ![Service9](https://user-images.githubusercontent.com/95374284/149140693-62a51978-a077-46c6-8bb6-f443c6f3785a.JPG)
  
@@ -101,13 +101,39 @@
  
  ### Lo Stats
  
+ ![Stats1](https://user-images.githubusercontent.com/95374284/149322094-048abd91-c6cb-4f94-9562-a82a4f9a7204.JPG)
+ In "Stats" è presente una prima interfaccia **Statistics_interface** da cui poi vengono implementati i vari metodi nella classe **Statistics**.
+ 
+ ![Stats2](https://user-images.githubusercontent.com/95374284/149322491-b3cadab4-8027-44f6-b829-e20aad9e6ce6.JPG)
+
+ La classe statitics è formata da 4 metodi i quali riportano delle statistiche. Le percentuali sono arrotondate al secondo decimale e vengono presi in considerazioni il numero
+ dei positivi, dei negativi, delle ospedalizzazioni, delle terapie intensive e delle morti.
+ 
+ ![Statslong1](https://user-images.githubusercontent.com/95374284/149322712-dd0bd239-d653-4a8f-8973-f8641e0c106c.JPG)
+ ![Statslong2](https://user-images.githubusercontent.com/95374284/149322735-a9c52930-bfc0-45c4-91e0-313c1418e47f.JPG)
+ 
+ StatsLong è legata alle rotte **/week** & **/month**. Mostra gli andamenti percentuali del primo e ultimo giorno, il numero totale e medio nella settimana/mese dei positivi e
+ negativi e l’aumento o diminuzione dei letti d’ospedale.
+ 
+ ![Stats2days1](https://user-images.githubusercontent.com/95374284/149323292-5b27f1ea-1b98-4a75-a784-0d7df16e17d2.JPG)
+ ![Stats2days2](https://user-images.githubusercontent.com/95374284/149323319-925317ff-c837-42d9-8b7e-1550f62a98f6.JPG)
+ 
+ Stats2days è legata alla rotta **/2days**. Confronta gli andamenti percentuali dei vari parametri sopra elencati.
+ 
+ ![StatsColour](https://user-images.githubusercontent.com/95374284/149325565-b418afa6-2869-4a4e-ae41-9224314fdba0.JPG)
+
+ 
+ Il primo StastsColour è un semplice contatore che conta i giorni con il colore passato tra i parametri.
+ Il secondo StatsColour prende in input un oggetto JSon è restituisce dei nuovi risultati in cui vengono calcolate le percentuali di terapie intensive ed ospedalizzazioni
+ 
+ I due metodi vengono distinti grazie al meccanismo di overloading.
+ 
  ### Il Control
  
  ![Control1](https://user-images.githubusercontent.com/95374284/149161993-e4686fcf-3c37-4215-bb4e-d77fd2c29f41.JPG)
  ![Control2](https://user-images.githubusercontent.com/95374284/149162008-bae7a93c-35d3-4af7-9a74-5c0b27edb30d.JPG)
  
  All'interno del Controller vengono gestiti i metodi che consentono l'utilizzo delle rotte da web service esterni (tra cui postman oppure internet)
-
  
  **Rotte e descrizione**
  
@@ -176,18 +202,17 @@ Alcuni esempi di utilizzo delle rotte:
 
 ![Postman6](https://user-images.githubusercontent.com/95374284/149160780-4d512069-4d5b-4365-9562-29dd964acc54.JPG)
 
-**/get chiamato da Google Chrome**
+**/day chiamato da Google Chrome**
 
 ![Chromegetday](https://user-images.githubusercontent.com/95374284/149162861-e2b3b7ef-7fad-4ef2-84de-c9895258b73c.JPG)
 
 
  ## Test
  
- ![Test](https://user-images.githubusercontent.com/95374284/149158564-df5b7e73-65bb-4808-93d8-6955cd3abd4e.JPG)
-
+ ![Test](https://user-images.githubusercontent.com/95374284/149329654-ffee8388-44ad-4a82-bb7c-d72db31a44f2.JPG)
  
- Nel programma sono presenti alcuni test che controllano la corretta funzione di alcuni metodi, in particolare vengono controllati il corretto funzionamento (e non
- funzionamento) del metodo getDay() e il corretto funzionamento per get2Days().
+ Nel programma sono presenti alcuni test che controllano il corretto funzionamento di alcuni metodi. Vediamo in particolare, come esempi, quelli che controllano il corretto
+ funzionamento (e non funzionamento) del metodo getDay() e il corretto funzionamento per get2Days().
  Appoggiandosi ad un oggetto di tipo connection, si richiamato tali metodi e, attraverso il JUnit test, si verifica se tali metodi effettuano ciò che ci si aspetta o meno.
  Infatti, dei 3 test implementati, 2 funzionano correttamente mentre il terzo (testDataNoOK()) restituisce errore, in quanto gli viene passato come argomento una data
  non appartenente al range dell'API
