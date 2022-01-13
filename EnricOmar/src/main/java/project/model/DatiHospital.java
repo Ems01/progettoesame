@@ -71,7 +71,7 @@ public class DatiHospital implements Dati{
 	};
 	
 	/**
-	 * Il metodo addColour ci permette di ottenere il colore da assegnare al rispettivo giorno 
+	 * Il metodo setColour ci permette di ottenere il colore da assegnare al rispettivo giorno 
 	 * avendo il numero dei casi ogni 100mila abitanti i valori delle occupazioni percentuali 
 	 * delle terapie intensive(perIcu) e degli ospedali(perBeds). 
 	 * 

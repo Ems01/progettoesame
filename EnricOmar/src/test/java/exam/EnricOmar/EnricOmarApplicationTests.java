@@ -36,5 +36,19 @@ class EnricOmarApplicationTests {
 		data2 = "13.1.2020";
 		equals(conn.get2days(data1, data2));
 	}
+	
+	@Test
+	void TestWeekNoOK() {
+		data = "8.3.2021";
+		equals(conn.getToday(data));
+	}
+	
+	@Test
+	void TestMonthOK() {
+		String month, year;
+		month = "april";
+		year = "2020";
+		equals(conn.getMonth(month, year));
+	}
 
 }
