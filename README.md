@@ -47,54 +47,86 @@
  
  ### Il Service
  
- ![Service1](https://user-images.githubusercontent.com/95374284/149141922-733d1ddb-6f83-439a-b22f-8c0d3eaa4fd5.JPG)
+ ![Service1](https://user-images.githubusercontent.com/95374284/149592659-704a13cd-ef16-49ff-a7bd-bc1c021b584d.JPG)
 
-
- La prima classe è una semplice interfaccia, e ha il solo scopo di definire i vari metodi che verranno poi implementati e nella classe "connection".
+ La prima classe è una semplice interfaccia, e ha il solo scopo di definire i vari metodi che verranno poi implementati e nella classe *connection*.
  
- ![Eccezione](https://user-images.githubusercontent.com/95374284/149142345-d1d7027c-cf23-49bd-a1ab-7647b5472035.JPG)
+ ![Eccezione](https://user-images.githubusercontent.com/95374284/149592703-58db90d5-f08c-4505-94c8-012bd140822f.JPG)
 
- Si apre una breve parentesi per definire la classe "EccezionePersonalizzata", inserita in un altro package ma definita per l'uso delle eccezioni da lanciare proprio nella
- classe "connection", centrale nello sviluppo dell'intero programma.
+ Si apre una breve parentesi per definire la classe *EccezionePersonalizzata*, inserita in un altro package ma definita per l'uso delle eccezioni da lanciare proprio nella
+ classe *connection*, centrale nello sviluppo dell'intero programma.
  
- ![Service2](https://user-images.githubusercontent.com/95374284/149142202-79243211-c231-4c76-8f3f-b0e43d1783a4.JPG)
- ![Service3](https://user-images.githubusercontent.com/95374284/149155284-5a2730a1-d48d-4329-a2e6-ffc31c83a549.JPG)
- ![Service4](https://user-images.githubusercontent.com/95374284/149155502-0e619338-909b-489f-a7c7-50048930345d.JPG)
+ ![ControlParam1](https://user-images.githubusercontent.com/95374284/149592904-6f1ad038-4a9a-4958-9cc2-46f1c8f6bed0.JPG)
+
+ Un controllo viene effettuato anche dalla classe *ControlParam*, dotata anch'essa di una interfaccia da cui poi vengono implementati i vari metodi definiti, per verificare
+ che la data presa in input sia valida e vengono lanciati errori nel caso non lo sia. In particolare:
+ 
+ ![ControlParam2](https://user-images.githubusercontent.com/95374284/149593095-0f06ab19-a858-4884-b1b8-15244bb9076a.JPG)
+
+ In *ControlDay(String day)* Viene controllato se il giorno inserito è del formato corretto, ossia gg.mm.aaaa, e che "aaaa" sia o 2020 o 2021;
+ 
+ ![ControlParam3](https://user-images.githubusercontent.com/95374284/149593211-ea092334-f127-47ba-9590-56b21b4e8b06.JPG)
+
+ In *ControlColour(String finale)* viene verificato che venga dato in input un colore accettabile;
+ 
+ ![ControlParam4](https://user-images.githubusercontent.com/95374284/149593360-78496316-4c1d-4086-b443-1f846d7fa64c.JPG)
+
+ In *ControlMonth(String month, String year)* viene verificato che sia stato inserito un mese accettabile.
+ 
+ ![ControlParam5](https://user-images.githubusercontent.com/95374284/149593447-4671acfe-5dfa-4a60-9129-912a4cc73101.JPG)
+ 
+ Ultimi controlli per verificare se l'anno inserito è corretto e per evitare che, alla chiamata di *getWeek(String day)*, venga inserito un giorno troppo vicino all'ultima data
+ del range fornito dall'API. Dovendo questo metodo lavorare sui 7 giorni successivi a quello dato in input, come si spiegherà in seguito, dare ad esempio il penultimo giorno
+ disponibile significherebbe che verrebbero letti solo 2 giorni e per gli altri 5 si cadrebbe in errore.
+ 
+ ![Conversion USA-UE](https://user-images.githubusercontent.com/95374284/149593524-5fdac710-a25e-41a6-a064-4ac0d433ddba.JPG)
 
  
- Il primo metodo presente nella classe "connection" è chiamato parsingData(), e ha lo scopo di definire due vettori dinamici vett1 e vett2 dove vengono a mano a mano
- immagazzinati i vari oggetti di tipo rispettivamente DatiUSA e DatiHospital, con le proprietà definite in precedenza nel Model e prese dal file JSon.
+ Viene qui implementato il metodo che converte le date dal formato mm.gg.aaaa (ossia quello di default dell'API, o in generale il formato usato negli USA) al "formato europeo"
+ gg.mm.aaaa.
+ 
+ 
+ ![Service2](https://user-images.githubusercontent.com/95374284/149593717-77249fb3-3cf5-435a-9481-8ac93097705a.JPG)
+ ![Service3](https://user-images.githubusercontent.com/95374284/149593813-29ac719f-9168-4c67-b8e6-ae336cb91167.JPG)
+ ![Service4](https://user-images.githubusercontent.com/95374284/149593887-56ba7a6b-77d8-4862-b235-a2e59d995986.JPG)
+
+ 
+ Il primo metodo presente nella classe *connection* è chiamato *parsingData()*, e ha lo scopo di definire due vettori dinamici vett1 e vett2 dove vengono a mano a mano
+ immagazzinati i vari oggetti di tipo rispettivamente *DatiUSA* e *DatiHospital*, con le proprietà definite in precedenza nel Model e prese dal file JSon.
  
  I successivi metodi sono quelli che poi verranno usati dalle rotte, per tutti e 5 si implementa il dovuto metodo per la ricerca del giorno/settimana/mese/2 giorni/colore
  dato/i in input per poi svolgere il compito richiesto.
  
- ![Service5](https://user-images.githubusercontent.com/95374284/149155617-62b45f0f-3aad-4996-b32d-5844a7305721.JPG)
-
+ ![Service5](https://user-images.githubusercontent.com/95374284/149593970-a038ed09-7854-4dda-99f7-04636d13a201.JPG)
  
- Il metodo getToday() chiede in input un giorno di cui si vuole stampare il bollettino COVID, successivamente cerca all'interno del vettore di tipo DatiUSA se quella data
- fornita in input è presente. In caso affermativo, stampa in output le informazioni richieste. In caso negativo, viene lanciata l'eccezione con il messaggio "Day not
+ Il metodo *getToday(String day)* chiede in input un giorno di cui si vuole stampare il bollettino COVID, successivamente cerca all'interno del vettore di tipo DatiUSA se quella
+ data fornita in input è presente. In caso affermativo, stampa in output le informazioni richieste. In caso negativo, viene lanciata l'eccezione con il messaggio "Day not
  found!".
  
- ![Service6](https://user-images.githubusercontent.com/95374284/149155959-530bab4a-3c9d-43e0-b6c0-cb43c7978dcb.JPG)
-
+ ![Service11](https://user-images.githubusercontent.com/95374284/149594039-64ed6ee2-19e4-4f91-a7de-2cf2f933e371.JPG)
  
- getWeek() funziona in maniera del tutto analoga: chiede in input un giorno e vengono restituite 2 diverse informazioni: la prima riguarda i bollettini dei 7 giorni
+ E' presente anche il metodo *getToday(Integer day)*, che viene facilmente distinto dal primo grazie al meccanismo di overloading; viene avviato dagli altri metodi di
+ *connection* che avranno già effettuato i loro controlli sulla data e dunque evitare ulteriori calcoli e ricerche già svolte in precedenza.
+ 
+ ![Service6](https://user-images.githubusercontent.com/95374284/149594135-8a1426df-94d1-4827-8344-4e390edcf091.JPG)
+ 
+ *getWeek(String day)* funziona in maniera del tutto analoga: chiede in input un giorno e vengono restituite 2 diverse informazioni: la prima riguarda i bollettini dei 7 giorni
  successivi al giorno dato in input, la seconda stima l'incremento/decremento di alcuni dati nel corso della settimana. In caso di settimana "inesistente" (basta che su 7 giorni
  uno solo non sia all'interno del range di date precedentemente definito) viene lanciata l'eccezione.
  
- ![Service7](https://user-images.githubusercontent.com/95374284/149321051-5852a8c8-6b17-4ee9-bda8-b88e90afffdb.JPG)
- ![Service8](https://user-images.githubusercontent.com/95374284/149321246-916d6951-6aa6-4a6d-aae4-3dd6aac104a8.JPG)
-
+ ![Service7](https://user-images.githubusercontent.com/95374284/149594267-cb9e1abf-3613-4c38-9e69-e9da8ff4b5e8.JPG)
+ ![Service8](https://user-images.githubusercontent.com/95374284/149594277-b6041096-0f1c-448b-8033-1a97d48d5fd9.JPG)
  
- Il metodo getMonth() è leggermente più complesso perchè chiede in input due parametri: il mese e l'anno di interesse. Una volte prese queste informazioni, viene restituito
- in output il bollettino di tutti i giorno del mese richiesto. L'eccezione viene lanciata se viene inserito un mese o un anno non valido.
+ Il metodo *getMonth(String month, String year)* è leggermente più complesso perchè chiede in input due parametri: il mese e l'anno di interesse. Una volte prese queste
+ informazioni, viene restituito in output il bollettino di tutti i giorno del mese richiesto. L'eccezione viene lanciata se viene inserito un mese o un anno non valido.
  
- ![Service9](https://user-images.githubusercontent.com/95374284/149140693-62a51978-a077-46c6-8bb6-f443c6f3785a.JPG)
+ ![Service9](https://user-images.githubusercontent.com/95374284/149594415-f5cb6015-ce0d-44e2-81dc-7df7c5f6d867.JPG)
  
- getColour() chiede in input un colore e restituisce tutti i giorni che hanno una situazione pandemica tale dall'essere di quel colore (bianco, rosso etc.).
- Se il colore non esiste (ad esempio, la "zona viola"), viene lanciata l'eccezione.
+ *getColour(String finale)* chiede in input un colore e restituisce tutti i giorni che hanno una situazione pandemica tale dall'essere di quel colore (bianco, rosso etc.).
+ Se il colore non esiste (ad esempio, chiedere informazioni circa la "zona viola"), viene lanciata l'eccezione.
  
- ![Service10](https://user-images.githubusercontent.com/95374284/149141044-7d636fab-010c-4668-808b-cb23f450b391.JPG)
+ ![Service10](https://user-images.githubusercontent.com/95374284/149594531-f2a7f841-d7f4-444b-8f49-02eb84c46c74.JPG)
+ ![Service10+](https://user-images.githubusercontent.com/95374284/149594546-e16cbde6-9601-4b55-9786-2d54f66e269f.JPG)
  
  L'ultimo metodo implementato chiede in input due date diverse e fa il confronto della situazione COVID tra i due giorni. Basta che uno solo dei due non esista per lanciare
  l'eccezione.
@@ -102,29 +134,28 @@
  ### Lo Stats
  
  ![Stats1](https://user-images.githubusercontent.com/95374284/149322094-048abd91-c6cb-4f94-9562-a82a4f9a7204.JPG)
- In "Stats" è presente una prima interfaccia **Statistics_interface** da cui poi vengono implementati i vari metodi nella classe **Statistics**.
+ In *Stats* è presente una prima interfaccia **Statistics_interface** da cui poi vengono implementati i vari metodi nella classe **Statistics**.
  
  ![Stats2](https://user-images.githubusercontent.com/95374284/149322491-b3cadab4-8027-44f6-b829-e20aad9e6ce6.JPG)
 
- La classe statitics è formata da 4 metodi i quali riportano delle statistiche. Le percentuali sono arrotondate al secondo decimale e vengono presi in considerazioni il numero
+ La classe *statitics* è formata da 4 metodi i quali riportano delle statistiche. Le percentuali sono arrotondate al secondo decimale e vengono presi in considerazioni il numero
  dei positivi, dei negativi, delle ospedalizzazioni, delle terapie intensive e delle morti.
  
  ![Statslong1](https://user-images.githubusercontent.com/95374284/149322712-dd0bd239-d653-4a8f-8973-f8641e0c106c.JPG)
  ![Statslong2](https://user-images.githubusercontent.com/95374284/149322735-a9c52930-bfc0-45c4-91e0-313c1418e47f.JPG)
  
- StatsLong è legata alle rotte **/week** & **/month**. Mostra gli andamenti percentuali del primo e ultimo giorno, il numero totale e medio nella settimana/mese dei positivi e
+ *StatsLong* è legata alle rotte **/week** & **/month**. Mostra gli andamenti percentuali del primo e ultimo giorno, il numero totale e medio nella settimana/mese dei positivi e
  negativi e l’aumento o diminuzione dei letti d’ospedale.
  
  ![Stats2days1](https://user-images.githubusercontent.com/95374284/149323292-5b27f1ea-1b98-4a75-a784-0d7df16e17d2.JPG)
  ![Stats2days2](https://user-images.githubusercontent.com/95374284/149323319-925317ff-c837-42d9-8b7e-1550f62a98f6.JPG)
  
- Stats2days è legata alla rotta **/2days**. Confronta gli andamenti percentuali dei vari parametri sopra elencati.
+ *Stats2days* è legata alla rotta **/2days**. Confronta gli andamenti percentuali dei vari parametri sopra elencati.
  
  ![StatsColour](https://user-images.githubusercontent.com/95374284/149325565-b418afa6-2869-4a4e-ae41-9224314fdba0.JPG)
 
- 
- Il primo StastsColour è un semplice contatore che conta i giorni con il colore passato tra i parametri.
- Il secondo StatsColour prende in input un oggetto JSon è restituisce dei nuovi risultati in cui vengono calcolate le percentuali di terapie intensive ed ospedalizzazioni
+ Il primo *StastsColour* è un semplice contatore che conta i giorni con il colore passato tra i parametri.
+ Il secondo *StatsColour* prende in input un oggetto JSon è restituisce dei nuovi risultati in cui vengono calcolate le percentuali di terapie intensive ed ospedalizzazioni.
  
  I due metodi vengono distinti grazie al meccanismo di overloading.
  
@@ -133,7 +164,7 @@
  ![Control1](https://user-images.githubusercontent.com/95374284/149161993-e4686fcf-3c37-4215-bb4e-d77fd2c29f41.JPG)
  ![Control2](https://user-images.githubusercontent.com/95374284/149162008-bae7a93c-35d3-4af7-9a74-5c0b27edb30d.JPG)
  
- All'interno del Controller vengono gestiti i metodi che consentono l'utilizzo delle rotte da web service esterni (tra cui postman oppure internet)
+ All'interno del *Controller* vengono gestiti i metodi che consentono l'utilizzo delle rotte da web service esterni (tra cui postman oppure internet)
  
  **Rotte e descrizione**
  
@@ -209,13 +240,14 @@ Alcuni esempi di utilizzo delle rotte:
 
  ## Test
  
- ![Test](https://user-images.githubusercontent.com/95374284/149329654-ffee8388-44ad-4a82-bb7c-d72db31a44f2.JPG)
+ ![Test](https://user-images.githubusercontent.com/95374284/149595246-dda66b96-3007-4ed3-ab62-7b17c6d353d3.JPG)
  
- Nel programma sono presenti alcuni test che controllano il corretto funzionamento di alcuni metodi. Vediamo in particolare, come esempi, quelli che controllano il corretto
- funzionamento (e non funzionamento) del metodo getDay() e il corretto funzionamento per get2Days().
- Appoggiandosi ad un oggetto di tipo connection, si richiamato tali metodi e, attraverso il JUnit test, si verifica se tali metodi effettuano ciò che ci si aspetta o meno.
- Infatti, dei 3 test implementati, 2 funzionano correttamente mentre il terzo (testDataNoOK()) restituisce errore, in quanto gli viene passato come argomento una data
- non appartenente al range dell'API
+ Nel programma sono presenti alcuni test che verificano il corretto funzionamento di alcuni metodi. Vediamo in particolare, come esempi, quelli che controllano iln funzionamento
+ (e non funzionamento) del metodo *getDay()* e il corretto funzionamento per *get2Days()*.
+ Appoggiandosi ad un oggetto di tipo *connection*, si richiamato tali metodi e, attraverso il ***JUnit test***, si verifica se tali metodi effettuano ciò che ci si aspetta o
+ meno.
+ Infatti, dei 3 test presi in esame, 2 funzionano correttamente mentre il terzo (testDataNoOK()) restituisce errore, in quanto gli viene passato come argomento una data
+ non appartenente al range dell'API.
  
  ## Divisione dei compiti
 - Naja Omar: alcuni metodi del connection, collegamento a postman e prima rotta del controller, gestione eccezioni, readme
