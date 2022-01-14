@@ -27,6 +27,11 @@ import project.exception.EccezionePersonalizzata;
 @Service
 public class connection implements Int_connection {
 	
+	/**
+	 * oggetti che ci serviranno nella classe
+	 * vett1 e vett2 serviranno a raccogliere i vari oggetti DatiUSA e DatiHospital estrapolati dal fila USA.json
+	 * control e stats ci servono rispettivamente per avviare i metodi di controllo della data e delle statistiche
+	 */
 	ArrayList<DatiUSA> vett1 = new ArrayList<DatiUSA>();
 	ArrayList<DatiHospital> vett2 = new ArrayList<DatiHospital>();
 	ControlloParam control = new ControlloParam();
@@ -192,33 +197,24 @@ public class connection implements Int_connection {
 	 * evitiamo quindi di far fare al compilatore dei calcoli in più
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param String day (il giorno passato in input)
-	 * @param boolean different (parametro inutile ma che serve per l'overloading)
+	 * @param Integer i (posizione del giorno nella lista)
 	 * 
 	 * @return JSONObject obj (oggetto JSON avente i dati di quel giorno)
-	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se il giorno avesse delle irregolarità o non è presente nel file)
 	 * @see metodi get del model
 	 */
-	public JSONObject getToday(String day, boolean different){
+	public JSONObject getToday(Integer day){
 		
 		JSONObject obj = new JSONObject();
-		String mistake = "Day not found or irregular!";
-		boolean done = false;
-		
-		for(int i=0; i<vett1.size(); i++) {
-		if (day.equals(vett1.get(i).getDay())) {
-			obj.put("Number of states", vett1.get(i).getNum_states());
-			obj.put("Death increase", vett1.get(i).getDeathIncrease());
-			obj.put("Day", vett1.get(i).getDay()); 
-            obj.put("Colour", vett2.get(i).getColour());
-            obj.put("Positive increase", vett1.get(i).getPositiveIncrease());
-            obj.put("Positive total", vett1.get(i).getPositive());
-            obj.put("Negative increase", vett1.get(i).getPositiveIncrease());
-            obj.put("Negative total", vett1.get(i).getNegative());
-            done = true;
-			}
-		}
-		if (done == false) throw new EccezionePersonalizzata(mistake);
+
+		obj.put("Number of states", vett1.get(day).getNum_states());
+		obj.put("Death increase", vett1.get(day).getDeathIncrease());
+		obj.put("Day", vett1.get(day).getDay()); 
+        obj.put("Colour", vett2.get(day).getColour());
+        obj.put("Positive increase", vett1.get(day).getPositiveIncrease());
+        obj.put("Positive total", vett1.get(day).getPositive());
+        obj.put("Negative increase", vett1.get(day).getPositiveIncrease());
+        obj.put("Negative total", vett1.get(day).getNegative());
+
 		return obj;
 	}
 	
@@ -249,7 +245,6 @@ public class connection implements Int_connection {
 		
 		JSONArray array = new JSONArray();
 		boolean done = false;
-		String mistake = "Week not found or irregular! The day must be between 13.1.2020 and 28.2.2021";
 		
 		/**
 		 * scorre la lista fino alla fine e stamperà un errore se non trova il giorno
@@ -265,14 +260,15 @@ public class connection implements Int_connection {
 				for(int j=0; j<7; j++) {
 					
 					JSONObject obj = new JSONObject();
-					obj = getToday(vett1.get(i-j).getDay(), true);
+					int finale = i-j;
+					obj = getToday(finale);
 					array.add(obj);
 					
 				}
 				
 			}
 		}
-		if (done == false) throw new EccezionePersonalizzata(mistake);
+		if (done == false) throw new EccezionePersonalizzata("Week not found or irregular! The day must be between 13.1.2020 and 28.2.2021");
 		return array;
 	}
 	
@@ -335,8 +331,9 @@ public class connection implements Int_connection {
 				
 				for(int j=0; j<dayfinal; j++) {
 				
-					JSONObject obj = new JSONObject();	
-					obj = getToday(vett1.get(i-j).getDay(), true);
+					JSONObject obj = new JSONObject();
+					int finale = i-j;
+					obj = getToday(finale);
 					array.add(obj);
 				}
 				
@@ -376,7 +373,7 @@ public class connection implements Int_connection {
 			if(colour.equals(vett2.get(i).getColour())) {
 				
 				JSONObject obj = new JSONObject();
-				obj = getToday(vett1.get(i).getDay(), true);
+				obj = getToday(i);
 				stats.StatsColour(vett2, obj, i);
 				array.add(obj);
 			}
@@ -418,8 +415,18 @@ public class connection implements Int_connection {
 		control.ControlDay(day1);
 		
 		if(day1.equals(day2)) {
-			JSONObject obj = getToday(day1, true);
-			array.add(obj);
+			
+			for(int i=0; i<vett1.size(); i++) {
+				
+				if(day1.equals(vett1.get(i).getDay())) {
+					
+					JSONObject obj = getToday(i);
+					array.add(obj);
+					done1 = true;
+					done2 = true;
+					
+				}
+			}
 		}
 		else {
 			
@@ -427,23 +434,25 @@ public class connection implements Int_connection {
 				
 				if(day1.equals(vett1.get(i).getDay())) {
 					
-					obj1 = getToday(day1, true);
+					obj1 = getToday(i);
 					done1 = true; 
 					
 				}
 				
 				if(day2.equals(vett1.get(i).getDay())) {
 					
-					obj2 = getToday(day2, true);
+					obj2 = getToday(i);
 					done2 = true; 
 					
 				}
 			}		
-			if((done1 == false) && (done2 == false)) throw new EccezionePersonalizzata("Day1 and day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
-			if(done1 == false) throw new EccezionePersonalizzata("Day1 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
-			if(done2 == false) throw new EccezionePersonalizzata("Day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
 		}
-		stats.Stats2days(vett1, vett2, array, day1, day2);
+		
+		if((done1 == false) && (done2 == false)) throw new EccezionePersonalizzata("Day1 and day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
+		if(done1 == false) throw new EccezionePersonalizzata("Day1 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
+		if(done2 == false) throw new EccezionePersonalizzata("Day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
+		if(!day1.equals(day2)) stats.Stats2days(vett1, vett2, array, day1, day2);
+	
 		array.add(obj1);
 		array.add(obj2);
 		return array;
