@@ -38,6 +38,12 @@ class EnricOmarApplicationTests {
 	}
 	
 	@Test
+	void TestWeekOK() {
+		data = "8.2.2021";
+		equals(conn.getToday(data));
+	}
+	
+	@Test
 	void TestWeekNoOK() {
 		data = "8.3.2021";
 		equals(conn.getToday(data));
@@ -49,6 +55,18 @@ class EnricOmarApplicationTests {
 		month = "april";
 		year = "2020";
 		equals(conn.getMonth(month, year));
+	}
+	
+	@Test
+	void TestColourOK() {
+		String colour = "White";
+		equals(conn.getColour(colour));
+	}
+	
+	@Test
+	void TestColourNoOK() {
+		String colour = "Purple";
+		equals(conn.getColour(colour));
 	}
 
 }
