@@ -178,7 +178,7 @@ public class ControlloParam implements Int_ControlloParam{
 	}
 
 	/**
-	 * questo metodo converte le date in formato americano (aaaa.mm.gg) in formato europeo (gg.mm.aaaa)
+	 * questo metodo converte le date dal formato americano (aaaa.mm.gg) in formato europeo (gg.mm.aaaa)
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param Long day (variabile contenente il giorno dato in input)
