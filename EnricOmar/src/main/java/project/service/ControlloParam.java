@@ -75,22 +75,24 @@ public class ControlloParam implements Int_ControlloParam{
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param String finale (variabile contenente il colore dato in input)
+	 * @return String color (contiene il colore con cui andremo a comparare gli altri colori del giorno)
 	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se il colore non fosse accettabile)
 	 */
 	public String ControlColour(String finale) {
 		
-		String colour;
+		String color;
+		String colour = finale.toLowerCase();
 		
-		switch(finale) {
-			case "white", "WHITE", "White": colour = "White"; break; 
-			case "yellow", "YELLOW", "Yellow": colour = "Yellow"; break; 
-			case "orange", "ORANGE", "Orange": colour = "Orange";break; 
-			case "red", "RED", "Red": colour = "Red";break; 
-			default: colour = "Error"; break;
+		switch(colour) {
+			case "white": color = "White"; break; 
+			case "yellow": color = "Yellow"; break; 
+			case "orange": color = "Orange";break; 
+			case "red": color = "Red";break; 
+			default: color = "Error"; break;
 		}
 		
-		if(colour.equals("Error")) throw new EccezionePersonalizzata("Colour not found! The possible colors are: red, orange, yellow and white");
-		return colour;
+		if(color.equals("Error")) throw new EccezionePersonalizzata("Colour not found! The possible colors are: red, orange, yellow and white");
+		return color;
 	};
 	
 	/**
@@ -104,20 +106,21 @@ public class ControlloParam implements Int_ControlloParam{
 	public int ControlMonth(String month, String year) {
 		
 		int m = 0; 
+		String mese = month.toLowerCase();
 		
-		switch(month) {
-		case "1", "january" , "January", "JANUARY": m= 1; break; 
-		case "2","february", "February", "FEBRUARY":  m=2; break;
-		case "3", "march", "March", "MARCH": m=3; break; 
-		case "4", "april", "April", "APRIL":  m=4; break; 
-		case "5", "may", "May", "MAY": m=5; break; 
-		case "6", "june", "June", "JUNE": m=6; break; 
-		case "7", "july", "July", "JULY": m=7; break; 
-		case "8", "august", "August", "AUGUST": m=8; break; 
-		case "9", "september", "September", "SEPTEMBER": m=9; break; 
-		case "10", "october", "October", "OCTOBER": m=10; break; 
-		case "11", "november", "November", "NOVEMBER": m=11; break; 
-		case "12", "december", "December", "DECEMBER": m=12; break; 
+		switch(mese) {
+		case "1", "january": m= 1; break; 
+		case "2","february":  m=2; break;
+		case "3", "march": m=3; break; 
+		case "4", "april":  m=4; break; 
+		case "5", "may": m=5; break; 
+		case "6", "june": m=6; break; 
+		case "7", "july": m=7; break; 
+		case "8", "august": m=8; break; 
+		case "9", "september": m=9; break; 
+		case "10", "october": m=10; break; 
+		case "11", "november": m=11; break; 
+		case "12", "december": m=12; break; 
 		default: break; 
 		}
 		
