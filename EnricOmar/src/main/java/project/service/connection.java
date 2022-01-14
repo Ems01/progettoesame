@@ -29,6 +29,8 @@ public class connection implements Int_connection {
 	
 	ArrayList<DatiUSA> vett1 = new ArrayList<DatiUSA>();
 	ArrayList<DatiHospital> vett2 = new ArrayList<DatiHospital>();
+	ControlloParam control = new ControlloParam();
+	Statistics stats = new Statistics();
 	
 	/**
 	 * cotruttore della classe
@@ -160,9 +162,50 @@ public class connection implements Int_connection {
 	 * @throws EccezionePersonalizzata
 	 */
 	public JSONObject getToday(String day){
+		
+		control.ControlDay(day);
+		
 		JSONObject obj = new JSONObject();
-		String mistake = "Day not found!";
+		String mistake = "Day not found or irregular!";
 		boolean done = false;
+		
+		for(int i=0; i<vett1.size(); i++) {
+		if (day.equals(vett1.get(i).getDay())) {
+			obj.put("Number of states", vett1.get(i).getNum_states());
+			obj.put("Death increase", vett1.get(i).getDeathIncrease());
+			obj.put("Day", vett1.get(i).getDay()); 
+            obj.put("Colour", vett2.get(i).getColour());
+            obj.put("Positive increase", vett1.get(i).getPositiveIncrease());
+            obj.put("Positive total", vett1.get(i).getPositive());
+            obj.put("Negative increase", vett1.get(i).getPositiveIncrease());
+            obj.put("Negative total", vett1.get(i).getNegative());
+            done = true;
+			}
+		}
+		if (done == false) throw new EccezionePersonalizzata(mistake);
+		return obj;
+	}
+	
+	@Override
+	/**
+	 * tale metodo prende la stringa del giorno (day) e se compare 
+	 * nell'arraylist, tramuta i dati dell'oggetto in un JSONObject
+	 * restituendolo;
+	 * 
+	 * se non viene trovato stamperà un errore.
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @param day
+	 * @return JSONObject
+	 * @throws EccezionePersonalizzata
+	 */
+	public JSONObject getToday(String day, boolean different){
+		
+		JSONObject obj = new JSONObject();
+		String mistake = "Day not found or irregular!";
+		boolean done = false;
+		
 		for(int i=0; i<vett1.size(); i++) {
 		if (day.equals(vett1.get(i).getDay())) {
 			obj.put("Number of states", vett1.get(i).getNum_states());
@@ -198,9 +241,12 @@ public class connection implements Int_connection {
 	 */
 	public JSONArray getWeek(String day){
 		
+		control.ControlDay(day);
+		control.ControlWeek(day);
+		
 		JSONArray array = new JSONArray();
 		boolean done = false;
-		String mistake = "Week not found!";
+		String mistake = "Week not found or irregular";
 		
 		long positive=0, negative=0, death=0, h1=0, h7=0, t1=0, t7=0; 
 		String last=null;
@@ -208,16 +254,14 @@ public class connection implements Int_connection {
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
 				
-				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, 7);
 				
 				done = true;
 				
 				for(int j=0; j<7; j++) {
 					JSONObject obj = new JSONObject();
-					obj = getToday(vett1.get(i-j).getDay());
+					obj = getToday(vett1.get(i-j).getDay(), true);
 					array.add(obj);
-					
 				}
 				
 			}
@@ -242,9 +286,7 @@ public class connection implements Int_connection {
 	 */
 	public JSONArray getMonth(String month, String year){
 		int dayfinal=0;
-		int m = 0; 
-		boolean done = false;
-		boolean mese = true;
+		int m = control.ControlMonth(month, year); 
 		/**
 		 * lo switch serve per definire bene alcuni parametri:
 		 * 
@@ -253,35 +295,27 @@ public class connection implements Int_connection {
 		 * -febbraio 2020 è bisestile quindi fino al 29° giorno;
 		 * -gennaio 2020 parte dal 13° giorno quindi le ripetizioni del for saranno 19;
 		 * 
-		 * 2) m rappresenta il numero del mese così come noi lo intendiamo 1° mese, 2° mese etc...
+		 * 2) m rappresenta il numero del mese 
 		 * 
 		 * 3) daystart è il giorno del mese da cui deve iniziare a contare il for, ma 
 		 * gennaio 2020 parte dal giorno 13 e non dall'1.
 		 *
 		 */
-		switch(month) {
-		case "1", "january" , "January", "JANUARY": dayfinal=31; m= 1; break; 
-		case "2","february", "February", "FEBRUARY": dayfinal=28; m=2; break;
-		case "3", "march", "March", "MARCH": dayfinal =31; m=3; break; 
-		case "4", "April", "april", "APRIL": dayfinal=30; m=4; break; 
-		case "5", "may", "May", "MAY": dayfinal=31; m=5; break; 
-		case "6", "june", "JUNE", "June": dayfinal=30; m=6; break; 
-		case "7", "july", "July", "JULY": dayfinal=31; m=7; break; 
-		case "8", "august", "August", "AUGUST": dayfinal=31; m=8; break; 
-		case "9", "September", "SEPTEMBER", "september": dayfinal=30; m=9; break; 
-		case "10", "October", "october", "OCTOBER": dayfinal=31; m=10; break; 
-		case "11", "november", "November", "NOVEMBER": dayfinal=30; m=11; break; 
-		case "12", "December", "december", "DECEMBER": dayfinal=31; m=12; break; 
-		default: mese = false; break; 
+		switch(m) {
+		case 1: dayfinal=31; break; 
+		case 2: dayfinal=28; break;
+		case 3: dayfinal=31; break; 
+		case 4: dayfinal=30; break; 
+		case 5: dayfinal=31; break; 
+		case 6: dayfinal=30; break; 
+		case 7: dayfinal=31; break; 
+		case 8: dayfinal=31; break; 
+		case 9: dayfinal=30; break; 
+		case 10: dayfinal=31; break; 
+		case 11: dayfinal=30; break; 
+		case 12: dayfinal=31; break; 
+		default: break; 
 		}
-		
-		/**
-		 * Le eccezioni vengono lanciate se il mese inserito non è valido 
-		 * o se l'anno non è il 2020/2021
-		 */
-		if(mese == false) throw new EccezionePersonalizzata("Invalid month entered!");
-		if(!year.equals("2020") && !year.equals("2021")) throw new EccezionePersonalizzata("Invalid year entered!");
-		
 		/**
 		 * questa parte del programma crea la stringa con cui andremo a verificare 
 		 * le varie date. 
@@ -300,21 +334,17 @@ public class connection implements Int_connection {
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
 				
-				Statistics stats = new Statistics();
 				stats.StatsLong(vett1, vett2, array, i, dayfinal);
-				
-				done = true;
 				
 				for(int j=0; j<dayfinal; j++) {
 				
 					JSONObject obj = new JSONObject();	
-					obj = getToday(vett1.get(i-j).getDay());
+					obj = getToday(vett1.get(i-j).getDay(), true);
 					array.add(obj);
 				}
 				
 			}
 		}
-		if (done == false) throw new EccezionePersonalizzata("Month not found!");
 		return array;
 	};
 	
@@ -332,40 +362,25 @@ public class connection implements Int_connection {
 	 * @see project.service.connection.getToday()
 	 * @see project.stats.Statistics.StatsColour()
 	 */
-	public JSONArray getColour(String colour) {
+	public JSONArray getColour(String finale) {
 		
-		String mistake = "Colour not found!";
-		
-		switch(colour) {
-		case "white", "WHITE", "White": colour = "White"; break; 
-		case "yellow", "YELLOW", "Yellow": colour = "Yellow"; break; 
-		case "orange", "ORANGE", "Orange": colour = "Orange";break; 
-		case "red", "RED", "Red": colour = "Red";break; 
-		default: colour = "Not found"; break;
-		}
-		
+		String colour = control.ControlColour(finale);
 		JSONArray array = new JSONArray();
 		JSONObject general  = new JSONObject ();
 		
-		if(!(colour.equals("Not found"))) {
+		general.put("Type of colour is", colour);
+		int volte = stats.StatsColour(vett2, colour);
+		general.put("There were", volte + " " + colour + " days");
+		array.add(general);
 			
-			general.put("Type of colour is", colour);
-			
-			Statistics stats = new Statistics();
-			int volte = stats.StatsColour(vett2, colour);
-			general.put("There were", volte + " " + colour + " days");
-			array.add(general);
-			
-			for(int i=0; i<vett1.size(); i++) {
-				if(colour.equals(vett2.get(i).getColour())) {
-					JSONObject obj = new JSONObject();
-					obj = getToday(vett1.get(i).getDay());
-					stats.StatsColour(vett2, obj, i);
-					array.add(obj);
-				}
+		for(int i=0; i<vett1.size(); i++) {
+			if(colour.equals(vett2.get(i).getColour())) {
+				JSONObject obj = new JSONObject();
+				obj = getToday(vett1.get(i).getDay());
+				stats.StatsColour(vett2, obj, i);
+				array.add(obj);
 			}
 		}
-		else throw new EccezionePersonalizzata(mistake);
 		return array;
 	}
 	
@@ -386,37 +401,18 @@ public class connection implements Int_connection {
 	public JSONArray get2days(String day1, String day2) {
 		
 		JSONArray array = new JSONArray();
-		boolean done1=false;
-		boolean done2=false;
-		
-		for(int i=0; i<vett1.size(); i++) {
-			if(day1.equals(vett1.get(i).getDay())) done1 = true;
-			if(day2.equals(vett1.get(i).getDay())) done2 = true;	
-		}
-		String mistake1 = "Day 1 not found";
-		String mistake2 = "Day 2 not found";
-		String mistake3 = "Day 1 & Day 2 not found";
-		String mistake4 = "Day not found";
-		
-		if(done1 == false && done2 == true) throw new EccezionePersonalizzata(mistake1);
-		if(done1 == true && done2 == false) throw new EccezionePersonalizzata(mistake2);
 		
 		if(day1.equals(day2)) {
-			if(done1 == false && done2 == false) throw new EccezionePersonalizzata(mistake4);
 			JSONObject obj = getToday(day1);
 			array.add(obj);
 		}
 		else {
-			if(done1 == false && done2 == false) throw new EccezionePersonalizzata(mistake3);
-			
-			Statistics stats = new Statistics();
 			stats.Stats2days(vett1, vett2, array, day1, day2);
 			JSONObject obj1 = getToday(day1);
 			JSONObject obj2 = getToday(day2);
 			array.add(obj1);
 			array.add(obj2);
 		}
-		
 		return array;
 	}
 
