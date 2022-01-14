@@ -2,9 +2,17 @@ package project.service;
 
 public interface Int_ControlloParam {
 	
-	public void ControlDay(String day);
-	public String ControlColour(String colour);
-	public int ControlMonth(String month, String year);
-	public boolean ControlYear(String day);
-	public void ControlWeek(String day);
+	/**
+	 * interfaccia che ci permette di visualizzare i vari metodi il cui corpo
+	 * lo definiremo in ControlloParam
+	 * 
+	 * @author Enrico Maria Sardellini
+	 */
+	
+	public abstract void ControlDay(String day);
+	public abstract String ControlColour(String colour);
+	public abstract int ControlMonth(String month, String year);
+	public abstract boolean ControlYear(String day);
+	public abstract void ControlWeek(String day);
+	public abstract String ControlData(Long day);
 }

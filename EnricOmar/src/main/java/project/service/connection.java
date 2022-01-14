@@ -18,8 +18,8 @@ import project.exception.EccezionePersonalizzata;
 
 /**
  * Tale classe: 
- * -gestirà il parsing dei dati dal file Json ad oggetti
- * -riporterà un JSONObject/JSONArray che verranno postati dalle rotte
+ * -avrà un metodo che gestirà il parsing dei dati dal file Json ad oggetti java
+ * -avrà dei metodi che produrranno un JSONObject/JSONArray che verrà postato dalle rotte
  * 
  * @author Enrico Maria Sardellini
  * @author Omar Naja
@@ -39,15 +39,19 @@ public class connection implements Int_connection {
 		this.parsingData();
 	}	
 	
+	/**
+	 * Questo metodo converte i dati letti dal file USA.json 
+	 * in oggetti (DatiUSA e DatiHospital) utilizzabili in java
+	 * e li inserisce nelle rispettive Arraylist
+	 * 
+	 * @author Enrico Maria Sardellini
+	 * @author Omar Naja
+	 * @see metodi set del model
+	 * @see project.service.ControlloParam.ControlData(); trasforma la data del formato americano (aaaa.mm.gg) a quello europeo (gg.mm.aaaa) 
+	 * @see project.USA.json
+	 */
 	public void parsingData() {
 		/**
-		 * Questo metodo converte i dati letti dal file USA.json 
-		 * in oggetti (DatiUSA e DatiHospital) utilizzabili in java
-		 * e li inserisce nelle rispettive Arraylist
-		 * 
-		 * @author Enrico Maria Sardellini
-		 * @author Omar Naja
-		 *
 		 * Usiamo JSONsimple per effettuare il parsing 
 		 * e apriamo un flusso di input dal file USA.json
 		 */
@@ -55,6 +59,7 @@ public class connection implements Int_connection {
 		FileReader read;
 		try {
 			read = new FileReader("src/main/java/project/USA.json");
+			
 			/**
 			 * con i JSONobject e i JSONArray creati possiamo accedere all'interno
 			 * della struttura annidata del file JSON , utilizzando poi i setter
@@ -63,6 +68,7 @@ public class connection implements Int_connection {
 			 */
 			Object oggetto = par.parse(read);
 			JSONArray array = (JSONArray) oggetto;
+			
 			/**
 			 * Queste variabili long servono a prendere il valore in ingresso
 			 * per verificare se tale valore può essere accettato dal relativo
@@ -74,31 +80,19 @@ public class connection implements Int_connection {
 			 * altrimenti assegnamo ai metodi set la variabile
 			 */
 			Long day, positive, negative, death, HN, TN, PI, NI;
-			
-			/**
-			 * queste variabili string servono a scomporre la data di 8 cifre in formato long
-			 * per poi ricomporla in formato europeo nella stringa finale
-			 */
-			String gg, mm, aaaa, finale;
 				
+			/**
+			 * scorriamo il file Json e usiamo i vari setter per modificare gli oggetti usa e hospital
+			 * inserendoli infine nelle apposite ArrayList
+			 */
 			for(int i=0; i<array.size(); i++) {
 				JSONObject obj = (JSONObject) array.get(i);
 				DatiUSA usa = new DatiUSA();
 				DatiHospital hospital = new DatiHospital();
 				
-				/**
-				 * tale "metodo" prende la data del giorno che è in formato americano (anno-mese-giorno)
-				 * e lo converte in formato europe (giorno-mese-anno);
-				 * 
-				 * @author Enrico Maria Sardellini
-				 */
 				day = (Long) obj.get("date");
-				gg = String.valueOf(day%100);
-				mm = String.valueOf(((day%10000) - (day%100))/100);
-				aaaa = String.valueOf(day/10000);
-				finale = gg + "." + mm + "." + aaaa;
-				usa.setDay(finale);
-				hospital.setDay(finale);
+				usa.setDay(control.ControlData(day));
+				hospital.setDay(control.ControlData(day));
 				
 				usa.setNum_states((long) obj.get("states"));
 				hospital.setNum_states((long) obj.get("states"));
@@ -153,20 +147,24 @@ public class connection implements Int_connection {
 	 * nell'arraylist, tramuta i dati dell'oggetto in un JSONObject
 	 * restituendolo;
 	 * 
-	 * se non viene trovato stamperà un errore.
+	 * effettuerà prima un ControlDay per verificare la correttezza della data.
+	 * se l'errore persiste o la data non è presente nel file, stamperà un errore. 
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
-	 * @param day
-	 * @return JSONObject
-	 * @throws EccezionePersonalizzata
+	 * @param String day (il giorno passato in input)
+	 * @return JSONObject obj (oggetto JSON avente i dati di quel giorno)
+	 * 
+	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se il giorno avesse delle irregolarità o non è presente nel file)
+	 * @see metodi get del model
+	 * @see project.service.ControlParam.ControlDay(); (valuterà alcuni possibili errori della data inserita in input)
 	 */
 	public JSONObject getToday(String day){
 		
 		control.ControlDay(day);
 		
 		JSONObject obj = new JSONObject();
-		String mistake = "Day not found or irregular!";
+		String mistake = "Day not found or irregular! The day must be between 13.1.2020 and 7.3.2021";
 		boolean done = false;
 		
 		for(int i=0; i<vett1.size(); i++) {
@@ -188,17 +186,18 @@ public class connection implements Int_connection {
 	
 	@Override
 	/**
-	 * tale metodo prende la stringa del giorno (day) e se compare 
-	 * nell'arraylist, tramuta i dati dell'oggetto in un JSONObject
-	 * restituendolo;
-	 * 
-	 * se non viene trovato stamperà un errore.
+	 * Overloading del metodo getToday();
+	 * Questo metodo verrà avviato dagli altri metodi di questa classe che avranno già effettuato 
+	 * i loro controlli sulla data. 
+	 * evitiamo quindi di far fare al compilatore dei calcoli in più
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @author Omar Naja
-	 * @param day
-	 * @return JSONObject
-	 * @throws EccezionePersonalizzata
+	 * @param String day (il giorno passato in input)
+	 * @param boolean different (parametro inutile ma che serve per l'overloading)
+	 * 
+	 * @return JSONObject obj (oggetto JSON avente i dati di quel giorno)
+	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se il giorno avesse delle irregolarità o non è presente nel file)
+	 * @see metodi get del model
 	 */
 	public JSONObject getToday(String day, boolean different){
 		
@@ -225,33 +224,38 @@ public class connection implements Int_connection {
 	
 	@Override
 	/**
-	 * Se il giorno viene trovato, chiamerà il metodo getToday() per
-	 * ottenere un JSONObject per poi inserirlo nell'JSONArray.
-	 * Tale processo verrà ripetuto per i 7 giorni successivi.
-	 * 
-	 * Se il giorno non esiste, stamperà un errore.
+	 * Tale metodo riceve in input un giorno e dovrà ritornare un JSONArray con i 
+	 * dati di quel giorno e dei 6 giorni seguenti. 
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
-	 * @param day
-	 * @return JSONArray
-	 * @throws EccezionePersonalizzata
-	 * @see project.service.connection.getToday()
-	 * @see project.stats.Statistics.StatsLong()
+	 * 
+	 * @param String day (il giorno passato in input)
+	 * @return JSONArray array (Jsonaarray avente i dati della settimana)
+	 * 
+	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se la settimana avesse delle irregolarità o non è presente nel file)
+	 * @see project.service.connection.getToday() (per modificare l'oggetto JSON da inserire nell'array)
+	 * @see project.stats.Statistics.StatsLong() (inserisce nell'array le statistiche di quella settimana)
+	 * @see project.service.ControlParam.ControlDay(); (valuterà alcuni possibili errore della data inserita in input)
+	 * @see project.service.ControlParam.ControlWeek(); (manderà un errore se la data appartiene a determinati giorni limite, ovvero a marzo 2021)
 	 */
 	public JSONArray getWeek(String day){
 		
+		/**
+		 * metodi di controllo della data
+		 */
 		control.ControlDay(day);
 		control.ControlWeek(day);
 		
 		JSONArray array = new JSONArray();
 		boolean done = false;
-		String mistake = "Week not found or irregular";
+		String mistake = "Week not found or irregular! The day must be between 13.1.2020 and 28.2.2021";
 		
-		long positive=0, negative=0, death=0, h1=0, h7=0, t1=0, t7=0; 
-		String last=null;
-		
+		/**
+		 * scorre la lista fino alla fine e stamperà un errore se non trova il giorno
+		 */
 		for(int i=0; i<vett1.size(); i++) {
+			
 			if (day.equals(vett1.get(i).getDay())) {
 				
 				stats.StatsLong(vett1, vett2, array, i, 7);
@@ -259,9 +263,11 @@ public class connection implements Int_connection {
 				done = true;
 				
 				for(int j=0; j<7; j++) {
+					
 					JSONObject obj = new JSONObject();
 					obj = getToday(vett1.get(i-j).getDay(), true);
 					array.add(obj);
+					
 				}
 				
 			}
@@ -276,49 +282,37 @@ public class connection implements Int_connection {
 	 * stamperà le statistiche di tale mese e la lista dei giorni;
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @author Omar Naja
-	 * @param month
-	 * @param year
-	 * @return JSONArray
-	 * @throws EccezionePersonalizzata
-	 * @see project.service.connection.getToday()
-	 * @see project.stats.Statistics.StatsLong()
+	 * @param month (variabile del mese)
+	 * @param year (variabile dell'anno)
+	 * @return JSONArray array (conterrà delle statistiche del mese e la lista dei giorni)
+	 *
+	 * @see project.service.connection.getToday() (per modificare l'oggetto JSON da inserire nell'array)
+	 * @see project.stats.Statistics.StatsLong() (inserisce nell'array le statistiche di quel mese)
+	 * @see project.service.ControlParam.ControlMonth(); (valuterà alcuni possibili errore della data inserita in input e ritornerà il numero del mese)
 	 */
 	public JSONArray getMonth(String month, String year){
 		int dayfinal=0;
 		int m = control.ControlMonth(month, year); 
+		
 		/**
-		 * lo switch serve per definire bene alcuni parametri:
-		 * 
-		 * 1) dayfinal è il numero di giorni in un mese e serve per il for però ci sono delle eccezzioni:
-		 * -marzo 2021 arriva fino al 6° giorno;
-		 * -febbraio 2020 è bisestile quindi fino al 29° giorno;
-		 * -gennaio 2020 parte dal 13° giorno quindi le ripetizioni del for saranno 19;
-		 * 
-		 * 2) m rappresenta il numero del mese 
-		 * 
-		 * 3) daystart è il giorno del mese da cui deve iniziare a contare il for, ma 
-		 * gennaio 2020 parte dal giorno 13 e non dall'1.
-		 *
+		 * lo switch serve per definire 
+		 * dayfinal, ovvero il numero di giorno di quel mese
 		 */
 		switch(m) {
-		case 1: dayfinal=31; break; 
+		case 1, 3, 5, 7, 8, 10, 12: dayfinal=31; break; 
 		case 2: dayfinal=28; break;
-		case 3: dayfinal=31; break; 
-		case 4: dayfinal=30; break; 
-		case 5: dayfinal=31; break; 
-		case 6: dayfinal=30; break; 
-		case 7: dayfinal=31; break; 
-		case 8: dayfinal=31; break; 
-		case 9: dayfinal=30; break; 
-		case 10: dayfinal=31; break; 
-		case 11: dayfinal=30; break; 
-		case 12: dayfinal=31; break; 
+		case 4, 6, 9, 11: dayfinal=30; break; 
 		default: break; 
 		}
+		
 		/**
 		 * questa parte del programma crea la stringa con cui andremo a verificare 
-		 * le varie date. 
+		 * la data di partenza del mese
+		 * 
+		 * eccezzioni da considerare:
+		 * -febbraio 2020 arrivava al 29
+		 * -gennaio 2020 parte dal 13
+		 * -marzo 2021 arriva fino al 6
 		 */
 		String m_a =(m + "." + year);
 		JSONArray array = new JSONArray();
@@ -331,6 +325,9 @@ public class connection implements Int_connection {
 		else if(m_a.equals("3.2021")) dayfinal = 6;
 		String day = daystart + "." + m_a;
 		
+		/**
+		 * scorre la lista fino alla fine per trovare il giorno iniziale
+		 */
 		for(int i=0; i<vett1.size(); i++) {
 			if (day.equals(vett1.get(i).getDay())) {
 				
@@ -352,15 +349,17 @@ public class connection implements Int_connection {
 	
 	/**
 	 * stamperà la lista dei giorni con quel colore e 
-	 * accederà al metodo StatsColour se tale colore è presente nello switch;
+	 * e aggiungerà ai singoli oggetti le statistiche percentuali 
+	 * degli ospedalizzati e delle terapie intensive di quel giorno
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @author Omar Naja
-	 * @param colour
-	 * @return JSONArray
-	 * @throws EccezioneGiorno
-	 * @see project.service.connection.getToday()
-	 * @see project.stats.Statistics.StatsColour()
+	 * 
+	 * @param colour (variabile del colore)
+	 * @return JSONArray array (JSONArray che riporterà i giorni di quel colore)
+	 * 
+	 * @see project.service.connection.getToday() (se il colore di un giorno ha lo stesso colore del (colour) lo aggiungerà all'array)
+	 * @see project.stats.Statistics.StatsColour() (aggiungerà al JSONObject i dati percentuali del giorno)
+	 * @see project.service.control.ControlColour() (valuterà se il colore è ammissibile o no)
 	 */
 	public JSONArray getColour(String finale) {
 		
@@ -375,8 +374,9 @@ public class connection implements Int_connection {
 			
 		for(int i=0; i<vett1.size(); i++) {
 			if(colour.equals(vett2.get(i).getColour())) {
+				
 				JSONObject obj = new JSONObject();
-				obj = getToday(vett1.get(i).getDay());
+				obj = getToday(vett1.get(i).getDay(), true);
 				stats.StatsColour(vett2, obj, i);
 				array.add(obj);
 			}
@@ -391,28 +391,61 @@ public class connection implements Int_connection {
 	 * eseguirà un solo getToday
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param day1
-	 * @param day2
-	 * @return JSONArray
-	 * @see project.service.connection.getToday()
+	 * @param day1 (variabile primo giorno)
+	 * @param day2 (variabile secondo giorno)
+	 * @return JSONArray array (JSONArray che riporterà quei giorni e le loro statistiche)
+	 * @see project.service.connection.getToday() (metodo per 
 	 * @see project.stats.Statistics.Stats2day()
+	 *  @author Enrico Maria Sardellini
 	 * 
+	 * @param colour (variabile del colore)
+	 * @return JSONArray array (JSONArray che riporterà i giorni di quel colore)
+	 * 
+	 * @see project.service.connection.getToday() (se il giorno venisse trovato lo aggiungerà all'array)
+	 * @see project.stats.Statistics.Stats2days() (aggiungerà al JSONArray delle statistiche percentuali dei giorni)
+	 * @see project.service.ControlParam.ControlDay(); (valuterà alcuni possibili errori della data inserita in input)
+	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore uno o entrambi i giorni avessero delle irregolarità o non sono presenti nel file)
 	 */
 	public JSONArray get2days(String day1, String day2) {
 		
 		JSONArray array = new JSONArray();
+		boolean done1=false; 
+		boolean done2=false; 
+		JSONObject obj1 = new JSONObject();
+		JSONObject obj2 = new JSONObject();
+		
+		control.ControlDay(day2);
+		control.ControlDay(day1);
 		
 		if(day1.equals(day2)) {
-			JSONObject obj = getToday(day1);
+			JSONObject obj = getToday(day1, true);
 			array.add(obj);
 		}
 		else {
-			stats.Stats2days(vett1, vett2, array, day1, day2);
-			JSONObject obj1 = getToday(day1);
-			JSONObject obj2 = getToday(day2);
-			array.add(obj1);
-			array.add(obj2);
+			
+			for(int i=0; i<vett1.size(); i++) {
+				
+				if(day1.equals(vett1.get(i).getDay())) {
+					
+					obj1 = getToday(day1, true);
+					done1 = true; 
+					
+				}
+				
+				if(day2.equals(vett1.get(i).getDay())) {
+					
+					obj2 = getToday(day2, true);
+					done2 = true; 
+					
+				}
+			}		
+			if((done1 == false) && (done2 == false)) throw new EccezionePersonalizzata("Day1 and day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
+			if(done1 == false) throw new EccezionePersonalizzata("Day1 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
+			if(done2 == false) throw new EccezionePersonalizzata("Day2 not found or irregular! The day must be between 13.1.2020 and 7.3.2021");
 		}
+		stats.Stats2days(vett1, vett2, array, day1, day2);
+		array.add(obj1);
+		array.add(obj2);
 		return array;
 	}
 

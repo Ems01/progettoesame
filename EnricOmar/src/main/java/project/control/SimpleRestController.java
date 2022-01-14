@@ -34,7 +34,7 @@ public class SimpleRestController {
 	 * 	 
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
-	 * @param day
+	 * @param day (variabile che indica il giorno)
 	 * @see project.service.connection.getToday()
 	 */
 	@RequestMapping(value = "/day", method = RequestMethod.GET)
@@ -47,7 +47,7 @@ public class SimpleRestController {
 	 * che ha come 1° giorno la stringa data, e la lista dei bollettini della settimana 
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param day
+	 * @param day (variabile che indica il primo giorno della settimana)
 	 * @see project.service.connection.getWeek()
 	 */
 	@RequestMapping(value = "/week", method = RequestMethod.GET)
@@ -60,8 +60,8 @@ public class SimpleRestController {
 	 * e la lista dei bollettini del mese 
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param month
-	 * @param year
+	 * @param month (variabile che indica il mese)
+	 * @param year (variabile che indica l'anno)
 	 * @see project.service.connection.getMonth()
 	 */
 	@RequestMapping(value = "/month", method = RequestMethod.GET)
@@ -73,7 +73,7 @@ public class SimpleRestController {
 	 * permette di avere la lista dei giorni aventi quel colore
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param colour
+	 * @param colour (variabile che indica il colore)
 	 * @see project.service.connection.getColour()
 	 */
 	@RequestMapping(value = "/colour", method = RequestMethod.GET)
@@ -87,8 +87,8 @@ public class SimpleRestController {
 	 * bollettino di quel giorno
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param day1
-	 * @param day2
+	 * @param day1 (variabile che indica il primo giorno)
+	 * @param day2 (variabile che indica il secondo giorno)
 	 * @see project.service.connection.get2days()
 	 */
 	@RequestMapping(value = "/2days", method = RequestMethod.GET)

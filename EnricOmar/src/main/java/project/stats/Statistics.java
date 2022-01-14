@@ -20,6 +20,7 @@ public class Statistics implements Statistics_interface{
 	 * e i letti degli ospedali totali(beds_total)
 	 * 
 	 * @link https://globalepidemics.org/hospital-capacity-2/
+	 * @author Enrico Maria Sardellini
 	 */
 	static final int population_USA = 330000000; 
 	static final int ICU_total= 84750; 
@@ -31,17 +32,17 @@ public class Statistics implements Statistics_interface{
 	public Statistics() {};
 		
 	/**
-	 * questo metodo determina le caratteristiche della settimana e del mese;
+	 * questo metodo determina le statistiche della settimana e del mese;
 	 * tutte le percentuali sono arrotondate al secondo decimale
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param vett1
-	 * @param vett2
-	 * @param array
-	 * @param i
-	 * @param dayfinal
-	 * @see project.model.DatiUSA
-	 * @see project.model.DatiHospital
+	 * @param vett1 (lista dei DatiUSA)
+	 * @param vett2 (lista dei DatiHospital)
+	 * @param JSONArray array (JSONArray passato per riferimento che inserirà i vari JSONObject del metodo)
+	 * @param i (variabile che identifica la posizione negli ArrayList del giorno iniziale)
+	 * @param dayfinal (variabile che identifica il 7 giorno della settimana o il numero di giorni di un mese)
+	 * 
+	 * @see metodi get del model
 	 * 
 	 */
 	public void StatsLong(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, Integer i, Integer dayfinal) {
@@ -177,13 +178,13 @@ public class Statistics implements Statistics_interface{
 	 * tutte le percentuali sono arrotondate al secondo decimale
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param vett1
-	 * @param vett2
-	 * @param array
-	 * @param day1
-	 * @param day2
-	 * @see project.model.DatiUSA
-	 * @see project.model.DatiHospital
+	 * @param vett1 (lista dei DatiUSA)
+	 * @param vett2 (lista dei DatiHospital)
+	 * @param JSONArray array (JSONArray passato per riferimento che inserirà i vari JSONObject del metodo)
+	 * @param String day1 (variabile del primo giorno)
+	 * @param String day2 (variabile del secondo giorno)
+	 * 
+	 * @see metodi get del model 
 	 */
 	public void Stats2days(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2) {
 		JSONObject obj = new JSONObject();
@@ -242,12 +243,14 @@ public class Statistics implements Statistics_interface{
 
 	/**
 	 * metodo che determina quanti sono i giorno di quel colore 
+	 * un semplice contatore
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @see project.model.DatiHospital.getColour()
-	 * @param vett2
-	 * @param colour
-	 * @return contatore
+	 * @see project.model.DatiHospital.getColour() (metodo get per prendere la stringa del colore)
+	 * 
+	 * @param vett2 (lista dei DatiHospital)
+	 * @param String colour (variabile del colore)
+	 * @return Integer contatore (ritornerà i giorni avente un determinato colore)
 	 */
 	public int StatsColour(ArrayList<DatiHospital> vett2, String colour) {
 			
@@ -266,9 +269,9 @@ public class Statistics implements Statistics_interface{
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @see project.model.DatiHospital.getColour()
-	 * @param vett2
-	 * @param obj
-	 * @param i
+	 * @param vett2 (lista dei DatiHospital)
+	 * @param JSONObject obj (oggetto JSON passato per riferimento che andiamo a modificare)
+	 * @param Integer i (posizione nella lista del giorno)
 	 */
 	public void StatsColour(ArrayList<DatiHospital> vett2, JSONObject obj, Integer i) {
 		

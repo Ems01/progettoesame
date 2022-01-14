@@ -1,7 +1,7 @@
 package project.model;
 
 /**
- * sottoclasse secondaria che riceve due attributi in più quali
+ * sottoclasse secondaria che riceve due attributi quali
  * hospitalized (gli ospedalizzati) e intensive_care(il numero di terapie intensive)
  * tali dati ci servono per la determinazione del colore del giorno (colour)
  * 
@@ -72,7 +72,7 @@ public class DatiHospital implements Dati{
 	
 	/**
 	 * Il metodo setColour ci permette di ottenere il colore da assegnare al rispettivo giorno 
-	 * avendo il numero dei casi ogni 100mila abitanti i valori delle occupazioni percentuali 
+	 * avendo il numero dei casi ogni 100mila abitanti (casi), i valori delle occupazioni percentuali 
 	 * delle terapie intensive(perIcu) e degli ospedali(perBeds). 
 	 * 
 	 * E' presente anche un'alternativa di tale metodo che non considera (perBeds)
