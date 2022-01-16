@@ -1,5 +1,5 @@
  # PROGETTO NAJA - SARDELLINI
- ## introduzione e descrizione del progetto
+ ## Introduzione e descrizione del progetto
  
  Questa applicazione è stata realizzata per un compito d'esame del corso di Programmazione ad Oggetti dell'UNIVPM nell'anno 2021/22. Autori del progetto sono due studenti del
  corso di ingegneria informatica.
@@ -19,30 +19,46 @@
  
  ![Main](https://user-images.githubusercontent.com/95374284/148680326-06585bd9-d2c5-4d1a-b31e-7b9c351ea251.JPG)
  
- Il codice qui presente è molto breve, ma fondamentale: viene specificato che l'applicazione che si sta sviluppando è di tipo SpringBoot. Ciò significa che, a differenza di un
- classico programma sviluppato in Java, un programma di tipo SpringBoot fornisce funzionalità aggiuntive al framework di partenza, in questo caso "Covid Tracking".
- Il file USA.json contiene tutti i dati covid dei giorni compresi nel periodo sopra definito. Essi si sono ottenuti mettendo l'indirizzo dell'API su postman, da cui poi si è
+ Il codice qui presente è molto breve, ma fondamentale: viene specificato che l'applicazione che si sta sviluppando è di tipo **SpringBoot**. Ciò significa che, a differenza di
+ un classico programma sviluppato in Java, un programma di tipo SpringBoot fornisce funzionalità aggiuntive al framework di partenza, in questo caso **Covid Tracking**.
+ Il file *USA.json* contiene tutti i dati covid dei giorni compresi nel periodo sopra definito. Essi si sono ottenuti mettendo l'indirizzo dell'API su postman, da cui poi si è
  generato il file Json fondamentale per effettuare il parsing dei dati, di cui si parlerà in seguito.
  
  ![Postman1](https://user-images.githubusercontent.com/95374284/148680920-ad5c1ba3-f195-4c4d-a8d3-d964ce550aaa.JPG)
  
- ### Il Model
+ ![Main2](https://user-images.githubusercontent.com/95374284/149659632-28a75c78-61e5-4cec-b649-02d010842991.JPG)
+ 
+ L'applicazione viene facilmente eseguita dopo aver installato il programma, effettuato il debug da questo main e inserendo localhost:8080/..., dove i "..." indicano
+ quale rotta si vuole mandare in esecuzione.
+ 
+ esempio: **localhost:8080/day?day=13.11.2020**
+
+ ![Chromegetday](https://user-images.githubusercontent.com/95374284/149162861-e2b3b7ef-7fad-4ef2-84de-c9895258b73c.JPG)
+ 
+ La rotta */day*, così come tutte le altre rotte, verrà descritta in seguito.
+ 
+ ![JSON1](https://user-images.githubusercontent.com/95374284/149661797-458adfb2-ea06-4d40-a1fe-d566039d86b7.JPG)
+ ![JSON](https://user-images.githubusercontent.com/95374284/149660673-3008833b-6b0c-46cf-b7cf-4b0e18ef932d.JPG)
+
+ Una visuale più chiara di questo codice può essere visualizzata al sito "http://jsonviewer.stack.hu/", ponendo come testo il testo dato in output dall'indirizzo desiderato
+ scritto in precedenza e poi selezionando _viewer_.
+ 
+  ### Il Model
  
  ![Model1](https://user-images.githubusercontent.com/95374284/148681573-c40aced4-21fc-4d96-9953-4d16d10c8ab2.JPG)
  
- La prima classe presente è una interfaccia, dunque costituita da soli metodi astratti. Tali metodi verrano poi eseguiti dalle classi che implementano "Dati" tramite il
+ La prima classe presente è una interfaccia, dunque costituita da soli metodi astratti. Tali metodi verrano poi eseguiti dalle classi che implementano *Dati* tramite il
  meccanismo di overriding.
  
  ![Model2](https://user-images.githubusercontent.com/95374284/148681779-04151db8-d0ac-40f5-9763-8d245705eb2f.JPG)
  
- Questa è la sottoclasse in cui vengono raccolte le informazioni dei singoli giorni, poi gestite con i dovuti metodi get() e set(). Tutti questi dati verrano in seguito salvati
- in un vettore dinamico definito nel service.
+ Questa è la sottoclasse in cui vengono raccolte le informazioni dei singoli giorni, poi gestite con i dovuti metodi *get()* e *set()*. Tutti questi dati verrano in seguito
+ salvati in un vettore dinamico definito nel service.
  
  ![Model3](https://user-images.githubusercontent.com/95374284/149328981-0152ec0d-fe96-4a25-89e4-b1286a1a27cd.JPG)
-
  
- La sottoclasse "DatiHospital" è molto simile alla sottoclasse "DatiUSA" sopra descritta, ma con la differenza che i dati raccolti in questa sono solo quelli necessari per
- effettuare il calcolo nel metodo "setColour()" per la determinazione del colore del giorno/settimana/mese dato in input.
+ La sottoclasse *DatiHospital* è molto simile alla sottoclasse *DatiUSA* sopra descritta, ma con la differenza che i dati raccolti in questa sono solo quelli necessari per
+ effettuare il calcolo nel metodo **setColour()** per la determinazione del colore del giorno/settimana/mese dato in input.
 
  
  ### Il Service
@@ -138,8 +154,8 @@
  
  ![Stats2](https://user-images.githubusercontent.com/95374284/149322491-b3cadab4-8027-44f6-b829-e20aad9e6ce6.JPG)
 
- La classe *statitics* è formata da 4 metodi i quali riportano delle statistiche. Le percentuali sono arrotondate al secondo decimale e vengono presi in considerazioni il numero
- dei positivi, dei negativi, delle ospedalizzazioni, delle terapie intensive e delle morti.
+ La classe *statistics* è formata da 4 metodi i quali riportano delle statistiche. Le percentuali sono arrotondate al secondo decimale e vengono presi in considerazioni il
+ numero dei positivi, dei negativi, delle ospedalizzazioni, delle terapie intensive e delle morti.
  
  ![Statslong1](https://user-images.githubusercontent.com/95374284/149322712-dd0bd239-d653-4a8f-8973-f8641e0c106c.JPG)
  ![Statslong2](https://user-images.githubusercontent.com/95374284/149322735-a9c52930-bfc0-45c4-91e0-313c1418e47f.JPG)
@@ -233,14 +249,10 @@ Alcuni esempi di utilizzo delle rotte:
 
 ![Postman6](https://user-images.githubusercontent.com/95374284/149160780-4d512069-4d5b-4365-9562-29dd964acc54.JPG)
 
-**/day chiamato da Google Chrome**
 
-![Chromegetday](https://user-images.githubusercontent.com/95374284/149162861-e2b3b7ef-7fad-4ef2-84de-c9895258b73c.JPG)
-
-
- ## Test
+## Test
  
- ![Test](https://user-images.githubusercontent.com/95374284/149595246-dda66b96-3007-4ed3-ab62-7b17c6d353d3.JPG)
+![Test](https://user-images.githubusercontent.com/95374284/149595246-dda66b96-3007-4ed3-ab62-7b17c6d353d3.JPG)
  
  Nel programma sono presenti alcuni test che verificano il corretto funzionamento di alcuni metodi. Vediamo in particolare, come esempi, quelli che controllano iln funzionamento
  (e non funzionamento) del metodo *getDay()* e il corretto funzionamento per *get2Days()*.
