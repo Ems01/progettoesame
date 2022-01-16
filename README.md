@@ -7,13 +7,33 @@
  nazionale. Per limiti dovuti all'API di riferimento, tali dati sono disponibili solo nel periodo dal 13 gennaio 2020 al 7 marzo 2021.
  A livello di programmazione, questo programma consiste in diversi sottoprogrammi raggruppati in rispettivi packages:
  
- - **project**: contiene il main del programma e il file JSON da cui prendere i dati
- - **project.control**: contiene l'implementazione e la gestione delle rotte
- - **project.model**: contiene due classe da cui si instanziano gli oggetti a mano a mano che viene effettuato il parsing,  , delle varie date dal file JSon
- - **project.service**: vengono impletementati e gestiti, con delle opportune eccezioni, i metodi poi richiamati dal model
- - **project.stats**: vengono sviluppati alcuni metodi per l'analisi di alcuni dati statistici
+ - **project**: contiene il main del programma e il file JSON da cui prendere i dati;
+ - **project.control**: contiene l'implementazione e la gestione delle rotte;
+ - **project.model**: contiene due classe da cui si instanziano gli oggetti a mano a mano che viene effettuato il parsing,  , delle varie date dal file JSon;
+ - **project.service**: vengono impletementati e gestiti, con delle opportune eccezioni, i metodi chiamati da control, e restituiscono degli oggetti JSOn impostati dalle rotte. Viene inoltre effettuato un controllo dei dati presi in input;
+ - **project.stats**: vengono sviluppati alcuni metodi per l'analisi di alcuni dati statistici;
  
  Contiene, inoltre, un package a parte su cui vengono svolti dei test sul corretto funzionamento del programma.
+ 
+ ## Come utilizzare l'applicazione
+ 
+  ![Main2](https://user-images.githubusercontent.com/95374284/149659632-28a75c78-61e5-4cec-b649-02d010842991.JPG)
+ 
+ L'applicazione viene facilmente eseguita dopo aver installato il programma, effettuato il debug da questo main. Per fare ciò, installare un ambiente di sviluppo che intepreti
+ il linguaggio Java, ad esempio Eclipse, importare l'intero pacchetto contenente il programma su Eclipse come "Existing Maven Project", ed eseguire il "Debug as Spring Boot
+ App". Fatto ciò, non occorre farr altro che inserire su un Browser un indirizzo del tipo "localhost:8080/...", dove i "..." indicano quale rotta si vuole mandare in esecuzione.
+ 
+ Qui di seguito un esempio con il seguente indirizzo: **localhost:8080/day?day=13.11.2020**
+
+ ![Chromegetday](https://user-images.githubusercontent.com/95374284/149162861-e2b3b7ef-7fad-4ef2-84de-c9895258b73c.JPG)
+ 
+ La rotta */day*, così come tutte le altre rotte, verrà descritta in seguito.
+ 
+ ![JSON1](https://user-images.githubusercontent.com/95374284/149661797-458adfb2-ea06-4d40-a1fe-d566039d86b7.JPG)
+ ![JSON](https://user-images.githubusercontent.com/95374284/149660673-3008833b-6b0c-46cf-b7cf-4b0e18ef932d.JPG)
+
+ Una visuale più chiara di questo codice può essere visualizzata al sito "http://jsonviewer.stack.hu/", ponendo come testo il testo dato in output dall'indirizzo desiderato
+ scritto in precedenza e poi selezionando _viewer_.
  
  ### Il Main
  
@@ -26,29 +46,11 @@
  
  ![Postman1](https://user-images.githubusercontent.com/95374284/148680920-ad5c1ba3-f195-4c4d-a8d3-d964ce550aaa.JPG)
  
- ![Main2](https://user-images.githubusercontent.com/95374284/149659632-28a75c78-61e5-4cec-b649-02d010842991.JPG)
- 
- L'applicazione viene facilmente eseguita dopo aver installato il programma, effettuato il debug da questo main e inserendo localhost:8080/..., dove i "..." indicano
- quale rotta si vuole mandare in esecuzione.
- 
- esempio: **localhost:8080/day?day=13.11.2020**
-
- ![Chromegetday](https://user-images.githubusercontent.com/95374284/149162861-e2b3b7ef-7fad-4ef2-84de-c9895258b73c.JPG)
- 
- La rotta */day*, così come tutte le altre rotte, verrà descritta in seguito.
- 
- ![JSON1](https://user-images.githubusercontent.com/95374284/149661797-458adfb2-ea06-4d40-a1fe-d566039d86b7.JPG)
- ![JSON](https://user-images.githubusercontent.com/95374284/149660673-3008833b-6b0c-46cf-b7cf-4b0e18ef932d.JPG)
-
- Una visuale più chiara di questo codice può essere visualizzata al sito "http://jsonviewer.stack.hu/", ponendo come testo il testo dato in output dall'indirizzo desiderato
- scritto in precedenza e poi selezionando _viewer_.
- 
   ### Il Model
- 
- ![Model1](https://user-images.githubusercontent.com/95374284/148681573-c40aced4-21fc-4d96-9953-4d16d10c8ab2.JPG)
- 
- La prima classe presente è una interfaccia, dunque costituita da soli metodi astratti. Tali metodi verrano poi eseguiti dalle classi che implementano *Dati* tramite il
- meccanismo di overriding.
+  
+  ![Model1](https://user-images.githubusercontent.com/95374284/149664917-bdeae15d-fd76-4d7a-8a57-53e71631b94a.JPG)
+
+  La prima classe presente è una interfaccia, costituita da metodi che verrano poi eseguiti dalle classi che implementano *Dati* tramite il meccanismo di overriding.
  
  ![Model2](https://user-images.githubusercontent.com/95374284/148681779-04151db8-d0ac-40f5-9763-8d245705eb2f.JPG)
  
@@ -79,7 +81,8 @@
  
  ![ControlParam2](https://user-images.githubusercontent.com/95374284/149593095-0f06ab19-a858-4884-b1b8-15244bb9076a.JPG)
 
- In *ControlDay(String day)* Viene controllato se il giorno inserito è del formato corretto, ossia gg.mm.aaaa, e che "aaaa" sia o 2020 o 2021;
+ In *ControlDay(String day)* viene controllato se il giorno inserito è del formato corretto, ossia gg.mm.aaaa. Tale metodo richiama un'altro metodo, *ControlYear(String day)*
+ che "aaaa" sia o 2020 o 2021;
  
  ![ControlParam3](https://user-images.githubusercontent.com/95374284/149593211-ea092334-f127-47ba-9590-56b21b4e8b06.JPG)
 
@@ -91,16 +94,14 @@
  
  ![ControlParam5](https://user-images.githubusercontent.com/95374284/149593447-4671acfe-5dfa-4a60-9129-912a4cc73101.JPG)
  
- Ultimi controlli per verificare se l'anno inserito è corretto e per evitare che, alla chiamata di *getWeek(String day)*, venga inserito un giorno troppo vicino all'ultima data
- del range fornito dall'API. Dovendo questo metodo lavorare sui 7 giorni successivi a quello dato in input, come si spiegherà in seguito, dare ad esempio il penultimo giorno
- disponibile significherebbe che verrebbero letti solo 2 giorni e per gli altri 5 si cadrebbe in errore.
+ Ultimi controlli per verificare che, alla chiamata di *getWeek(String day)*, non venga inserito un giorno troppo vicino all'ultima data del range fornito dall'API.
+ Dovendo questo metodo lavorare sui 7 giorni successivi a quello dato in input, come si spiegherà in seguito, dare ad esempio il penultimo giorno disponibile significherebbe che
+ verrebbero letti solo 2 giorni e per gli altri 5 si cadrebbe in errore.
  
  ![Conversion USA-UE](https://user-images.githubusercontent.com/95374284/149593524-5fdac710-a25e-41a6-a064-4ac0d433ddba.JPG)
 
  
- Viene qui implementato il metodo che converte le date dal formato mm.gg.aaaa (ossia quello di default dell'API, o in generale il formato usato negli USA) al "formato europeo"
- gg.mm.aaaa.
- 
+ In ControlData(Long day) qui implementato il metodo che converte le date dal formato aaaa.mm.gg (ossia quello di default dell'API) al "formato europeo" gg.mm.aaaa.
  
  ![Service2](https://user-images.githubusercontent.com/95374284/149593717-77249fb3-3cf5-435a-9481-8ac93097705a.JPG)
  ![Service3](https://user-images.githubusercontent.com/95374284/149593813-29ac719f-9168-4c67-b8e6-ae336cb91167.JPG)
@@ -116,8 +117,8 @@
  ![Service5](https://user-images.githubusercontent.com/95374284/149593970-a038ed09-7854-4dda-99f7-04636d13a201.JPG)
  
  Il metodo *getToday(String day)* chiede in input un giorno di cui si vuole stampare il bollettino COVID, successivamente cerca all'interno del vettore di tipo DatiUSA se quella
- data fornita in input è presente. In caso affermativo, stampa in output le informazioni richieste. In caso negativo, viene lanciata l'eccezione con il messaggio "Day not
- found!".
+ data fornita in input è presente. In caso affermativo, stampa in output le informazioni richieste, e delle relative statistiche su quel giorno. In caso negativo, viene lanciata
+ l'eccezione con il messaggio "Day not found!".
  
  ![Service11](https://user-images.githubusercontent.com/95374284/149594039-64ed6ee2-19e4-4f91-a7de-2cf2f933e371.JPG)
  
@@ -160,18 +161,20 @@
  ![Statslong1](https://user-images.githubusercontent.com/95374284/149322712-dd0bd239-d653-4a8f-8973-f8641e0c106c.JPG)
  ![Statslong2](https://user-images.githubusercontent.com/95374284/149322735-a9c52930-bfc0-45c4-91e0-313c1418e47f.JPG)
  
- *StatsLong* è legata alle rotte **/week** & **/month**. Mostra gli andamenti percentuali del primo e ultimo giorno, il numero totale e medio nella settimana/mese dei positivi e
- negativi e l’aumento o diminuzione dei letti d’ospedale.
+ StatsLong(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, Integer i, Integer dayfinal) è legata alle rotte **/week** & **/month**. Mostra gli
+ andamenti percentuali del primo e ultimo giorno, il numero totale e medio nella settimana/mese dei positivi e negativi e l’aumento o diminuzione dei letti d’ospedale.
  
  ![Stats2days1](https://user-images.githubusercontent.com/95374284/149323292-5b27f1ea-1b98-4a75-a784-0d7df16e17d2.JPG)
  ![Stats2days2](https://user-images.githubusercontent.com/95374284/149323319-925317ff-c837-42d9-8b7e-1550f62a98f6.JPG)
  
- *Stats2days* è legata alla rotta **/2days**. Confronta gli andamenti percentuali dei vari parametri sopra elencati.
+ Stats2days(ArrayList<DatiUSA> vett1, ArrayList<DatiHospital> vett2, JSONArray array, String day1, String day2) è legata alla rotta **/2days**. Confronta gli andamenti
+ percentuali dei vari parametri sopra elencati.
  
  ![StatsColour](https://user-images.githubusercontent.com/95374284/149325565-b418afa6-2869-4a4e-ae41-9224314fdba0.JPG)
 
- Il primo *StastsColour* è un semplice contatore che conta i giorni con il colore passato tra i parametri.
- Il secondo *StatsColour* prende in input un oggetto JSon è restituisce dei nuovi risultati in cui vengono calcolate le percentuali di terapie intensive ed ospedalizzazioni.
+ Il primo StastsColour(ArrayList<DatiHospital> vett2, String colour) è un semplice contatore che conta i giorni con il colore passato tra i parametri.
+ Il secondo StatsColour(ArrayList<DatiHospital> vett2, JSONObject obj, Integer i) prende in input un oggetto JSon è restituisce dei nuovi risultati in cui vengono calcolate le
+ percentuali di terapie intensive ed ospedalizzazioni.
  
  I due metodi vengono distinti grazie al meccanismo di overloading.
  
@@ -262,5 +265,5 @@ Alcuni esempi di utilizzo delle rotte:
  non appartenente al range dell'API.
  
  ## Divisione dei compiti
-- Naja Omar: alcuni metodi del connection, collegamento a postman e prima rotta del controller, gestione eccezioni, readme
-- Sardellini Enrico Maria: model, rotte, gestione oggetti JSon, JavaDoc, Statistiche
+- Naja Omar: project.model, alcuni metodi del connection, project.controller, project.exception, test, readme
+- Sardellini Enrico Maria: project.model, project.service, project.stats, project.controller, JavaDoc
