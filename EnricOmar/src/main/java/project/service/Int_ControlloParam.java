@@ -3,8 +3,7 @@ package project.service;
 public interface Int_ControlloParam {
 	
 	/**
-	 * interfaccia che ci permette di visualizzare i vari metodi il cui corpo
-	 * lo definiremo in ControlloParam
+	 * interfaccia che ci permette di visualizzare i vari metodi di ControlloParam
 	 * 
 	 * @author Enrico Maria Sardellini
 	 */

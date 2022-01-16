@@ -1,7 +1,7 @@
 package project.model;
 
 /**
- * sottoclasse secondaria che riceve due attributi quali
+ * sottoclasse che riceve due attributi quali
  * hospitalized (gli ospedalizzati) e intensive_care(il numero di terapie intensive)
  * tali dati ci servono per la determinazione del colore del giorno (colour)
  * 
@@ -18,7 +18,7 @@ public class DatiHospital implements Dati{
 	
 	/**
 	 * Valori semplificati a costanti, anche se costanti non sono, per la determinazione del colore:
-	 * uno è la popolazione degli USA(popolation_USA) e le altre due sono i letti di terapia intensiva totali(ICU_total)
+	 * uno è la popolazione degli USA(popolation_USA) e gli altri due sono i letti di terapia intensiva totali(ICU_total)
 	 * e i letti degli ospedali totali(beds_total) 
 	 * 
 	 * @author Enrico Maria Sardellini

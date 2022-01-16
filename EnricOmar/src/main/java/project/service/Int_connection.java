@@ -4,8 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
- * interfaccia che ci permette di visualizzare i vari metodi il cui corpo
- * lo definiremo in connection
+ * interfaccia che ci permette di visualizzare i vari metodi del connection
  * 
  * @author Enrico Maria Sardellini
  */

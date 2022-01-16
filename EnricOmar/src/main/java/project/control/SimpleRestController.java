@@ -44,7 +44,7 @@ public class SimpleRestController {
 
 	/**
 	 * permette di ottenere un andamento della pandemia nella settimana,
-	 * che ha come 1° giorno la stringa data, e la lista dei bollettini della settimana 
+	 * che ha come 1° giorno la stringa data e la lista dei bollettini della settimana 
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param day (variabile che indica il primo giorno della settimana)

@@ -39,9 +39,8 @@ public class Statistics implements Statistics_interface{
 	 * @param vett1 (lista dei DatiUSA)
 	 * @param vett2 (lista dei DatiHospital)
 	 * @param JSONArray array (JSONArray passato per riferimento che inserirà i vari JSONObject del metodo)
-	 * @param i (variabile che identifica la posizione negli ArrayList del giorno iniziale)
-	 * @param dayfinal (variabile che identifica il 7 giorno della settimana o il numero di giorni di un mese)
-	 * 
+	 * @param int i (variabile che identifica la posizione nell' ArrayList del giorno iniziale)
+	 * @param int dayfinal (variabile che identifica il 7° giorno della settimana o il numero dei giorni in un mese)
 	 * @see metodi get del model
 	 * 
 	 */
@@ -174,7 +173,6 @@ public class Statistics implements Statistics_interface{
 	/**
 	 * metodo che mostra i valori percentuali dei due giorni 
 	 * mettendoli a confronto
-	 * 
 	 * tutte le percentuali sono arrotondate al secondo decimale
 	 * 
 	 * @author Enrico Maria Sardellini
@@ -243,14 +241,14 @@ public class Statistics implements Statistics_interface{
 
 	/**
 	 * metodo che determina quanti sono i giorno di quel colore 
-	 * un semplice contatore
+	 * è un semplice contatore
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @see project.model.DatiHospital.getColour() (metodo get per prendere la stringa del colore)
 	 * 
 	 * @param vett2 (lista dei DatiHospital)
 	 * @param String colour (variabile del colore)
-	 * @return Integer contatore (ritornerà i giorni avente un determinato colore)
+	 * @return int contatore (ritornerà i giorni avente un determinato colore)
 	 */
 	public int StatsColour(ArrayList<DatiHospital> vett2, String colour) {
 			
@@ -264,7 +262,8 @@ public class Statistics implements Statistics_interface{
 	}
 	
 	/**
-	 * metodo che calcola ed inserisce nell'oggetto JSON, passato come riferimento,
+	 * OverLoading del metodo precedente 
+	 * che calcola ed inserisce nell'oggetto JSON, passato come riferimento,
 	 * la percentuale delle terapie intensive e la percentuale delle ospedalizzazioni
 	 * 
 	 * @author Enrico Maria Sardellini

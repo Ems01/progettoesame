@@ -4,7 +4,7 @@ import project.exception.EccezionePersonalizzata;
 
 /**
  * Tale classe effettuerà una serie di metodi per andare a
- * trovare eventuali errori nei dati in input
+ * trovare eventuali errori nei dati passati in input
  * 
  * @author Enrico Maria Sardellini
  */
@@ -71,7 +71,9 @@ public class ControlloParam implements Int_ControlloParam{
 	};
 
 	/**
-	 * metodo che determinerà se la scritta colour è accettabile ritornando una forma generale per confrontarla
+	 * metodo che determinerà se la scritta colour è accettabile 
+	 * ritornando una scritta precisa del colore da poter confrontare 
+	 * coi i colori inseriti negli oggetti DatiHospital
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param String finale (variabile contenente il colore dato in input)
@@ -101,6 +103,7 @@ public class ControlloParam implements Int_ControlloParam{
 	 * @author Enrico Maria Sardellini
 	 * @param String month (variabile contenente il mese dato in input)
 	 * @param String year (variabile contenente l'anno dato in input)
+	 * @return int m (variabile che rappresenta il numero del mese)
 	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se il mese/anno avesse delle irregolarità)
 	 */
 	public int ControlMonth(String month, String year) {
@@ -128,7 +131,8 @@ public class ControlloParam implements Int_ControlloParam{
 		 * vengono valutati 3 errori
 		 * 1) se il mese è sbagliato
 		 * 2) se l'anno è sbagliato (solo 2020 e 2021 sono accettabili)
-		 * 3) se viene richiesto un mese non presente nella lista che parte da aprile 2021 fino a fine anno 
+		 * 3) se viene richiesto un mese non presente nella lista
+		 *    i mesi esclusi vanno da aprile 2021 fino a fine anno 
 		 */
 		if(m == 0) throw new EccezionePersonalizzata("Invalid month entered!");
 		if(!year.equals("2020") && !year.equals("2021")) throw new EccezionePersonalizzata("Invalid year entered! Only 2020 & 2021 are accepted");
@@ -140,7 +144,7 @@ public class ControlloParam implements Int_ControlloParam{
 	};
 
 	/**
-	 * metodo richiamato da ControlDay() e che valuta se l'anno è ammissibile
+	 * metodo richiamato da ControlDay() e che valuta se l'anno è ammissibile (solo 2020 e 2021)
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param String day (variabile contenente il giorno dato in input)
@@ -181,8 +185,8 @@ public class ControlloParam implements Int_ControlloParam{
 	 * questo metodo converte le date dal formato americano (aaaa.mm.gg) in formato europeo (gg.mm.aaaa)
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @param Long day (variabile contenente il giorno dato in input)
-	 * @return String finale (stringa contenente la data in formato europeo)
+	 * @param Long day (variabile contenente il giorno in formato americano)
+	 * @return String finale (stringa contenente il giorno in formato europeo)
 	 * 
 	 */
 	public String ControlData(Long day) {

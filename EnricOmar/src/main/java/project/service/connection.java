@@ -52,7 +52,7 @@ public class connection implements Int_connection {
 	 * @author Enrico Maria Sardellini
 	 * @author Omar Naja
 	 * @see metodi set del model
-	 * @see project.service.ControlloParam.ControlData(); trasforma la data del formato americano (aaaa.mm.gg) a quello europeo (gg.mm.aaaa) 
+	 * @see project.service.ControlloParam.ControlData() (trasforma la data del formato americano (aaaa.mm.gg) a quello europeo (gg.mm.aaaa)) 
 	 * @see project.USA.json
 	 */
 	public void parsingData() {
@@ -67,8 +67,8 @@ public class connection implements Int_connection {
 			
 			/**
 			 * con i JSONobject e i JSONArray creati possiamo accedere all'interno
-			 * della struttura annidata del file JSON , utilizzando poi i setter
-			 * delle classi del package project.model per assegnare i valori ai nostri oggetti
+			 * della struttura annidata del file JSON e, utilizzando poi setter
+			 * delle classi del package project.model, assegniamo i valori ai nostri oggetti
 			 * 
 			 */
 			Object oggetto = par.parse(read);
@@ -198,7 +198,6 @@ public class connection implements Int_connection {
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param Integer i (posizione del giorno nella lista)
-	 * 
 	 * @return JSONObject obj (oggetto JSON avente i dati di quel giorno)
 	 * @see metodi get del model
 	 */
@@ -224,14 +223,12 @@ public class connection implements Int_connection {
 	 * dati di quel giorno e dei 6 giorni seguenti. 
 	 * 
 	 * @author Enrico Maria Sardellini
-	 * @author Omar Naja
-	 * 
 	 * @param String day (il giorno passato in input)
 	 * @return JSONArray array (Jsonaarray avente i dati della settimana)
 	 * 
 	 * @throws EccezionePersonalizzata (stamperà un messaggio di errore se la settimana avesse delle irregolarità o non è presente nel file)
 	 * @see project.service.connection.getToday() (per modificare l'oggetto JSON da inserire nell'array)
-	 * @see project.stats.Statistics.StatsLong() (inserisce nell'array le statistiche di quella settimana)
+	 * @see project.stats.Statistics.StatsLong() (inserisce nell'JSONArray le statistiche di quella settimana)
 	 * @see project.service.ControlParam.ControlDay(); (valuterà alcuni possibili errore della data inserita in input)
 	 * @see project.service.ControlParam.ControlWeek(); (manderà un errore se la data appartiene a determinati giorni limite, ovvero a marzo 2021)
 	 */
@@ -355,7 +352,7 @@ public class connection implements Int_connection {
 	 * @return JSONArray array (JSONArray che riporterà i giorni di quel colore)
 	 * 
 	 * @see project.service.connection.getToday() (se il colore di un giorno ha lo stesso colore del (colour) lo aggiungerà all'array)
-	 * @see project.stats.Statistics.StatsColour() (aggiungerà al JSONObject i dati percentuali del giorno)
+	 * @see project.stats.Statistics.StatsColour() (aggiungerà al JSONObject i dati ospedalieri percentuali del giorno)
 	 * @see project.service.control.ControlColour() (valuterà se il colore è ammissibile o no)
 	 */
 	public JSONArray getColour(String finale) {
@@ -385,18 +382,12 @@ public class connection implements Int_connection {
 	/**
 	 * prende in ingresso 2 stringhe giorno e se sono differenti stamperà quei giorni
 	 * ed eseguirà il metodo Stats2days, altrimenti se i giorni sono identici
-	 * eseguirà un solo getToday
+	 * eseguirà un semplice getToday()
 	 * 
 	 * @author Enrico Maria Sardellini
 	 * @param day1 (variabile primo giorno)
 	 * @param day2 (variabile secondo giorno)
 	 * @return JSONArray array (JSONArray che riporterà quei giorni e le loro statistiche)
-	 * @see project.service.connection.getToday() (metodo per 
-	 * @see project.stats.Statistics.Stats2day()
-	 *  @author Enrico Maria Sardellini
-	 * 
-	 * @param colour (variabile del colore)
-	 * @return JSONArray array (JSONArray che riporterà i giorni di quel colore)
 	 * 
 	 * @see project.service.connection.getToday() (se il giorno venisse trovato lo aggiungerà all'array)
 	 * @see project.stats.Statistics.Stats2days() (aggiungerà al JSONArray delle statistiche percentuali dei giorni)
