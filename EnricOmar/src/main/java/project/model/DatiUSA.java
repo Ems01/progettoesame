@@ -6,7 +6,7 @@ public class DatiUSA implements Dati{
 	 * Sottoclasse in cui verranno raccolte le informazioni di ogni giorno:
 	 * saranno sempre presenti il numero dei positivi(positiveIncrease), 
 	 * dei negativi(negativeIncrease) e il numero dei morti(deathIncrease) di tale giorno
-	 * ed il totale dei negativi (negative);
+	 * ed il totale dei negativi (negative)
 	 * 
 	 * @author Enrico Maria Sardellini
 	 */
