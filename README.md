@@ -1,4 +1,4 @@
- # PROGETTO NAJA - SARDELLINI
+ # PROGETTO OOP NAJA - SARDELLINI
  ## Introduzione e descrizione del progetto
  
  Questa applicazione è stata realizzata per un compito d'esame del corso di Programmazione ad Oggetti dell'UNIVPM nell'anno 2021/22. Autori del progetto sono due studenti del
